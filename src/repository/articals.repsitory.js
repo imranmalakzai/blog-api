@@ -6,13 +6,13 @@ export const userCreateArticle = async (data) => {
     "INSERT INTO articles (author_id,putlication_id,title,slug,excerpt,content,status,visibility,published_at) VALUES (?,?,?,?,?,?,?,?,?)",
     [
       data.author_id,
-      data.puglication_id,
+      data.publication_id,
       data.title,
       data.slug,
       data.excerpt,
       data.content,
       data.status,
-      data.visisbility,
+      data.visibility,
       data.published_at || null,
     ]
   );
@@ -26,4 +26,13 @@ export const deleteAritical = async (articleId) => {
     [articleId]
   );
   return result.affectedRows;
+};
+
+//**Get all public articles */
+export const GetPublicArticles = async () => {
+  const [rows] = await pool.query(
+    "SELECT * FROM articles WHERE visibility = ?",
+    ["public"]
+  );
+  return rows;
 };
