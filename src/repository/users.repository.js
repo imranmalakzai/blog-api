@@ -41,3 +41,12 @@ export const getUserByRole = async (role) => {
   const [rows] = await pool.query("SELECT * FROM users WHERE role = ?", [role]);
   return rows;
 };
+
+//**Update user profile */
+export const updateUserRole = async (role, userId) => {
+  const result = await pool.query("UPDATE users SET role = ?, WHERE id = ? ", [
+    role,
+    userId,
+  ]);
+  return result.affectedRows;
+};
