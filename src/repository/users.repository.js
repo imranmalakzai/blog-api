@@ -54,8 +54,17 @@ export const updateUserRole = async (role, userId) => {
 //**Update user Password */
 export const updateUserPassword = async (password, userId) => {
   const result = await pool.query(
-    "UPDATE users SET password = ? WHERE id = ?",
+    "UPDATE users SET password_hash = ? WHERE id = ?",
     [password, userId]
+  );
+  return result.affectedRows;
+};
+
+//**Updte user avatar */
+export const updateUserAvatar = async (avatar, userId) => {
+  const result = await pool.query(
+    "UPDATE users SET avatar_url = ? WHERE id = ?",
+    [avatar, userId]
   );
   return result.affectedRows;
 };
