@@ -68,3 +68,12 @@ export const updateUserAvatar = async (avatar, userId) => {
   );
   return result.affectedRows;
 };
+
+//**update user bio */
+export const updateUserProfile = async (data, userId) => {
+  const result = await pool.query(
+    "UPDATE users SET bio = ? , username = ? WHERE id = ?",
+    [data.bio, data.username, userId]
+  );
+  return result.affectedRows;
+};
