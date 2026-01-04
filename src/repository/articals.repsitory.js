@@ -13,7 +13,7 @@ export const userCreateArtical = async (data) => {
       data.content,
       data.status,
       data.visisbility,
-      data.published_at || Null,
+      data.published_at || null,
     ]
   );
   return result.affectedRows;
