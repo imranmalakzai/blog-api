@@ -54,3 +54,12 @@ export const changeVisibility = async (articleId, visibility) => {
   );
   return result.affectedRows;
 };
+
+//**Get archive articles */
+export const getArchiveArticles = async (authorId) => {
+  const [rows] = await pool.query(
+    "SELECT * FROM articles WHERE status = ? AND author_id = ? AND deleted_at IS NULL",
+    ["archived", authorId]
+  );
+  return rows;
+};
