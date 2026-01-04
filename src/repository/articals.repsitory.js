@@ -63,3 +63,12 @@ export const getArchiveArticles = async (authorId) => {
   );
   return rows;
 };
+
+//**Publish article */
+export const userPublishArticle = async (articleId) => {
+  const result = await pool.query(
+    "UPDATE articles SET status = ?, published_at = Now() WHERE id = ? AND deleted_at IS NULL",
+    ["published", articleId]
+  );
+  return result.affectedRows;
+};
