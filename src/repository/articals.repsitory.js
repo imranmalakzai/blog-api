@@ -31,8 +31,8 @@ export const deleteAritical = async (articleId) => {
 //**Get all public articles */
 export const GetPublicArticles = async () => {
   const [rows] = await pool.query(
-    "SELECT * FROM articles WHERE visibility = ?",
-    ["public"]
+    "SELECT * FROM articles WHERE visibility = ? AND status = ? AND deleted_at = NULL",
+    ["public", "published"]
   );
   return rows;
 };
@@ -71,4 +71,13 @@ export const userPublishArticle = async (articleId) => {
     ["published", articleId]
   );
   return result.affectedRows;
+};
+
+//**Get article by slug */
+export const getArticleBySlug = async (slug) => {
+  const [rows] = await pool.query(
+    "SELECT * FROM articles WHERE slug = ? status = 'published' AND visibility IN ('public','unlisted') AND deleted_at is NULL",
+    [slug]
+  );
+  return rows.affectedRows;
 };
