@@ -45,3 +45,12 @@ export const getMyArticles = async (authorId) => {
   );
   return rows;
 };
+
+//**Change visiblity of an article */
+export const changeVisibility = async (articleId, visibility) => {
+  const result = await pool.query(
+    "UPDATE articles SET visibility = ?, WHERE id = ?",
+    [visibility, articleId]
+  );
+  return result.affectedRows;
+};
