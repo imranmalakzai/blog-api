@@ -50,3 +50,12 @@ export const updateUserRole = async (role, userId) => {
   ]);
   return result.affectedRows;
 };
+
+//**Update user Password */
+export const updateUserPassword = async (password, userId) => {
+  const result = await pool.query(
+    "UPDATE users SET password = ? WHERE id = ?",
+    [password, userId]
+  );
+  return result.affectedRows;
+};
