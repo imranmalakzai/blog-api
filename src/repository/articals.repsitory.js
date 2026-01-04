@@ -1,7 +1,7 @@
 import { pool } from "../config/db.config.js";
 
-//** create a new artical */
-export const userCreateArtical = async (data) => {
+//** create a new article */
+export const userCreatearticle = async (data) => {
   const result = await pool.query(
     "INSERT INTO articles (author_id,putlication_id,title,slug,excerpt,content,status,visibility,published_at) VALUES (?,?,?,?,?,?,?,?,?)",
     [
@@ -19,11 +19,13 @@ export const userCreateArtical = async (data) => {
   return result.affectedRows;
 };
 
-//** User Delate Artical */
-export const deleteAritical = async (articalId) => {
+//** User Delate article */
+export const deleteAritical = async (articleId) => {
   const result = await pool.query(
     "UPDATE articles SET deleted_at = NOW()  WHERE id = ?",
-    [articalId]
+    [articleId]
   );
   return result.affectedRows;
 };
+article;
+//
