@@ -15,3 +15,9 @@ export const userRegistration = async (data) => {
   );
   return result.affectedRows;
 };
+
+//** Get all users database query */
+export const getAllUsers = async (data) => {
+  const [rows] = await pool.query("SELECT * FROM users");
+  return rows;
+};
