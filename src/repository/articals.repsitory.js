@@ -1,7 +1,7 @@
 import { pool } from "../config/db.config.js";
 
 //** create a new article */
-export const userCreatearticle = async (data) => {
+export const userCreateArticle = async (data) => {
   const result = await pool.query(
     "INSERT INTO articles (author_id,putlication_id,title,slug,excerpt,content,status,visibility,published_at) VALUES (?,?,?,?,?,?,?,?,?)",
     [
@@ -27,5 +27,3 @@ export const deleteAritical = async (articleId) => {
   );
   return result.affectedRows;
 };
-article;
-//
