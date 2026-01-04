@@ -8,3 +8,12 @@ export const createUserSession = async (data) => {
   );
   return result.affectedRows;
 };
+
+//**Get A user session by Id */
+export const currentUserSession = async (userId) => {
+  const [rows] = await pool.query(
+    "SELECT * FROM user_session WHERE user_id = ?",
+    [userId]
+  );
+  return rows;
+};
