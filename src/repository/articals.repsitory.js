@@ -22,7 +22,7 @@ export const userCreateArtical = async (data) => {
 //** User Delate Artical */
 export const deleteAritical = async (articalId) => {
   const result = await pool.query(
-    "UPDATE articles SET deleted_at = NOW(), WHERE id = ?",
+    "UPDATE articles SET deleted_at = NOW()  WHERE id = ?",
     [articalId]
   );
   return result.affectedRows;
