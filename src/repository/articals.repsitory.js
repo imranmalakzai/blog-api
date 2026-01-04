@@ -18,3 +18,12 @@ export const userCreateArtical = async (data) => {
   );
   return result.affectedRows;
 };
+
+//** User Delate Artical */
+export const deleteAritical = async (articalId) => {
+  const result = await pool.query(
+    "UPDATE articles SET deleted_at = NOW(), WHERE id = ?",
+    [articalId]
+  );
+  return result.affectedRows;
+};
