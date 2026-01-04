@@ -35,3 +35,9 @@ export const getUserByEmail = async (email) => {
   ]);
   return rows[0];
 };
+
+//**GET users by role */
+export const getUserByRole = async (role) => {
+  const [rows] = await pool.query("SELECT * FROM users WHERE role = ?", [role]);
+  return rows;
+};
