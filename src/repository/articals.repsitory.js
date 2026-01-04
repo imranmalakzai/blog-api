@@ -36,3 +36,12 @@ export const GetPublicArticles = async () => {
   );
   return rows;
 };
+
+//**Get all my articles */
+export const getMyArticles = async (authorId) => {
+  const [rows] = await pool.query(
+    "SELECT * FROM articles WHERE author_id =  ?",
+    [authorId]
+  );
+  return rows;
+};
