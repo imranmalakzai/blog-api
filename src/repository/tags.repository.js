@@ -47,3 +47,12 @@ export const deleteATag = async (tagId) => {
   const result = await pool.query("DELETE FROM tags WHERE id = ?", [tagId]);
   return result.affectedRows;
 };
+
+//**Search tags */
+export const searchTag = async (tag) => {
+  const [rows] = await pool.query(
+    `SELECT * 
+     FROM tags WHERE name like '%${tag}%' OR slug like '%${tag}%'`
+  );
+  return rows;
+};
