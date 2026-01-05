@@ -32,3 +32,12 @@ export const deleteComment = async (commentId) => {
   );
   return result.affectedRows;
 };
+
+//**Get  all comments of on article */
+export const articleComments = async (articleId) => {
+  const [rows] = await pool.query(
+    "SELECT * FROM comments WHERE article_id = ?",
+    [articleId]
+  );
+  return rows;
+};
