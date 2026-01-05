@@ -1,12 +1,14 @@
 import { pool } from "../config/db.config.js";
 
-//** create a new article */
-export const userCreateArticle = async (data) => {
-  const result = await pool.query(
-    "INSERT INTO articles (author_id,putlication_id,title,slug,excerpt,content,status,visibility,published_at) VALUES (?,?,?,?,?,?,?,?,?)",
+/**Create a new article (draft or published)*/
+export const createArticle = async (data) => {
+  const [result] = await pool.query(
+    `INSERT INTO articles 
+     (author_id, publication_id, title, slug, excerpt, content, status, visibility, published_at)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
     [
       data.author_id,
-      data.publication_id,
+      data.publication_id || null,
       data.title,
       data.slug,
       data.excerpt,
@@ -16,68 +18,103 @@ export const userCreateArticle = async (data) => {
       data.published_at || null,
     ]
   );
-  return result.affectedRows;
+
+  return result.insertId;
 };
 
-//** User Delate article */
-export const deleteAritical = async (articleId) => {
-  const result = await pool.query(
-    "UPDATE articles SET deleted_at = NOW()  WHERE id = ?",
+/**Soft delete article*/
+export const deleteArticle = async (articleId) => {
+  const [result] = await pool.query(
+    `UPDATE articles
+     SET deleted_at = NOW()
+     WHERE id = ?
+       AND deleted_at IS NULL`,
     [articleId]
   );
+
   return result.affectedRows;
 };
 
-//**Get all public articles */
-export const GetPublicArticles = async () => {
+/** Get all public published articles*/
+export const getPublicArticles = async () => {
   const [rows] = await pool.query(
-    "SELECT * FROM articles WHERE visibility = ? AND status = ? AND deleted_at = NULL",
-    ["public", "published"]
+    `SELECT *
+     FROM articles
+     WHERE status = 'published'
+       AND visibility = 'public'
+       AND deleted_at IS NULL`
   );
+
   return rows;
 };
 
-//**Get all my articles */
+/** Get all articles of current user (non-deleted)*/
 export const getMyArticles = async (authorId) => {
   const [rows] = await pool.query(
-    "SELECT * FROM articles WHERE author_id =  ?",
+    `SELECT *
+     FROM articles
+     WHERE author_id = ?
+       AND deleted_at IS NULL`,
     [authorId]
   );
+
   return rows;
 };
 
-//**Change visiblity of an article */
-export const changeVisibility = async (articleId, visibility) => {
-  const result = await pool.query(
-    "UPDATE articles SET visibility = ?, WHERE id = ?",
+/**Change visibility (public | private | unlisted)*/
+export const changeArticleVisibility = async (articleId, visibility) => {
+  const [result] = await pool.query(
+    `UPDATE articles
+     SET visibility = ?
+     WHERE id = ?
+       AND deleted_at IS NULL`,
     [visibility, articleId]
   );
+
   return result.affectedRows;
 };
 
-//**Get archive articles */
-export const getArchiveArticles = async (authorId) => {
+/** Get archived articles of user */
+export const getArchivedArticles = async (authorId) => {
   const [rows] = await pool.query(
-    "SELECT * FROM articles WHERE status = ? AND author_id = ? AND deleted_at IS NULL",
-    ["archived", authorId]
+    `SELECT *
+     FROM articles
+     WHERE status = 'archived'
+       AND author_id = ?
+       AND deleted_at IS NULL`,
+    [authorId]
   );
+
   return rows;
 };
 
-//**Publish article */
-export const userPublishArticle = async (articleId) => {
-  const result = await pool.query(
-    "UPDATE articles SET status = ?, published_at = Now() WHERE id = ? AND deleted_at IS NULL",
-    ["published", articleId]
+/** Publish article */
+export const publishArticle = async (articleId) => {
+  const [result] = await pool.query(
+    `UPDATE articles
+     SET status = 'published',
+         published_at = NOW()
+     WHERE id = ?
+       AND status != 'published'
+       AND deleted_at IS NULL`,
+    [articleId]
   );
+
   return result.affectedRows;
 };
 
-//**Get article by slug */
+/** Get article by slug (public access) */
 export const getArticleBySlug = async (slug) => {
   const [rows] = await pool.query(
-    "SELECT * FROM articles WHERE slug = ? status = 'published' AND visibility IN ('public','unlisted') AND deleted_at is NULL",
+    `SELECT *
+     FROM articles
+     WHERE slug = ?
+       AND status = 'published'
+       AND visibility IN ('public', 'unlisted')
+       AND deleted_at IS NULL
+     LIMIT 1`,
     [slug]
   );
-  return rows.affectedRows;
+
+  return rows[0] || null;
 };
