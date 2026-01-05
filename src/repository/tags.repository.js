@@ -14,3 +14,9 @@ export const getAllTags = async () => {
   const [rows] = await pool.query("SELECT * FROM tags");
   return rows;
 };
+
+//**Get a tag by name */
+export const getTagByname = async (name) => {
+  const [rows] = await pool.query("SELECT * FROM tags WHERE name = ?", [name]);
+  return rows[0];
+};
