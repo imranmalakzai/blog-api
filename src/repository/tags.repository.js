@@ -32,3 +32,12 @@ export const getTagById = async (tagId) => {
   const [rows] = await pool.query("SELECT * FROM tags WHERE id = ?", [tagId]);
   return rows[0];
 };
+
+//** update tage */
+export const updateTag = async (tagId, name, slug) => {
+  const result = await pool.query(
+    "UPDATE tags SET name = ? , slug = ? WHERE id = ?",
+    [name, slug, tagId]
+  );
+  return result.affectedRows;
+};
