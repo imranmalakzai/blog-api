@@ -41,3 +41,9 @@ export const updateTag = async (tagId, name, slug) => {
   );
   return result.affectedRows;
 };
+
+//**Delete a tag */
+export const deleteATag = async (tagId) => {
+  const result = await pool.query("DELETE FROM tags WHERE id = ?", [tagId]);
+  return result.affectedRows;
+};
