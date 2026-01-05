@@ -130,4 +130,5 @@ export const getDraftArticles = async (authorId) => {
     `,
     [authorId]
   );
+  return rows;
 };
