@@ -36,7 +36,7 @@ export const deleteComment = async (commentId) => {
 //**Get  all comments of on article */
 export const articleComments = async (articleId) => {
   const [rows] = await pool.query(
-    "SELECT * FROM comments WHERE article_id = ?",
+    "SELECT * FROM comments WHERE article_id = ? AND is_deleted = '0' ",
     [articleId]
   );
   return rows;
@@ -44,8 +44,9 @@ export const articleComments = async (articleId) => {
 
 //**Get a comment by Id */
 export const getCommentById = async (commentId) => {
-  const [rows] = await pool.query("SELECT * FROM comments WHERE id = ?", [
-    commentId,
-  ]);
+  const [rows] = await pool.query(
+    "SELECT * FROM comments WHERE id = ? AND is_deleted = '1' ",
+    [commentId]
+  );
   return rows[0];
 };
