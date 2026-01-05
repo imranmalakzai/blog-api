@@ -41,3 +41,11 @@ export const articleComments = async (articleId) => {
   );
   return rows;
 };
+
+//**Get a comment by Id */
+export const getCommentById = async (commentId) => {
+  const [rows] = await pool.query("SELECT * FROM comments WHERE id = ?", [
+    commentId,
+  ]);
+  return rows[0];
+};
