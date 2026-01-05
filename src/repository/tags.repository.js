@@ -20,3 +20,9 @@ export const getTagByname = async (name) => {
   const [rows] = await pool.query("SELECT * FROM tags WHERE name = ?", [name]);
   return rows[0];
 };
+
+//**Get a tage by slug */
+export const getTagBySlug = async () => {
+  const [rows] = await pool.query("SELECT * FROM tags WHERE slug = ?", [slug]);
+  return rows[0];
+};
