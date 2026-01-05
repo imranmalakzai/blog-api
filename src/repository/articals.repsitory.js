@@ -118,3 +118,16 @@ export const getArticleBySlug = async (slug) => {
 
   return rows[0] || null;
 };
+
+//** GET Draft Articles */
+export const getDraftArticles = async (authorId) => {
+  const [rows] = await pool.query(
+    `SELECT * 
+    FROM articles 
+    WHERE status = 'draft'
+    AND deleted_at IS NULL
+    AND author_id = ?
+    `,
+    [authorId]
+  );
+};
