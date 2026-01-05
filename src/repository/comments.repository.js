@@ -23,3 +23,12 @@ export const updateComment = async (content, commentId) => {
   );
   return result.affectedRows;
 };
+
+//** soft delete comment */
+export const deleteComment = async (commentId) => {
+  const result = await pool.query(
+    "UPDATE comments SET is_deleted = '0' WHERE is_deleted = '1' AND id = ? ",
+    [commentId]
+  );
+  return result.affectedRows;
+};
