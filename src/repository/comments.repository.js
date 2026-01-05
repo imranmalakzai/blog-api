@@ -14,3 +14,12 @@ export const createComment = async (data) => {
   );
   return result.insertId;
 };
+
+//** Update a comment */
+export const updateComment = async (content, commentId) => {
+  const result = await pool.query(
+    `UPDATE comments SET content = ? WHERE is_deleted = '0' AND id = ?`,
+    [content, commentId]
+  );
+  return result.affectedRows;
+};
