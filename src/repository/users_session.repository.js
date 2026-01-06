@@ -24,6 +24,7 @@ export const deleteSessionByToken = async (refreshToken) => {
     "UPDATE user_sessions SET expires_at = NOW() WHERE refresh_token = ? AND expires_at  > NOW()",
     [refreshToken]
   );
+  return result.affectedRows;
 };
 
 //**Get a user session by refreshToken */
