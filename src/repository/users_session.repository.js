@@ -19,16 +19,19 @@ export const currentUserSession = async (userId) => {
 };
 
 //**Delete a user session by refreshToken */
-export const deleteSessionByToken = async (userId) => {
+export const deleteSessionByToken = async (refreshToken) => {
   const result = await pool.query(
-    "UPDATE user_sessions SET expires_at = NOW() WHERE refresh_token = ? AND expires_at  > NOW()"
+    "UPDATE user_sessions SET expires_at = NOW() WHERE refresh_token = ? AND expires_at  > NOW()",
+    [refreshToken]
   );
 };
 
 //**Get a user session by refreshToken */
-export const tokenSession = async () => {
+export const tokenSession = async (refreshToken) => {
   const [rows] = await pool.query(
-    "SELECT * FROM user_sessions WHERE refresh_token AND expires_at > NOW()"
+    "SELECT * FROM user_sessions WHERE refresh_token AND expires_at > NOW()"[
+      refreshToken
+    ]
   );
   return rows[0];
 };
