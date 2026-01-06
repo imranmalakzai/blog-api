@@ -10,7 +10,15 @@ export const create = async (data) => {
 };
 
 //** Get all putlictions */
-export const pulications = async () => {
+export const publications = async () => {
   const [rows] = await pool.query("SELECT * FROM publictions");
   return rows;
+};
+
+//**Get a publicationby Id */
+export const publicationById = async (publicationId) => {
+  const [rows] = await pool.query("SELECT * FROM publications WHERE id = ?", [
+    publicationId,
+  ]);
+  return rows[0];
 };
