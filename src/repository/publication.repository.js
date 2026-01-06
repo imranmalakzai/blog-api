@@ -22,3 +22,11 @@ export const publicationById = async (publicationId) => {
   ]);
   return rows[0];
 };
+
+//**Get a publiction by slug */
+export const publicationBySlug = async (slug) => {
+  const [rows] = await pool.query(`SELECT * FROM publications WHERE slug = ?`, [
+    slug,
+  ]);
+  return rows[0];
+};
