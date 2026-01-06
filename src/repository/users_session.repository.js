@@ -24,3 +24,11 @@ export const deleteSessionByToken = async (userId) => {
     "UPDATE user_sessions SET expires_at = NOW() WHERE refresh_token = ? AND expires_at  > NOW()"
   );
 };
+
+//**Get a user session by refreshToken */
+export const tokenSession = async () => {
+  const [rows] = await pool.query(
+    "SELECT * FROM user_sessions WHERE refresh_token AND expires_at > NOW()"
+  );
+  return rows[0];
+};
