@@ -1,15 +1,19 @@
 import bcrypt from "bcrypt";
 import ApiError from "../utils/apiError.js";
 import asyncHandler from "../utils/asyncHandler.js";
+import jwt from "jsonwebtoken";
 import {
   createUserSession,
+  tokenSession,
   deleteSessionByToken,
 } from "../repository/users_session.repository.js";
 import { genearteRefreshToken, generateAccessToken } from "../utils/jwt.js";
 import {
   getUserByEmail,
+  getUserbyId,
   userRegistration,
 } from "../repository/users.repository.js";
+import { REFRESH_TOKEN } from "../config/env.config.js";
 
 //** Register users */
 export const register = asyncHandler(async (req, res) => {
@@ -92,4 +96,30 @@ export const logout = asyncHandler(async (req, res) => {
     .status(200)
     .clearCookie("refreshToken", options)
     .json({ message: "Logout successfully" });
+});
+
+//** Refresh Token */
+export const refreshAccessToken = asyncHandler(async (req, res) => {
+  const refreshToken = await req.cookies?.refreshToken;
+  if (!refreshToken) throw new ApiError("RefreshToken not exist", 404);
+
+  const session = await tokenSession(refreshToken);
+  if (!session) throw new ApiError("Invalid token  or token is expired", 401);
+
+  //decode token
+  const decode = jwt.verify(refreshToken, REFRESH_TOKEN);
+  if (!decode) throw new ApiError("Invalid token", 401);
+
+  //extract
+  const { id } = decode;
+
+  //find user
+  const user = await getUserbyId(id);
+  if (user === 0) throw new ApiError("user not exist", 404);
+
+  //Generate AccessToken
+  const accessToken = await generateAccessToken(user);
+  if (!accessToken) throw new ApiError("unable to generate AccessToken", 500);
+
+  res.status(200).json({ accessToken });
 });
