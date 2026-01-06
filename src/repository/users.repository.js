@@ -79,3 +79,12 @@ export const updateUserProfile = async (data, userId) => {
   );
   return result.affectedRows;
 };
+
+//**Change user role */
+export const updateRole = async (role, userId) => {
+  const result = pool.query(
+    "UPDATE users SET role = ? WHERE id = ? AND deleted-at is NULL",
+    [role, userId]
+  );
+  return result.affectedRows;
+};
