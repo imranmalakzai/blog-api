@@ -79,8 +79,8 @@ export const logout = asyncHandler(async (req, res) => {
   const refreshToken = req.cookies?.refreshToken;
   if (!refreshToken) throw new ApiError("user token is not exist", 204);
 
-  const token = await deleteSessionByToken(refreshToken);
-  if (token === 0) throw new ApiError("Invalid Token", 401);
+  //soft delete
+  await deleteSessionByToken(refreshToken);
 
   const options = {
     httpOnly: true,
