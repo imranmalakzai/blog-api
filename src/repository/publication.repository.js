@@ -8,3 +8,9 @@ export const create = async (data) => {
   );
   return result.insertId;
 };
+
+//** Get all putlictions */
+export const pulications = async () => {
+  const [rows] = await pool.query("SELECT * FROM publictions");
+  return rows;
+};
