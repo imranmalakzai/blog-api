@@ -16,6 +16,7 @@ import {
   getUserByRole,
   updateRole,
   userRegistration,
+  updateUserAvatar,
 } from "../repository/users.repository.js";
 import { REFRESH_TOKEN } from "../config/env.config.js";
 
@@ -181,4 +182,15 @@ export const getUsersByRole = asyncHandler(async (req, res) => {
   const { role } = req.query;
   const users = await getUserByRole(role);
   res.status(200).json({ users: users || [] });
+});
+
+//**Change avatar controller */
+export const changeAvatar = asyncHandler(async (req, res) => {
+  //leter we add multer to handle this senario
+  const { avatar_url } = req.body;
+
+  const user = await updateUserAvatar(avatar_url, req.user.id);
+  if (user === 0) throw new ApiError("Internal server error", 500);
+
+  res.status(200).json({ message: "Avetar updated successfully" });
 });
