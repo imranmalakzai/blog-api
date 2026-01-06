@@ -39,3 +39,11 @@ export const updatePublications = async (data, publicationId) => {
   );
   return result.affectedRows;
 };
+
+//**Delete  publication by Id */
+export const deletePublication = async (publicationId) => {
+  const result = await pool.query("DELETE FROM publications WHERE id = ?", [
+    publicationId,
+  ]);
+  return result.affectedRows;
+};
