@@ -10,10 +10,19 @@ export const createPublicationMember = async (data) => {
 };
 
 //**Delete a member from a publication memebership */
-export const deletePublicationMember = async (id) => {
+export const deletePublicationMember = async (user_id) => {
   const result = await pool.query(
-    "DELETE FROM publication_members WHERE id = ?",
-    [id]
+    "DELETE FROM publication_members WHERE user_id = ?",
+    [user_id]
+  );
+  return result.affectedRows;
+};
+
+//** Update role of a member in publications */
+export const changePublicationMemberRole = async (role, user_id) => {
+  const result = await pool.query(
+    "UPDATE publication_memebers SET role =  ? WHERE user_id = ?",
+    [role, user_id]
   );
   return result.affectedRows;
 };
