@@ -4,12 +4,14 @@ import asyncHandler from "../utils/asyncHandler.js";
 import jwt from "jsonwebtoken";
 import {
   createUserSession,
+  logoutFromAllDevices,
   tokenSession,
   deleteSessionByToken,
 } from "../repository/users_session.repository.js";
 import { genearteRefreshToken, generateAccessToken } from "../utils/jwt.js";
 import {
   getUserByEmail,
+  updateUserPassword,
   getUserbyId,
   userRegistration,
 } from "../repository/users.repository.js";
@@ -122,4 +124,37 @@ export const refreshAccessToken = asyncHandler(async (req, res) => {
   if (!accessToken) throw new ApiError("unable to generate AccessToken", 500);
 
   res.status(200).json({ accessToken });
+});
+
+//**Change password */
+export const changePassword = asyncHandler(async (req, res) => {
+  const { oldPassword, newPassword } = req.body;
+
+  //user exist
+  const user = await getUserbyId(req.user.id);
+  if (!user) throw new ApiError("user not exist", 404);
+
+  //is password match
+  const isMatch = await bcrypt.compare(oldPassword, user.password_hash);
+  if (!isMatch) throw new ApiError("Invalid cridential", 401);
+
+  //const result
+  const result = await updateUserPassword(newPassword, req.user.id);
+  if (result === 0) throw new ApiError("Internal server error", 500);
+
+  //logout from all devices
+  const logout = await logoutFromAllDevices(req.user.id);
+  if (logout === 0) throw new ApiError("Internal server error ", 500);
+
+  //cookie options
+  const options = {
+    httpOnly: true,
+    secure: true,
+    sameSite: "strict",
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+  };
+  res
+    .status(200)
+    .clearCookie("refreshToken", options)
+    .json({ message: "password changed successfully" });
 });
