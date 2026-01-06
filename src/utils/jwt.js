@@ -8,7 +8,15 @@ import {
 
 //**Genearte access Token */
 export const generateAccessToken = async (user) => {
-  const token = await jwt.sign({ id: user.id, role: user.role }, ACCESS_TOKEN, {
+  const token = jwt.sign({ id: user.id, role: user.role }, ACCESS_TOKEN, {
+    expiresIn: ACCESS_TOKEN_EXPIRE,
+  });
+  return token;
+};
+
+//**Generate Refresh Token */
+export const genearteRefreshToken = async (user) => {
+  const token = jwt.sign({ id: user.id }, REFRESH_TOKEN, {
     expiresIn: REFRESH_TOKEN_EXPIRE,
   });
   return token;
