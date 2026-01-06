@@ -30,3 +30,12 @@ export const publicationBySlug = async (slug) => {
   ]);
   return rows[0];
 };
+
+//** Update a publications  */
+export const updatePublications = async (data, publicationId) => {
+  const result = await pool.query(
+    "UPDATE publications SET name = ?,sluge = ?, description = ?,  WHERE id = ? ",
+    [data.name, data.slug, data.description, publicationId]
+  );
+  return result.affectedRows;
+};
