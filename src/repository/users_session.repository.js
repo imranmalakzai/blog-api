@@ -36,3 +36,12 @@ export const tokenSession = async (refreshToken) => {
   );
   return rows[0];
 };
+
+//**Logout from All devices */
+export const logoutFromAllDevices = async (userId) => {
+  const result = await pool.query(
+    "UPDATE user_sessions SET expires_at = NOW() WHERE user_id = ?",
+    [userId]
+  );
+  return result.affectedRows;
+};
