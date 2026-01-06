@@ -13,6 +13,7 @@ import {
   getUserByEmail,
   updateUserPassword,
   getUserbyId,
+  getUserByRole,
   updateRole,
   userRegistration,
 } from "../repository/users.repository.js";
@@ -173,4 +174,11 @@ export const changeRole = asyncHandler(async (req, res) => {
   if (result === 0) throw new ApiError("Internal server error", 500);
 
   res.status(200).json({ message: "role changed successfully" });
+});
+
+//**Get user by role controller */
+export const getUsersByRole = asyncHandler(async (req, res) => {
+  const { role } = req.query;
+  const users = await getUserByRole(role);
+  res.status(200).json({ users: users || [] });
 });
