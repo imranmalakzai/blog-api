@@ -13,6 +13,7 @@ import {
   getUserByEmail,
   updateUserPassword,
   getUserbyId,
+  updateRole,
   userRegistration,
 } from "../repository/users.repository.js";
 import { REFRESH_TOKEN } from "../config/env.config.js";
@@ -157,4 +158,19 @@ export const changePassword = asyncHandler(async (req, res) => {
     .status(200)
     .clearCookie("refreshToken", options)
     .json({ message: "password changed successfully" });
+});
+
+//**Change user role Controller */
+export const changeRole = asyncHandler(async (req, res) => {
+  const { userId } = req.params;
+  const { role } = req.body;
+
+  //user exist
+  const user = await getUserbyId(userId);
+  if (!user) throw new ApiError("user not exist", 404);
+
+  const result = await updateRole(role, userId);
+  if (result === 0) throw new ApiError("Internal server error", 500);
+
+  res.status(200).json({ message: "role changed successfully" });
 });
