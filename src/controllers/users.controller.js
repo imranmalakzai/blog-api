@@ -1,7 +1,10 @@
 import bcrypt from "bcrypt";
 import ApiError from "../utils/apiError.js";
 import asyncHandler from "../utils/asyncHandler.js";
-import { createUserSession } from "../repository/users_session.repository.js";
+import {
+  createUserSession,
+  deleteSessionByToken,
+} from "../repository/users_session.repository.js";
 import { genearteRefreshToken, generateAccessToken } from "../utils/jwt.js";
 import {
   getUserByEmail,
@@ -72,4 +75,21 @@ export const login = asyncHandler(async (req, res) => {
 });
 
 //** Logout from a devices */
-export const logout = asyncHandler(async (req, res) => {});
+export const logout = asyncHandler(async (req, res) => {
+  const refreshToken = req.cookies?.refreshToken;
+  if (!refreshToken) throw new ApiError("user token is not exist", 204);
+
+  const token = await deleteSessionByToken(refreshToken);
+  if (token === 0) throw new ApiError("Invalid Token", 401);
+
+  const options = {
+    httpOnly: true,
+    secure: true,
+    sameSite: "strict",
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+  };
+  res
+    .status(200)
+    .clearCookie("refreshToken", options)
+    .json({ message: "Logout successfully" });
+});
