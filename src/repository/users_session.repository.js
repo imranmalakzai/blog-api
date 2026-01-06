@@ -9,11 +9,18 @@ export const createUserSession = async (data) => {
   return result.affectedRows;
 };
 
-//**Get A user session by Id */
+//**Get A user sessions by Id */
 export const currentUserSession = async (userId) => {
   const [rows] = await pool.query(
     "SELECT * FROM user_session WHERE user_id = ?",
     [userId]
   );
   return rows;
+};
+
+//**Delete a user session by refreshToken */
+export const deleteSessionByToken = async (userId) => {
+  const result = await pool.query(
+    "UPDATE user_sessions SET expires_at = NOW() WHERE refresh_token = ? AND expires_at  > NOW()"
+  );
 };

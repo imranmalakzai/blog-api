@@ -70,3 +70,6 @@ export const login = asyncHandler(async (req, res) => {
       },
     });
 });
+
+//** Logout from a devices */
+export const logout = asyncHandler(async (req, res) => {});
