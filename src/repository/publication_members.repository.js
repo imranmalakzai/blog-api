@@ -8,3 +8,12 @@ export const createPublicationMember = async (data) => {
   );
   result.insertId;
 };
+
+//**Delete a member from a publication memebership */
+export const deletePublicationMember = async (id) => {
+  const result = await pool.query(
+    "DELETE FROM publication_members WHERE id = ?",
+    [id]
+  );
+  return result.affectedRows;
+};
