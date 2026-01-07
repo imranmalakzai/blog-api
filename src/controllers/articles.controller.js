@@ -2,7 +2,11 @@ import slugify from "slugify";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { publicationById } from "../repository/publication.repository.js";
 import { isPublicationMemeber } from "../repository/publication_members.repository.js";
-import { createArticle } from "../repository/articals.repsitory.js";
+import {
+  createArticle,
+  getArticleById,
+  deleteArticle,
+} from "../repository/articals.repsitory.js";
 import ApiError from "../utils/apiError.js";
 
 //** create a new article */
@@ -41,4 +45,31 @@ export const createNewArticle = asyncHandler(async (req, res) => {
 
   if (!article) throw new ApiError("Internal server error", 500);
   res.status(200).json({ message: "article created successfully" });
+});
+
+//**Delete article */
+export const deleteAnArticle = asyncHandler(async (req, res) => {
+  const { articleId } = req.params;
+
+  //is article exist
+  const article = await getArticleById(articleId);
+  if (!article) throw new ApiError("article not exist", 404);
+
+  // is owner
+  const owner = article.author_id.toString() === req.user.id.toString();
+
+  // publication owner
+  const publictionOwner = await publicationById(
+    article.publication_id && req.user.id
+  );
+
+  if (!owner && !publictionOwner) {
+    throw new ApiError("Access denied", 404);
+  }
+
+  //soft delete article
+  const result = await deleteArticle(articleId);
+  if (result === 0) throw new ApiError("Internal server error", 500);
+
+  res.status(200).json({ message: "Article delete successfully" });
 });
