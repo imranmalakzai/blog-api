@@ -27,11 +27,21 @@ export const changePublicationMemberRole = async (role, user_id) => {
   return result.affectedRows;
 };
 
-//**Get all members of  a bublications */
+//**Get all members of  publications */
 export const publicationMemebers = async (publicationId) => {
   const [rows] = await pool.query(
     "SELECT * FROM publications WHERE id = ?",
     publicationId
+  );
+  return rows;
+};
+
+//** user publications -> publication that user is memeber of */
+export const userPulications = async (userId) => {
+  const [rows] = pool.query(
+    `SELECT * FROM publication_members JOIN publications ON publication_members.publication_id = publications.id WHERE publication_members.user_id = ? `[
+      userId
+    ]
   );
   return rows;
 };
