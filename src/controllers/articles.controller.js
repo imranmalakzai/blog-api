@@ -6,7 +6,6 @@ import {
   createArticle,
   getArticleById,
   getPublicArticles,
-  publicationArticles,
   getPublicationArticles,
   deleteArticle,
 } from "../repository/articals.repsitory.js";
