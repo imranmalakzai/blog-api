@@ -15,7 +15,7 @@ export const createArticle = async (data) => {
       data.content,
       data.status,
       data.visibility,
-      data.published_at || null,
+      data.published_at ? "NOW()" : null,
     ]
   );
 
