@@ -11,20 +11,19 @@ import {
 } from "../repository/articals.repsitory.js";
 import ApiError from "../utils/apiError.js";
 
-//** create a new article */
+//** create a new article in a publication */
 export const createNewArticle = asyncHandler(async (req, res) => {
-  const { publicationId, title, excerpt, status, visibility, content } =
-    req.body;
+  const { title, excerpt, status, visibility, content } = req.body;
+  const { publicationId } = req.params;
 
-  // is publication exist
-  if (publicationId) {
-    const publication = await publicationById(publicationId);
-    if (!publication) throw new ApiError("publication not exist", 404);
+  // is publicaiton exist
+  const publication = await publicationById(publicationId);
+  if (!publication) throw new ApiError("publication not exist", 404);
 
-    //is member of the publication
-    const member = await isPublicationMemeber(publicationId, req.user.id);
-    if (!member) throw new ApiError("Access denied not memeber ", 403);
-  }
+  // is memeber of publication
+  const member = await isPublicationMemeber(publicationId, req.user.id);
+  if (!member)
+    throw new ApiError("Access denied not publication memeber ", 403);
 
   const slug = slugify(title, { trim: true, strict: true, lower: true });
 
@@ -35,7 +34,7 @@ export const createNewArticle = asyncHandler(async (req, res) => {
 
   //create article
   const article = await createArticle({
-    publication_id: publicationId || null,
+    publication_id: publicationId,
     excerpt,
     status,
     visibility,
@@ -46,7 +45,7 @@ export const createNewArticle = asyncHandler(async (req, res) => {
   });
 
   if (!article) throw new ApiError("Internal server error", 500);
-  res.status(200).json({ message: "article created successfully" });
+  res.status(201).json({ message: "article created successfully" });
 });
 
 //**Delete article */
