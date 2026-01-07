@@ -5,6 +5,7 @@ import { isPublicationMemeber } from "../repository/publication_members.reposito
 import {
   createArticle,
   getArticleById,
+  getPublicArticles,
   deleteArticle,
 } from "../repository/articals.repsitory.js";
 import ApiError from "../utils/apiError.js";
@@ -72,4 +73,10 @@ export const deleteAnArticle = asyncHandler(async (req, res) => {
   if (result === 0) throw new ApiError("Internal server error", 500);
 
   res.status(200).json({ message: "Article delete successfully" });
+});
+
+//**Get all articles  publish articles*/
+export const articles = asyncHandler(async (req, res) => {
+  const articles = await getPublicArticles();
+  res.status(200).json({ articles: articles || [] });
 });
