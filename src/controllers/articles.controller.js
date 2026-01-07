@@ -48,6 +48,32 @@ export const createNewArticle = asyncHandler(async (req, res) => {
   res.status(201).json({ message: "article created successfully" });
 });
 
+//** create a new article not part of publication */
+export const createPublicArticle = asyncHandler(async (req, res) => {
+  const { title, excerpt, status, visibility, content } = req.body;
+
+  const slug = slugify(title, { lower: true, strict: true, trim: true });
+
+  //isPublished
+  let isPublished = false;
+
+  if (status === "published") isPublished = true;
+
+  //create article
+  const article = await createArticle({
+    excerpt,
+    status,
+    visibility,
+    content,
+    slug,
+    published_at: isPublished,
+    author_id: req.user.id,
+  });
+
+  if (!article) throw new ApiError("Article not exist", 404);
+  res.status(201).json({ message: "article created successfully" });
+});
+
 //**Delete article */
 export const deleteAnArticle = asyncHandler(async (req, res) => {
   const { articleId } = req.params;
