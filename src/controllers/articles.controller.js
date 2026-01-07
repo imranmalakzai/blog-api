@@ -80,3 +80,12 @@ export const articles = asyncHandler(async (req, res) => {
   const articles = await getPublicArticles();
   res.status(200).json({ articles: articles || [] });
 });
+
+//**Get all articls of a publications */
+export const publictionArticles = asyncHandler(async (req, res) => {
+  const { publicationId } = req.params;
+
+  //publication exist
+  const publication = await publicationById(publicationId);
+  if (!publication) throw new ApiError("Publication not exist", 404);
+});
