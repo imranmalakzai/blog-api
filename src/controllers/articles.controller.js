@@ -6,6 +6,8 @@ import {
   createArticle,
   getArticleById,
   getPublicArticles,
+  publicationArticles,
+  getPublicationArticles,
   deleteArticle,
 } from "../repository/articals.repsitory.js";
 import ApiError from "../utils/apiError.js";
@@ -88,4 +90,9 @@ export const publictionArticles = asyncHandler(async (req, res) => {
   //publication exist
   const publication = await publicationById(publicationId);
   if (!publication) throw new ApiError("Publication not exist", 404);
+
+  //const articles
+  const articles = await getPublicationArticles(publicationId);
+
+  res.status(200).json({ articles: articles || [] });
 });
