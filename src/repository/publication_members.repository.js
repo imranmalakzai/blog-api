@@ -26,3 +26,12 @@ export const changePublicationMemberRole = async (role, user_id) => {
   );
   return result.affectedRows;
 };
+
+//**Get all members of  a bublications */
+export const publicationMemebers = async (publicationId) => {
+  const [rows] = await pool.query(
+    "SELECT * FROM publications WHERE id = ?",
+    publicationId
+  );
+  return rows;
+};
