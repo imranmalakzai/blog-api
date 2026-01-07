@@ -136,7 +136,7 @@ export const getDraftArticles = async (authorId) => {
 //** Get article by Id */
 export const getArticleById = async (articleId) => {
   const [rows] = await pool.query(
-    "SELECT * FROM articles WHERE id = ?",
+    "SELECT * FROM articles WHERE id = ? AND deleted_at IS NULL",
     articleId
   );
   return rows[0];

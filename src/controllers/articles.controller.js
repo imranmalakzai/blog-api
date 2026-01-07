@@ -76,6 +76,17 @@ export const deleteAnArticle = asyncHandler(async (req, res) => {
   res.status(200).json({ message: "Article delete successfully" });
 });
 
+//**Update article (author || editor) */
+export const updateArticle = asyncHandler(async (req, res) => {
+  const { articleId } = req.params;
+
+  //articl Exist
+  const article = await getArticleById(articleId);
+  if (!article) throw new ApiError("article not exist", 404);
+
+  // Is author
+});
+
 //**Get all articles  publish articles*/
 export const articles = asyncHandler(async (req, res) => {
   const articles = await getPublicArticles();
