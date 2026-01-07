@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import ApiError from "../utils/apiError.js";
-import asyncHandler from "../utils/asyncHandler.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
 import jwt from "jsonwebtoken";
 import {
   createUserSession,
