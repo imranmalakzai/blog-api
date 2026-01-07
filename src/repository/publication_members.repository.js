@@ -45,3 +45,12 @@ export const userPulications = async (userId) => {
   );
   return rows;
 };
+
+//** Get a publication by publicationId and memeberId */
+export const isPublicationMemeber = async (publicationId, userId) => {
+  const [rows] = await pool.query(
+    `SELECT id FROM publication_memebers WHERE publication_id = ? AND user_id = ?`,
+    [publicationId, userId]
+  );
+  return rows[0];
+};
