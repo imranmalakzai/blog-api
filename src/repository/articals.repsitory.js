@@ -132,3 +132,12 @@ export const getDraftArticles = async (authorId) => {
   );
   return rows;
 };
+
+//** Get article by Id */
+export const getArticleById = async (articleId) => {
+  const [rows] = await pool.query(
+    "SELECT * FROM articles WHERE id = ?",
+    articleId
+  );
+  return rows[0];
+};
