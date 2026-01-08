@@ -4,6 +4,7 @@ import { getUserbyId } from "../repository/users.repository.js";
 import {
   follow,
   isFollowing,
+  following,
   unFollow,
   followers,
 } from "../repository/user_follower.js";
@@ -50,4 +51,10 @@ export const unfollow = asyncHandler(async (req, res) => {
 export const myFollowers = asyncHandler(async (req, res) => {
   const follwers = await followers(req.user.id);
   res.status(200).json({ users: follwers || [] });
+});
+
+//** I follow  users */
+export const meFollowing = asyncHandler(async (req, res) => {
+  const follow = await following(req.user.id);
+  res.status(200).json({ users: follow || [] });
 });
