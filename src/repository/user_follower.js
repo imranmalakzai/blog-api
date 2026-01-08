@@ -17,3 +17,11 @@ export const unFollow = async (followerId, followedId) => {
   );
   return result.affectedRows;
 };
+
+//** Get all my followers */
+export const followers = async (userId) => {
+  const [query] = await pool.query(
+    "SELECT u.id,u.username,u.avatar_url FROM users u JOIN user_followers us ON u.id = us.follower_id WHERE us.followed_id = ?",
+    [userId]
+  );
+};
