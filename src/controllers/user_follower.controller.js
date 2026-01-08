@@ -1,6 +1,9 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
 import ApiError from "../utils/apiError.js";
-import { getUserbyId } from "../repository/users.repository.js";
+import {
+  getUserbyId,
+  getUserByUsername,
+} from "../repository/users.repository.js";
 import {
   follow,
   isFollowing,
@@ -11,20 +14,20 @@ import {
 
 //** Follow A user */
 export const followUser = asyncHandler(async (req, res) => {
-  const { userId } = req.params;
+  const { username } = req.params;
 
   //user exist
-  const user = await getUserbyId(userId);
+  const user = await getUserByUsername(username);
   if (!user) throw new ApiError("user not exist", 404);
 
-  if (userId.toString() === req.user.id.toString())
+  if (user.id.toString() === req.user.id.toString())
     throw ApiError("you can't follow your self", 403);
 
   //prevent from dublication following
-  const following = await isFollowing(req.user.id, userId);
+  const following = await isFollowing(req.user.id, user.id);
   if (following) throw new ApiError("user aready followed", 403);
 
-  const result = await follow(req.user.id, userId);
+  const result = await follow(req.user.id, user.id);
   if (!result) throw new ApiError("Internal server error", 500);
 
   res.status(200).json({ message: "following" });
@@ -32,16 +35,16 @@ export const followUser = asyncHandler(async (req, res) => {
 
 //** Un follow a user */
 export const unfollow = asyncHandler(async (req, res) => {
-  const { userId } = req.params;
+  const { username } = req.params;
 
-  const user = await getUserbyId(userId);
+  const user = await getUserByUsername(username);
   if (!user) throw new ApiError("user not exist");
 
   // is following
-  const following = await isFollowing(req.user.id, userId);
+  const following = await isFollowing(req.user.id, user.id);
   if (!following) throw new ApiError("please follow first", 403);
 
-  const unfollowed = await unFollow(req.user.id, userId);
+  const unfollowed = await unFollow(req.user.id, user.id);
   if (unfollowed === 0) throw new ApiError("Internal server error", 500);
 
   res.status(200).json({ message: "unfollwed" });
