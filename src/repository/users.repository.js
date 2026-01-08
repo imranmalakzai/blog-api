@@ -10,9 +10,9 @@ export const userRegistration = async (data) => {
 };
 
 //** GET all users database query */
-export const getAllUsers = async (data) => {
+export const getAllUsers = async () => {
   const [rows] = await pool.query(
-    "SELECT * FROM users WHERE deleted_at is NULL"
+    "SELECT id,username,email,role FROM users WHERE deleted_at is NULL"
   );
   return rows;
 };
