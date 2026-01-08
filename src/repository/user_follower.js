@@ -8,3 +8,12 @@ export const follow = async (followerId, followedId) => {
   );
   return result.insertId;
 };
+
+//** Unfollow a user */
+export const unFollow = async (followerId, followedId) => {
+  const result = await pool.query(
+    "DELETE from user_followers WHERE follower_id = ? AND followed_Id = ? ",
+    [followerId, followedId]
+  );
+  return result.affectedRows;
+};
