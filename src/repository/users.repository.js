@@ -96,3 +96,12 @@ export const getUserByUsername = async (username) => {
   );
   return rows[0];
 };
+
+//** user delete account */
+export const userDeleteAccount = async (userId) => {
+  const result = await pool.query(
+    "UPDATE users SET deleted_at = NOW()  WHERE id = ?",
+    [userId]
+  );
+  return result.affectedRows;
+};
