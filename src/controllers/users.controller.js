@@ -224,3 +224,9 @@ export const username = asyncHandler(async (req, res) => {
 
   res.status(200).json({ user });
 });
+
+//**Get current user logged profile */
+export const me = asyncHandler(async (req, res) => {
+  const user = await getUserbyId(req.user.id);
+  res.status(200).json({ ...user });
+});
