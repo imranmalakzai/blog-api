@@ -201,3 +201,14 @@ export const users = asyncHandler(async (req, res) => {
   const users = await getAllUsers();
   res.status(200).json({ users });
 });
+
+//** Get a user by id */
+export const user = asyncHandler(async (req, res) => {
+  const { userId } = req.params;
+
+  //user exist
+  const user = await getUserbyId(userId);
+  if (!user) throw new ApiError("user not exist", 404);
+
+  res.status(200).json({ user });
+});
