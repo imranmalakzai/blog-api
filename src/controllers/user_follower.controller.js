@@ -1,7 +1,12 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
 import ApiError from "../utils/apiError.js";
 import { getUserbyId } from "../repository/users.repository.js";
-import { follow, isFollowing, unFollow } from "../repository/user_follower.js";
+import {
+  follow,
+  isFollowing,
+  unFollow,
+  followers,
+} from "../repository/user_follower.js";
 
 //** Follow A user */
 export const followUser = asyncHandler(async (req, res) => {
@@ -39,4 +44,10 @@ export const unfollow = asyncHandler(async (req, res) => {
   if (unfollowed === 0) throw new ApiError("Internal server error", 500);
 
   res.status(200).json({ message: "unfollwed" });
+});
+
+//** My follwers */
+export const myFollowers = asyncHandler(async (req, res) => {
+  const follwers = await followers(req.user.id);
+  res.status(200).json({ users: follwers || [] });
 });
