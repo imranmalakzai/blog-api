@@ -18,6 +18,7 @@ import {
   userRegistration,
   updateUserAvatar,
   getAllUsers,
+  getUserByUsername,
 } from "../repository/users.repository.js";
 import { REFRESH_TOKEN } from "../config/env.config.js";
 
@@ -208,6 +209,17 @@ export const user = asyncHandler(async (req, res) => {
 
   //user exist
   const user = await getUserbyId(userId);
+  if (!user) throw new ApiError("user not exist", 404);
+
+  res.status(200).json({ user });
+});
+
+//**get a user by username */
+export const username = asyncHandler(async (req, res) => {
+  const { username } = req.params;
+
+  //user exist
+  const user = await getUserByUsername(username);
   if (!user) throw new ApiError("user not exist", 404);
 
   res.status(200).json({ user });
