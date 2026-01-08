@@ -19,6 +19,7 @@ import {
   updateUserAvatar,
   getAllUsers,
   getUserByUsername,
+  userDeleteAccount,
 } from "../repository/users.repository.js";
 import { REFRESH_TOKEN } from "../config/env.config.js";
 
@@ -229,4 +230,21 @@ export const username = asyncHandler(async (req, res) => {
 export const me = asyncHandler(async (req, res) => {
   const user = await getUserbyId(req.user.id);
   res.status(200).json({ ...user });
+});
+
+//**Delete account user */
+export const deleteAccount = asyncHandler(async (req, res) => {
+  const result = await userDeleteAccount(req.user.id);
+  if (result === 0) throw new ApiError("Internal server error", 500);
+  const options = {
+    httpOnly: true,
+    secure: true,
+    sameSite: "strict",
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+  };
+
+  res
+    .status(200)
+    .clearCookie("refreshToken", options)
+    .json({ message: "Account deleted successfully" });
 });
