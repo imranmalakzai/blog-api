@@ -17,6 +17,7 @@ import {
   updateRole,
   userRegistration,
   updateUserAvatar,
+  getAllUsers,
 } from "../repository/users.repository.js";
 import { REFRESH_TOKEN } from "../config/env.config.js";
 
@@ -193,4 +194,10 @@ export const changeAvatar = asyncHandler(async (req, res) => {
   if (user === 0) throw new ApiError("Internal server error", 500);
 
   res.status(200).json({ message: "Avetar updated successfully" });
+});
+
+//**Get all users */
+export const users = asyncHandler(async (req, res) => {
+  const users = await getAllUsers();
+  res.status(200).json({ users });
 });
