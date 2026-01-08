@@ -262,3 +262,12 @@ export const updateProfile = asyncHandler(async (req, res) => {
 
   res.status(200).json({ message: "profile updated successfully" });
 });
+
+//** userFollowers */
+export const userFollowers = asyncHandler(async (req, res) => {
+  const { username } = req.params;
+
+  //is user exist
+  const user = await getUserByUsername(username);
+  if (!user) throw new ApiError("user not eixst", 404);
+});

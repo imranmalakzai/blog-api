@@ -7,9 +7,9 @@ import {
 import {
   follow,
   isFollowing,
-  following,
   unFollow,
   followers,
+  following,
 } from "../repository/user_follower.js";
 
 //** Follow A user */
@@ -74,4 +74,18 @@ export const userFollowers = asyncHandler(async (req, res) => {
   const users = await followers(user.id);
 
   res.status(200).json({ follwers: users || [] });
+});
+
+//** user following */
+export const userFollowing = asyncHandler(async (req, res) => {
+  const { username } = req.params;
+
+  //user exist
+  const user = await getUserByUsername(username);
+  if (!user) throw new ApiError("user not exist", 404);
+
+  //const following
+  const users = await following(user.id);
+
+  res.status(200).json({ following: users || [] });
 });
