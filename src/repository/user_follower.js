@@ -35,3 +35,12 @@ export const following = async (userId) => {
   );
   return rows;
 };
+
+//** is following */
+export const isFollowing = async (follwerId, followedId) => {
+  const [rows] = await pool.query(
+    "SELECT follower_id FROM user_followers WHERE follower_id = ? AND followed_id = ? ",
+    [follwerId, followedId]
+  );
+  return rows;
+};
