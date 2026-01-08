@@ -20,6 +20,7 @@ import {
   getAllUsers,
   getUserByUsername,
   userDeleteAccount,
+  updateUserProfile,
 } from "../repository/users.repository.js";
 import { REFRESH_TOKEN } from "../config/env.config.js";
 
@@ -242,9 +243,22 @@ export const deleteAccount = asyncHandler(async (req, res) => {
     sameSite: "strict",
     maxAge: 7 * 24 * 60 * 60 * 1000,
   };
-
   res
     .status(200)
     .clearCookie("refreshToken", options)
     .json({ message: "Account deleted successfully" });
+});
+
+//** UPdate profile (bio,username) */
+export const updateProfile = asyncHandler(async (req, res) => {
+  const { bio, username } = req.body;
+
+  //is username exist
+  const user = await getUserByUsername(username);
+  if (user) throw new ApiError("username exist", 403);
+
+  const result = await updateUserProfile({ bio, username }, req.user.id);
+  if (result === 0) throw new ApiError("Internal server error", 500);
+
+  res.status(200).json({ message: "profile updated successfully" });
 });
