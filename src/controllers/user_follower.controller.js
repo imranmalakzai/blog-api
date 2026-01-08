@@ -61,3 +61,17 @@ export const meFollowing = asyncHandler(async (req, res) => {
   const follow = await following(req.user.id);
   res.status(200).json({ users: follow || [] });
 });
+
+//** userFollowers */
+export const userFollowers = asyncHandler(async (req, res) => {
+  const { username } = req.params;
+
+  //is user exist
+  const user = await getUserByUsername(username);
+  if (!user) throw new ApiError("user not eixst", 404);
+
+  //followers
+  const users = await followers(user.id);
+
+  res.status(200).json({ follwers: users || [] });
+});
