@@ -37,10 +37,10 @@ export const following = async (userId) => {
 };
 
 //** is following */
-export const isFollowing = async (follwerId, followedId) => {
+export const isFollowing = async (followerId, followedId) => {
   const [rows] = await pool.query(
     "SELECT follower_id FROM user_followers WHERE follower_id = ? AND followed_id = ? ",
-    [follwerId, followedId]
+    [followerId, followedId]
   );
   return rows;
 };
