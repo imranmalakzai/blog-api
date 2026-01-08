@@ -83,8 +83,16 @@ export const updateUserProfile = async (data, userId) => {
 //**Change user role */
 export const updateRole = async (role, userId) => {
   const result = pool.query(
-    "UPDATE users SET role = ? WHERE id = ? AND deleted-at is NULL",
+    "UPDATE users SET role = ? WHERE id = ? AND deleted_at is NULL",
     [role, userId]
   );
   return result.affectedRows;
+};
+
+//**Get user by username */
+export const getUserByUsername = async (username) => {
+  const [rows] = await pool.query(
+    "SELECT id,username,email,role FROM users WHERE deleted_at IS NULL"
+  );
+  return rows[0];
 };
