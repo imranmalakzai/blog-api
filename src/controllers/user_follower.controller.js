@@ -1,9 +1,6 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
 import ApiError from "../utils/apiError.js";
-import {
-  getUserbyId,
-  getUserByUsername,
-} from "../repository/users.repository.js";
+import { getUserByUsername } from "../repository/users.repository.js";
 import {
   follow,
   isFollowing,
