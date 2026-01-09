@@ -192,6 +192,12 @@ export const articleDelete = asyncHandler(async (req, res) => {
   const article = await getArticleById(articleId);
   if (!article) throw new ApiError("Article not exist", 404);
 
+  //is author
+  const author = req.user.id.toString() === article.author_id.toString();
+  const owner = req.user.role === "admin" || "editor";
+
+  if (!author || !owner) throw new ApiError("Access denied", 403);
+
   const result = await deleteArticle(articleId);
   if (result === 0) throw new ApiError("Internal serer error", 500);
 
