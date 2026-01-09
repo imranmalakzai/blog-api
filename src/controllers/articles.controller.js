@@ -9,6 +9,7 @@ import {
   getArticleById,
   getPublicArticles,
   getPublicationArticles,
+  publishArticle,
   deleteArticle,
 } from "../repository/articals.repsitory.js";
 import ApiError from "../utils/apiError.js";
@@ -179,7 +180,7 @@ export const userArticle = asyncHandler(async (req, res) => {
   const { articleId } = req.params;
 
   //article exist
-  const article = await getArticleById(articleId);
+  const article = await publishArticle(articleId);
   if (!article) throw new ApiError("Article not exist", 404);
 
   res.status(200).json({ article });
