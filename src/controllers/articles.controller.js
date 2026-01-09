@@ -5,6 +5,7 @@ import { isPublicationMemeber } from "../repository/publication_members.reposito
 import { getArticleById } from "../repository/articals.repsitory.js";
 import {
   createArticle,
+  publishedArticles,
   getAPublicationArticleById,
   getArticleById,
   getPublicArticles,
@@ -203,4 +204,10 @@ export const articleDelete = asyncHandler(async (req, res) => {
   if (result === 0) throw new ApiError("Internal serer error", 500);
 
   res.status(200).json({ message: "article delte successfully" });
+});
+
+//**PUblished articles */
+export const getPublishedArticles = asyncHandler(async (req, res) => {
+  const articles = await publishedArticles();
+  res.status(200).json({ articles: articles || [] });
 });
