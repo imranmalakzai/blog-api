@@ -131,18 +131,21 @@ export const deleteAnArticle = asyncHandler(async (req, res) => {
   res.status(200).json({ message: "Article delete successfully" });
 });
 
-//**Update article (author || editor) */
+//**Update article  in publication (author || editor) */
 export const updateArticle = asyncHandler(async (req, res) => {
+  const { publicationId } = req.params;
   const { articleId } = req.params;
 
-  //articl Exist
-  const article = await getArticleById(articleId);
-  if (!article) throw new ApiError("article not exist", 404);
+  //publication exist ?
+  const publication = publicationById(publicationId);
+  if (!publication) throw new ApiError("publication not exist", 404);
 
-  // Is author
+  //article exist ?
+  const article = await getAPublicationArticleById(publication.id, articleId);
+  if (!article) throw new ApiError("Article not exist", 404);
 });
 
-//**Get all articles  publish articles*/
+//**Get all articles publish articles*/
 export const articles = asyncHandler(async (req, res) => {
   const articles = await getPublicArticles();
   res.status(200).json({ articles: articles || [] });
@@ -160,4 +163,13 @@ export const publictionArticles = asyncHandler(async (req, res) => {
   const articles = await getPublicationArticles(publicationId);
 
   res.status(200).json({ articles: articles || [] });
+});
+
+//** Get a publication Article By Id */
+export const publicationArticle = asyncHandler(async (req, res) => {
+  const { publicationId, articleId } = req.body;
+  const article = await getAPublicationArticleById(publicationId, articleId);
+  if (!article) throw new ApiError("article not exist", 404);
+
+  res.status(200).json({ article });
 });
