@@ -2,8 +2,10 @@ import slugify from "slugify";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { publicationById } from "../repository/publication.repository.js";
 import { isPublicationMemeber } from "../repository/publication_members.repository.js";
+import { getArticleById } from "../repository/articals.repsitory.js";
 import {
   createArticle,
+  getAPublicationArticleById,
   getArticleById,
   getPublicArticles,
   getPublicationArticles,
@@ -74,7 +76,35 @@ export const createPublicArticle = asyncHandler(async (req, res) => {
   res.status(201).json({ message: "article created successfully" });
 });
 
-//**Delete article */
+//**Delete article A publication Article */
+export const deletePublicationArticle = asyncHandler(async (req, res) => {
+  const { publicationId } = req.params;
+  const { articleId } = req.params;
+
+  //publiction exist
+  const publication = await publicationById(publicationId);
+  if (!publication) throw new ApiError("publication not exist", 404);
+
+  //article exist
+  const article = await getAPublicationArticleById(publication.id, articleId);
+  if (!article) throw new ApiError("article not exist");
+
+  //Is post owner
+  const owner = article.author_id.toString() === req.user.id.toString();
+
+  //Publication owner
+  const publicationOwner = publication.owner_id.toString() === req.user.id;
+
+  if (!owner && !publicationOwner) {
+    throw new ApiError("Access denied", 404);
+  }
+
+  //soft delete article
+  const result = await deleteArticle(articleId);
+  if (result === 0) throw new ApiError("Internal server error", 500);
+
+  res.status(200).json({ message: "Article delete successfully" });
+});
 export const deleteAnArticle = asyncHandler(async (req, res) => {
   const { articleId } = req.params;
 
