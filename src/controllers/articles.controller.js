@@ -173,3 +173,14 @@ export const publicationArticle = asyncHandler(async (req, res) => {
 
   res.status(200).json({ article });
 });
+
+//** User Get An Article By Id */
+export const userArticle = asyncHandler(async (req, res) => {
+  const { articleId } = req.params;
+
+  //article exist
+  const article = await getArticleById(articleId);
+  if (!article) throw new ApiError("Article not exist", 404);
+
+  res.status(200).json({ article });
+});
