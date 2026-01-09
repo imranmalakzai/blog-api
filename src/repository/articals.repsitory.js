@@ -167,3 +167,12 @@ export const publishedArticles = async () => {
   );
   return rows;
 };
+
+//** user published articles */
+export const myArticles = async (userId) => {
+  const [rows] = await pool.query(
+    "SELECT * FROM articles WHERE status = 'published' AND visibility = 'public' AND deleted_at IS NULL AND author_id = ? ",
+    [userId]
+  );
+  return rows;
+};
