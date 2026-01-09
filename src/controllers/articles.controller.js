@@ -12,8 +12,10 @@ import {
   getPublicationArticles,
   publishArticle,
   deleteArticle,
+  myArticles,
 } from "../repository/articals.repsitory.js";
 import ApiError from "../utils/apiError.js";
+import { getUserbyId } from "../repository/users.repository.js";
 
 //** create a new article in a publication */
 export const createNewArticle = asyncHandler(async (req, res) => {
@@ -209,5 +211,18 @@ export const articleDelete = asyncHandler(async (req, res) => {
 //**PUblished articles */
 export const getPublishedArticles = asyncHandler(async (req, res) => {
   const articles = await publishedArticles();
+  res.status(200).json({ articles: articles || [] });
+});
+
+//** user Articles */
+export const userArticles = asyncHandler(async (req, res) => {
+  const { userId } = req.params;
+
+  //user exist
+  const user = await getUserbyId(userId);
+  if (!user) throw new ApiError("user not exist", 404);
+
+  //user articles
+  const articles = await myArticles(userId);
   res.status(200).json({ articles: articles || [] });
 });
