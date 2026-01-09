@@ -106,3 +106,11 @@ export const userDeleteAccount = async (userId) => {
   );
   return result.affectedRows;
 };
+
+//**Get all published Articles */
+export const publishedArticles = async () => {
+  const [rows] = await pool.query(
+    "SELECT * FROM articles WHERE status = 'published' AND visibility = 'public' AND deleted_at IS NULL"
+  );
+  return rows;
+};
