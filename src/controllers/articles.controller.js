@@ -226,3 +226,21 @@ export const userArticles = asyncHandler(async (req, res) => {
   const articles = await myArticles(userId);
   res.status(200).json({ articles: articles || [] });
 });
+
+//** Get a user article by Id */
+export const getUserArticleById = asyncHandler(async (req, res) => {
+  const { userId } = req.params;
+  const { articleId } = req.params;
+
+  //user exist
+  const user = await getUserbyId(userId);
+  if (!user) throw new ApiError("user not exist", 404);
+
+  //article exist
+  const article = await getArticleById(articleId);
+  if (article.author_id !== userId) {
+    throw new ApiError("Article not belong to this user", 403);
+  }
+
+  res.status(200).json({ article });
+});
