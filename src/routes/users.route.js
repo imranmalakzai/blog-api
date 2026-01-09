@@ -37,15 +37,6 @@ userRouter.route("/auth/refresh").post(refreshAccessToken);
 
 userRouter.use(auth);
 
-// users endpoints
-userRouter.route("/users").get(users);
-userRouter.route("/users/:userId").get(user);
-userRouter.route("/users/@:username").get(username);
-userRouter.route("/users/@:username/follow").post(followUser);
-userRouter.route("/users/@:username/unfollow").delete(unfollow);
-userRouter.route("/users/@:username/followers").get(userFollowers);
-userRouter.route("/users/@:username/following").get(userFollowing);
-
 //me
 userRouter.route("/users/me").get(me);
 userRouter.route("/users/me").delete(deleteAccount);
@@ -54,6 +45,15 @@ userRouter.route("/users/me/avatar").patch(changeAvatar);
 userRouter.route("/users/me/password").patch(changePassword);
 userRouter.route("/users/me/followers").get(myFollowers);
 userRouter.route("/users/me/following").get(meFollowing);
+
+// users endpoints
+userRouter.route("/users").get(users);
+userRouter.route("/users/:userId").get(user);
+userRouter.route("/users/@:username").get(username);
+userRouter.route("/users/@:username/follow").post(followUser);
+userRouter.route("/users/@:username/follow").delete(unfollow);
+userRouter.route("/users/@:username/followers").get(userFollowers);
+userRouter.route("/users/@:username/following").get(userFollowing);
 
 //admin only
 userRouter.route("/users/:userId/role").patch(allowed("admin"), changeRole);
