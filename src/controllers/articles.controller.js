@@ -184,3 +184,16 @@ export const userArticle = asyncHandler(async (req, res) => {
 
   res.status(200).json({ article });
 });
+
+//** Delete article */
+export const articleDelete = asyncHandler(async (req, res) => {
+  const { articleId } = req.params;
+
+  const article = await getArticleById(articleId);
+  if (!article) throw new ApiError("Article not exist", 404);
+
+  const result = await deleteArticle(articleId);
+  if (result === 0) throw new ApiError("Internal serer error", 500);
+
+  res.status(200).json({ message: "article delte successfully" });
+});
