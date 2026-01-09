@@ -8,6 +8,8 @@ import {
   userArticle,
   articleDelete,
   getPublishedArticles,
+  userArticles,
+  getUserArticleById,
 } from "../controllers/articles.controller.js";
 
 const articleRouter = express.Router({ mergeParams: true });
@@ -35,8 +37,14 @@ articleRouter
   )
   .get(publicationArticle);
 
-//** Public Independent articles */
+//** Public Independent personal articles */
 articleRouter.route("articles").get(getPublishedArticles);
 articleRouter.route("articles/:articleSlug-:articleId").get(userArticle);
 articleRouter.route("articles/:articleId").get(userArticle);
 articleRouter.route("articles/:articleId").delete(articleDelete);
+
+//** Get artile by username */
+articleRouter.route("users/@:username-:userId/articles").get(userArticles);
+articleRouter
+  .route("users/@:username-:userId/articles/:articleSlug-:articleId")
+  .get(getUserArticleById);
