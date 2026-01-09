@@ -149,3 +149,12 @@ export const getPublicationArticles = async (publicationId) => {
   );
   return rows;
 };
+
+//**Get a publication article by Id */
+export const getAPublicationArticleById = async (publicationId, articleId) => {
+  const [rows] = await pool.query(
+    "SELECT * FROM articles WHERE publication_id = ? AND id = ? AND deleted_at IS NULL",
+    [publicationId, articleId]
+  );
+  return rows[0];
+};
