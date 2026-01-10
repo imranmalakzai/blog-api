@@ -18,3 +18,12 @@ export const unlikeArticle = async (articleId, userId) => {
   );
   return result.affectedRows;
 };
+
+//**Get all users React to an articles */
+export const usersLikedArticle = async (articleId) => {
+  const [rows] = await pool.query(
+    "SELECT * FROM article_reactions WHERE article_id = ?",
+    [articleId]
+  );
+  return rows;
+};
