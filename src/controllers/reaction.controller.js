@@ -25,3 +25,9 @@ export const update = asyncHandler(async (req, res) => {
 
   res.status(200).json({ message: "reaction updated successfully" });
 });
+
+//** Get all reactions */
+export const reactions = asyncHandler(async (req, res) => {
+  const result = await db.reactions();
+  res.status(200).json({ reactions: result || [] });
+});
