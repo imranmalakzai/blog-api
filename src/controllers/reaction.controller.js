@@ -42,3 +42,18 @@ export const reaction = asyncHandler(async (req, res) => {
 
   res.status(200).json({ reaction });
 });
+
+//** Delete a reaction (we use remove here -> delete is a keyword) */
+export const remove = asyncHandler(async (req, res) => {
+  const { reactionId } = req.params;
+
+  //reaction exist
+  const reaction = await db.reaction(reactionId);
+  if (!reaction) throw new ApiError("Reaction not exist", 404);
+
+  //result
+  const result = await db.remove(reactionId);
+  if (result === 0) throw new ApiError("Internal server error", 500);
+
+  res.status(200).json({ message: "reaction deleted successfully" });
+});
