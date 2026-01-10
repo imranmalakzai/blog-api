@@ -17,3 +17,12 @@ export const remove = async (articleId, userId) => {
   );
   return result.affectedRows;
 };
+
+//** Get bookmarks articles */
+export const bookmarks = async (userId) => {
+  const [rows] = await pool.query(
+    "SELECT * FROM bookmarks WHERE user_id = ?",
+    userId
+  );
+  return rows;
+};
