@@ -244,3 +244,9 @@ export const getUserArticleById = asyncHandler(async (req, res) => {
 
   res.status(200).json({ article });
 });
+
+//**Get my articles */
+export const getMyArticles = asyncHandler(async (req, res) => {
+  const articles = await getMyArticles(req.user.id);
+  res.status(200).json({ articles: articles || [] });
+});
