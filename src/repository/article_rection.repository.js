@@ -16,4 +16,5 @@ export const unlikeArticle = async (articleId, userId) => {
     articleId,
     userId
   );
+  return result.affectedRows;
 };
