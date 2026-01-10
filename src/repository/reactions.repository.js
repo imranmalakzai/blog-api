@@ -7,3 +7,12 @@ export const create = async (name) => {
   ]);
   return result.insertId;
 };
+
+//** update a reaction */
+export const update = async (name, id) => {
+  const result = await pool.query(
+    "UPDATE reactions SET name = ? WHERE id = ?",
+    [name, id]
+  );
+  return result.affectedRows;
+};
