@@ -31,3 +31,14 @@ export const reactions = asyncHandler(async (req, res) => {
   const result = await db.reactions();
   res.status(200).json({ reactions: result || [] });
 });
+
+//**GEt a reaction by Id */
+export const reaction = asyncHandler(async (req, res) => {
+  const { reactionId } = req.params;
+
+  //reaction exist
+  const reaction = await db.reaction(reactionId);
+  if (!reaction) throw new ApiError("Reaction not exist", 404);
+
+  res.status(200).json({ reaction });
+});
