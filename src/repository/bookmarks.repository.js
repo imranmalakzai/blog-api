@@ -26,3 +26,11 @@ export const bookmarks = async (userId) => {
   );
   return rows;
 };
+
+/**Get a bookmarked article */
+export const bookmark = async (bookmarkId) => {
+  const [rows] = await pool.query("SELECT * FROM bookmarks WHERE id  = ?", [
+    bookmark,
+  ]);
+  return rows[0];
+};
