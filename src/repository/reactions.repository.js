@@ -22,3 +22,9 @@ export const remove = async (id) => {
   const result = await pool.query("DELETE FROM reactions WHERE id = ? ", [id]);
   return result.affectedRows;
 };
+
+//**Get all reactions */
+export const allReactions = async (id) => {
+  const rows = await pool.query("SELECT * FROM reactions");
+  return rows;
+};
