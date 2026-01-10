@@ -2,7 +2,10 @@ import slugify from "slugify";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { publicationById } from "../repository/publication.repository.js";
 import { isPublicationMemeber } from "../repository/publication_members.repository.js";
-import { getArticleById } from "../repository/articals.repsitory.js";
+import {
+  getArticleById,
+  getMyArticles,
+} from "../repository/articals.repsitory.js";
 import {
   createArticle,
   publishedArticles,
@@ -246,7 +249,7 @@ export const getUserArticleById = asyncHandler(async (req, res) => {
 });
 
 //**Get my articles */
-export const getMyArticles = asyncHandler(async (req, res) => {
+export const myArticles = asyncHandler(async (req, res) => {
   const articles = await getMyArticles(req.user.id);
   res.status(200).json({ articles: articles || [] });
 });
