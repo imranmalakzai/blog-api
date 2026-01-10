@@ -28,3 +28,9 @@ export const reactions = async () => {
   const rows = await pool.query("SELECT * FROM reactions");
   return rows;
 };
+
+//** Get reaction by Id  */
+export const reaction = async (id) => {
+  const rows = await pool.query("SELECT * FROM reactions WHERE id = ?", [id]);
+  return rows[0];
+};
