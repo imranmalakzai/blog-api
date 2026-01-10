@@ -24,7 +24,7 @@ export const remove = async (id) => {
 };
 
 //**Get all reactions */
-export const allReactions = async (id) => {
+export const reactions = async () => {
   const rows = await pool.query("SELECT * FROM reactions");
   return rows;
 };
