@@ -27,3 +27,18 @@ export const create = asyncHandler(async (req, res) => {
   if (result === 0) throw new ApiError("Internal server error", 500);
   res.status(200).json({ message: "liked" });
 });
+
+//** Unlike an article */
+export const remove = asyncHandler(async (req, res) => {
+  const { articleId } = req.params;
+
+  //article exist
+  const article = await articleDb.getArticleById(articleId);
+  if (!article) throw new ApiError("Article not exist", 404);
+
+  //result
+  const result = await db.unlikeArticle(article, req.user.id);
+  if (result === 0) throw new ApiError("Internal server error", 500);
+
+  res.status(200).json({ message: "unliked" });
+});
