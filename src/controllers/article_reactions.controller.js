@@ -1,21 +1,29 @@
-// import { asyncHandler } from "../utils/asyncHandler.js";
-// import ApiError from "../utils/apiError.js";
-// import * as reactionRepo from "../repository/article_rection.repository.js";
-// import * as articlesRepo from "../repository/articals.repsitory.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
+import ApiError from "../utils/apiError.js";
+import * as reactionDb from "../repository/reactions.repository.js";
+import * as articleDb from "../repository/articals.repsitory.js";
+import * as db from "../repository/article_rection.repository.js";
 
-// //** like an article */
-// export const like = asyncHandler(async (req, res) => {
-//   const { articleId } = req.params;
-//   const {reactionId} = req.params
+//** like an article */
+export const create = asyncHandler(async (req, res) => {
+  const { artilceId } = req.params;
+  const { reactionId } = req.params;
 
-//   // article exist
-//   const article = articlesRepo.getArticleById(articleId);
-//   if (!article) throw new ApiError("article not exist", 404);
+  // article exist
+  const article = await articleDb.getArticleById(artilceId);
+  if (!article) throw new ApiError("Article not exist", 404);
 
-//   //like article
-//   const like = await reactionRepo.createLikeArticle({
-//     article_id: articleId,
-//     user_id: req.user.id,
-//     reaction_id:
-//   });
-// });
+  // reaction exist
+  const reaction = await reactionDb.reaction(reactionId);
+  if (!reaction) throw new ApiError("reaction not exist", 404);
+
+  //result
+  const result = await db.createLikeArticle({
+    user_id: req.user.id,
+    article_id: article,
+    reaction_id: reactionId,
+  });
+
+  if (result === 0) throw new ApiError("Internal server error", 500);
+  res.status(200).json({ message: "liked" });
+});
