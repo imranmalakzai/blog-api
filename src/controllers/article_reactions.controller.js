@@ -42,3 +42,16 @@ export const remove = asyncHandler(async (req, res) => {
 
   res.status(200).json({ message: "unliked" });
 });
+
+//** get all likes on an article */
+export const likes = asyncHandler(async (req, res) => {
+  const { articleId } = req.params;
+
+  //article exist
+  const article = await articleDb.getArticleById(articleId);
+  if (!article) throw new ApiError("article not exist", 404);
+
+  //result
+  const likes = await db.usersLikedArticle(articleId);
+  res.status(200).json({ likes: likes || [] });
+});
