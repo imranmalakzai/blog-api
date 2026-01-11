@@ -7,3 +7,12 @@ export const create = async (data) => {
   );
   return rows;
 };
+
+//**Get an article total viwes */
+export const articleViews = async (articleId) => {
+  const [rows] = await pool.query(
+    "SELECT count(*) As total FROM article_views WHERE article_id = ?",
+    articleId
+  );
+  return rows[0].total;
+};
