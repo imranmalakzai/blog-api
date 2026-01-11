@@ -31,3 +31,9 @@ export const remove = asyncHandler(async (req, res) => {
 
   res.status(200).json({ message: "article unbookmarked" });
 });
+
+//**Get all bookmarked articles */
+export const bookmarks = asyncHandler(async (req, res) => {
+  const bookmarks = await Db.bookmarks(req.user.id);
+  res.status(200).json({ bookmarks: bookmarks || [] });
+});
