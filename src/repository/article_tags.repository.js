@@ -17,3 +17,12 @@ export const remove = async (articleId, tagId) => {
   );
   return result.affectedRows;
 };
+
+//** get all article tags */
+export const articleTags = async (articleId) => {
+  const [rows] = await pool.query(
+    "SELECT * FROM article_tags WHERE article_id = ?",
+    articleId
+  );
+  return rows;
+};
