@@ -37,3 +37,13 @@ export const bookmarks = asyncHandler(async (req, res) => {
   const bookmarks = await Db.bookmarks(req.user.id);
   res.status(200).json({ bookmarks: bookmarks || [] });
 });
+
+//**Get a bookmarked article by Id */
+export const bookmark = asyncHandler(async (req, res) => {
+  const { articleId } = req.params;
+
+  const bookmark = await Db.bookmark(articleId, req.user.id);
+  if (!bookmark) throw new ApiError("article is not bookmarked", 400);
+
+  res.status(200).json({ bookmark });
+});
