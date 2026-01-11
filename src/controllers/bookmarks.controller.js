@@ -16,3 +16,18 @@ export const create = asyncHandler(async (req, res) => {
 
   res.status(200).json({ message: "Article bookmarked successfully" });
 });
+
+//**UnBookmark article */
+export const remove = asyncHandler(async (req, res) => {
+  const { articleId } = req.params;
+
+  //check bookmarked exist
+  const bookmark = await Db.bookmark(articleId, req.user.id);
+  if (!bookmark) throw new ApiError("article is not bookmarked", 400);
+
+  //result
+  const result = await Db.remove(articleId);
+  if (result === 0) throw new ApiError("Internal server error", 500);
+
+  res.status(200).json({ message: "article unbookmarked" });
+});
