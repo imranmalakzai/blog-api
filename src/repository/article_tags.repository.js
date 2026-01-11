@@ -8,3 +8,12 @@ export const create = async (articleId, tagId) => {
   );
   return result.insertId;
 };
+
+//**Remove tags from article */
+export const removeTag = async (articleId, tagId) => {
+  const result = await pool.query(
+    "DELETE FROM article_tags WHERE articleId = ? AND tagId = ?",
+    [articleId, tagId]
+  );
+  return result.affectedRows;
+};
