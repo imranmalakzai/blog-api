@@ -26,3 +26,12 @@ export const articleTags = async (articleId) => {
   );
   return rows;
 };
+
+//** Get an a tag on aticleTag byId */
+export const articleTag = async (articleId, tagId) => {
+  const [rows] = await pool.query(
+    "SELECT * FROM article_tags WHERE article_id = ? AND tag_id = ?",
+    [articleId, tagId]
+  );
+  return rows[0];
+};
