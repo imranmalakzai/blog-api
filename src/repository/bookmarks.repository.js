@@ -28,9 +28,10 @@ export const bookmarks = async (userId) => {
 };
 
 /**Get a bookmarked article */
-export const bookmark = async (bookmarkId) => {
-  const [rows] = await pool.query("SELECT * FROM bookmarks WHERE id  = ?", [
-    bookmark,
-  ]);
+export const bookmark = async (articleId, userId) => {
+  const [rows] = await pool.query(
+    "SELECT * FROM bookmarks WHERE article_id = ? AND userId = ?",
+    [articleId, userId]
+  );
   return rows[0];
 };
