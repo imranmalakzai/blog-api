@@ -21,7 +21,7 @@ export const remove = async (articleId, tagId) => {
 //** get all article tags */
 export const articleTags = async (articleId) => {
   const [rows] = await pool.query(
-    "SELECT * FROM article_tags WHERE article_id = ?",
+    "SELECT t.id,t.name,t.slug FROM article_tags a JOIN tags t ON a.tag_id = t.id WHERE a.article_id = 1",
     articleId
   );
   return rows;
