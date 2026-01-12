@@ -15,17 +15,30 @@ export const create = asyncHandler(async (req, res) => {
 
   //check reaction exist
   const isExist = await db.userReacion(req.user.id, articleId);
-  if(isExist && isExist.reaction_id.toString() === reaction.id.toString())
 
-  //result
+  //check user reacted again ? the same then remove the reaction
+  if (isExist && isExist.reaction_id.toString() === reaction.id.toString()) {
+    const remove = await db.remove(req.user.id, reaction.id);
+    if (remove === 0) throw new ApiError("Internal server error", 500);
+    res.status(200).json({ message: "Reaction removed successfully" });
+  }
+
+  //check if the reaction is defferent
+  if (isExist && isExist.reaction_id.toString() !== reaction.id.toString()) {
+    const update = await db.update(req.user.id, articleId, reactionId);
+    if (update === 0) throw new ApiError("Internal server error");
+    res.status(200).json({ message: "recation updated" });
+  }
+
+  //no react yest ?
   const result = await db.createLikeArticle({
     user_id: req.user.id,
-    article_id: article,
+    article_id: articleId,
     reaction_id: reactionId,
   });
 
-  if (result === 0) throw new ApiError("Internal server error", 500);
-  res.status(200).json({ message: "liked" });
+  if (!result) throw new ApiError("Internal server error", 500);
+  res.status(200).json({ message: "Reaction added" });
 });
 
 //** Unlike an article */
