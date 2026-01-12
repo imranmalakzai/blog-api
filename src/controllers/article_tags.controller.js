@@ -22,3 +22,11 @@ export const create = asyncHandler(async (req, res) => {
 
   res.status(200).json({ message: "Tags Added successfully" });
 });
+
+//** article tags */
+export const articleTags = asyncHandler(async (req, res) => {
+  const { articleId } = req.params;
+
+  const tags = await Db.articleTags(articleId);
+  res.status(200).json({ tags });
+});
