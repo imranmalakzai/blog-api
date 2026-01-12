@@ -6,16 +6,16 @@ import * as db from "../repository/article_rection.repository.js";
 
 //** like an article */
 export const create = asyncHandler(async (req, res) => {
-  const { artilceId } = req.params;
-  const { reactionId } = req.params;
-
-  // article exist
-  const article = await articleDb.getArticleById(artilceId);
-  if (!article) throw new ApiError("Article not exist", 404);
+  const { articleId } = req.params;
+  const { reactionId } = req.body;
 
   // reaction exist
   const reaction = await reactionDb.reaction(reactionId);
-  if (!reaction) throw new ApiError("reaction not exist", 404);
+  if (!reaction) throw new ApiError("Invalid reaction", 404);
+
+  //check reaction exist
+  const isExist = await db.userReacion(req.user.id, articleId);
+  if(isExist && isExist.reaction_id.toString() === reaction.id.toString())
 
   //result
   const result = await db.createLikeArticle({

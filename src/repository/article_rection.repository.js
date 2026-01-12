@@ -36,3 +36,12 @@ export const userReacion = async (userId, articleId) => {
   );
   return rows[0];
 };
+
+//**Remove Reaction from an article */
+export const remove = async (userId, articleId) => {
+  const result = await pool.query(
+    "DELETE FROM article_reactions WHERE article_id = ? and user_id = ?",
+    [articleId, userId]
+  );
+  return result.affectedRows;
+};
