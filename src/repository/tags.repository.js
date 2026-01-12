@@ -56,3 +56,11 @@ export const searchTag = async (tag) => {
   );
   return rows;
 };
+
+//**get tags by tag */
+export const tags = async (tags) => {
+  const [rows] = await pool.query("SELECT * FROM tags WHERE slug IN (?)", [
+    tags,
+  ]);
+  return rows;
+};
