@@ -27,3 +27,12 @@ export const usersLikedArticle = async (articleId) => {
   );
   return rows;
 };
+
+//**user reaction */
+export const userReacion = async (userId, articleId) => {
+  const [rows] = await pool.query(
+    "SELECT id from article_reactions where article_id ? and user_id ?",
+    [articleId, userId]
+  );
+  return rows[0];
+};
