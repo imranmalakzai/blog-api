@@ -45,3 +45,12 @@ export const remove = async (userId, articleId) => {
   );
   return result.affectedRows;
 };
+
+//**Update reaction an article */
+export const update = async (userId, articleId, reactionId) => {
+  const result = await pool.query(
+    "UPDATE article_reactions SET reaction_id = ? WHERE user_id = ? and article_id = ?",
+    [reactionId, userId, articleId]
+  );
+  return result.affectedRows;
+};
