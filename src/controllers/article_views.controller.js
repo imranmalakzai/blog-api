@@ -24,3 +24,14 @@ export const create = asyncHandler(async (req, res) => {
   if (result) throw new ApiError("Internal server error,", 500);
   res.status(200).json({ message: "article viewd" });
 });
+
+//**Get all views of on article */
+export const articleViews = asyncHandler(async (req, res) => {
+  const { articleId } = req.params;
+
+  const article = await articleDb.getArticleById(articleId);
+  if (!article) throw new ApiError("Article not exist", 404);
+
+  const views = await Db.articleViews(articleId);
+  res.status(200).json({ views });
+});
