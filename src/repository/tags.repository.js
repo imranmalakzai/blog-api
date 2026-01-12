@@ -59,8 +59,9 @@ export const searchTag = async (tag) => {
 
 //**get tags by tag */
 export const tags = async (tags) => {
-  const [rows] = await pool.query("SELECT id FROM tags WHERE slug IN (?)", [
-    tags,
-  ]);
+  const [rows] = await pool.query(
+    "SELECT id,slug FROM tags WHERE slug IN (?)",
+    [tags]
+  );
   return rows;
 };
