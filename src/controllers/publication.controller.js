@@ -27,6 +27,7 @@ export const create = asyncHandler(async (req, res) => {
   res.status(201).json({ message: "publication created successfully" });
 });
 
+//** Update a publication */
 export const update = asyncHandler(async (req, res) => {
   const { publicationId } = req.params;
   const { name, description } = req.body;
@@ -51,4 +52,22 @@ export const update = asyncHandler(async (req, res) => {
   if (result === 0) throw new ApiError("Internal server error", 500);
 
   res.status(200).json({ message: "publication updated successfully" });
+});
+
+/**Delete a publication */
+export const deletePublication = asyncHandler(async (req, res) => {
+  const { publicationId } = req.params;
+
+  //publication exist
+  const publication = await Db.publicationById(publicationId);
+  if (!publication) throw new ApiError("publicaiton not exist", 404);
+
+  if (publication.owner_id.toString() !== req.user.id.toString()) {
+    throw new ApiError("Access denied", 403);
+  }
+
+  const result = await Db.deletePublication(publicationId);
+  if (result === 0) throw new ApiError("Internal server error", 500);
+
+  res.status(200).json({ message: "publication deleted successfully" });
 });
