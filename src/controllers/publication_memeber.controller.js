@@ -3,7 +3,7 @@ import * as publicationDb from "../repository/publication.repository.js";
 import * as Db from "../repository/publication_members.repository.js";
 import ApiError from "../utils/apiError.js";
 
-//** Join && and cancel from a publication */
+//** Join to a publication */
 export const create = asyncHandler(async (req, res) => {
   const { publicationId } = req.params;
 
@@ -14,6 +14,7 @@ export const create = asyncHandler(async (req, res) => {
   //is publicatin memeber
   const memeber = await Db.isPublicationMemeber(publicationId, req.user.id);
   if (memeber) throw new ApiError("user already memeber of publication");
+
   const result = await Db.createPublicationMember({
     publication_id: publicationId,
     user_id: req.user.id,
