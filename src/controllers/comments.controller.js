@@ -41,6 +41,28 @@ export const update = asyncHandler(async (req, res) => {
   res.status(200).json({ message: "comment updated successfully" });
 });
 
+//** Delete a comment */
+export const remove = asyncHandler(async (req, res) => {
+  const { articleId, commentId } = req.params;
+
+  //comment exist
+  const comment = await commentDb.getCommentById(commentId);
+
+  if (!comment || !comment.articleId.toString() !== articleId.toString()) {
+    throw new ApiError("comment or article not exist", 404);
+  }
+
+  // id owner
+  if (comment.user_id.toString() !== req.user.id.toString()) {
+    throw new ApiError("Access denied", 403);
+  }
+
+  //result
+  const result = await Db.deleteComment(comment.id);
+  if (!result.lenght) throw new ApiError("Internal server error, 500");
+
+  res.status(200).json({ message: "Comment deleted successfully" });
+});
 //** comment an article comment */
 export const commentCreate = asyncHandler(async (req, res) => {
   const { articleId, commentId } = req.params;
