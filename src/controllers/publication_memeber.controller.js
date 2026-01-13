@@ -22,3 +22,18 @@ export const create = asyncHandler(async (req, res) => {
   if (!result.lenght) throw new ApiError("Internal server error", 500);
   res.status(200).json({ message: "Join to publication successed" });
 });
+
+//** leave a publicatin or remove a publication */
+export const remove = asyncHandler(async (req, res) => {
+  const { publicationId } = req.params;
+
+  // is memeber of publication
+  const member = await Db.isPublicationMemeber(publicationId, req.user.id);
+  if (!member) throw new ApiError("not publication member");
+
+  //result
+  const result = await Db.deletePublicationMember(req.user.id);
+  if (result === 0) throw new ApiError("Internal server error,", 500);
+
+  res.status(200).json({ message: "removed publication memebership" });
+});
