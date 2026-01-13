@@ -55,7 +55,7 @@ export const update = asyncHandler(async (req, res) => {
 });
 
 /**Delete a publication */
-export const deletePublication = asyncHandler(async (req, res) => {
+export const remove = asyncHandler(async (req, res) => {
   const { publicationId } = req.params;
 
   //publication exist
