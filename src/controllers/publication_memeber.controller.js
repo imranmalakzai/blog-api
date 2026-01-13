@@ -65,3 +65,10 @@ export const changeRole = asyncHandler(async (req, res) => {
 
   res.status(200).json({ message: "role changed successfully" });
 });
+
+//** All publication that I'm memeber of  */
+export const myPublications = asyncHandler(async (req, res) => {
+  const publictions = await Db.userPulications(req.user.id);
+
+  res.status(200).json({ publictions: publictions || [] });
+});
