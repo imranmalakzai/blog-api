@@ -167,3 +167,12 @@ export const commentUpdate = asyncHandler(async (req, res) => {
 
   res.status(200).json({ message: "comment updated successfully" });
 });
+
+//**Get a nested comment by Id */
+export const commentcomment = asyncHandler(async (req, res) => {
+  const { articleId, commentId, nestCommentId } = req.params;
+  const comment = await Db.nestedComment(nestCommentId, commentId, articleId);
+  if (!comment) throw new ApiError("Comment not exist", 404);
+
+  res.status(200).json({ comment });
+});
