@@ -18,3 +18,20 @@ export const create = asyncHandler(async (req, res) => {
 
   res.status(201).json({ message: "Tag created successfully" });
 });
+
+//**Update tag */
+export const update = asyncHandler(async (req, res) => {
+  const { slug } = await req.params;
+  const { name } = req.body;
+
+  //const tag exist
+  const tag = await Db.getTagBySlug(slug);
+  if (!tag) throw new ApiError("Tag not exist", 404);
+
+  const newSlug = slugify(name, { lower: true, strict: true, trim: true });
+  //result
+  const result = await Db.updateTag(tag.id, name, newSlug);
+  if (result === 0) throw new ApiError("Internal server error", 500);
+
+  res.status(200).json({ message: "Tag updated successfully" });
+});
