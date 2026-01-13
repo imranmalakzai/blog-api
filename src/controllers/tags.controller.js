@@ -49,3 +49,9 @@ export const remove = asyncHandler(async (req, res) => {
 
   res.status(200).json({ message: "tag deleted successfully" });
 });
+
+//**export const */
+export const tags = asyncHandler(async (req, res) => {
+  const tags = await Db.getAllTags();
+  res.status(200).json({ tags: tags || [] });
+});
