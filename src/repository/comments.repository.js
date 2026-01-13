@@ -30,7 +30,7 @@ export const deleteComment = async (commentId) => {
 //**Get  all comments of on article */
 export const articleComments = async (articleId) => {
   const [rows] = await pool.query(
-    "SELECT u.id as userId,u.avatar_url,u.username,c.content FROM comments c JOIN users u ON c.user_id = u.id WHERE c.article_id = ? WHERE is_deleted = '0' ",
+    "SELECT u.id as userId,u.avatar_url,u.username,c.content as comments FROM comments c JOIN users u ON c.user_id = u.id WHERE c.article_id = ? WHERE is_deleted = '0' ",
     [articleId]
   );
   return rows;
