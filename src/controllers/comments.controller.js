@@ -91,6 +91,9 @@ export const comment = asyncHandler(async (req, res) => {
 
   res.status(200).json({ comment });
 });
+
+//**Nested comments sections */
+
 //** comment an article comment */
 export const commentCreate = asyncHandler(async (req, res) => {
   const { articleId, commentId } = req.params;
@@ -112,4 +115,17 @@ export const commentCreate = asyncHandler(async (req, res) => {
   });
   if (!result.lenght) throw new ApiError("Internal server error", 500);
   res.status(201).json({ message: "comment added an a comment" });
+});
+
+//**get all nested comments of a comment */
+export const commentComments = asyncHandler(async (req, res) => {
+  const { articleId, commentId } = req.params;
+
+  const comment = await Db.getCommentById(commentId);
+  if (!comment || !comment.article_id.toString() !== articleId.toString())
+    throw new ApiError("comment or article not exist", 404);
+
+  //nested comment
+  const comments = await Db.nestedComments(commentId);
+  res.status(200).json({ comments: comments || [] });
 });
