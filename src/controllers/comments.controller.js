@@ -76,6 +76,21 @@ export const comments = asyncHandler(async (req, res) => {
 
   res.status(200).json({ comments });
 });
+
+//** Get a comment by  */
+export const comment = asyncHandler(async (req, res) => {
+  const { articleId } = req.params;
+  const { commentId } = req.params;
+
+  //comment exist
+  const comment = await Db.getCommentById(commentId);
+
+  if (!comment || !comment.article_id.toString() === articleId.toString()) {
+    throw new ApiError("Article or comment not exist", 404);
+  }
+
+  res.status(200).json({ comment });
+});
 //** comment an article comment */
 export const commentCreate = asyncHandler(async (req, res) => {
   const { articleId, commentId } = req.params;
