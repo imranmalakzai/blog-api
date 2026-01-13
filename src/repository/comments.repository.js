@@ -53,3 +53,12 @@ export const nestedComments = async (commentId) => {
   );
   return rows;
 };
+
+//** Get a nested comment */
+export const nestedComment = async (commentId, parentId, articleId) => {
+  const [rows] = await pool.query(
+    "SELECT * FROM comments WHERE id = ? parent_id = ?, AND article_id = ?",
+    [commentId, parentId, articleId]
+  );
+  return rows;
+};
