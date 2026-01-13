@@ -71,3 +71,9 @@ export const remove = asyncHandler(async (req, res) => {
 
   res.status(200).json({ message: "publication deleted successfully" });
 });
+
+//**Get all publications */
+export const publications = asyncHandler(async (req, res) => {
+  const publications = await Db.publications();
+  res.status(200).json({ publications: publications || [] });
+});
