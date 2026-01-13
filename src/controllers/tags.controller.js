@@ -50,8 +50,19 @@ export const remove = asyncHandler(async (req, res) => {
   res.status(200).json({ message: "tag deleted successfully" });
 });
 
-//**export const */
+//**Get all tags */
 export const tags = asyncHandler(async (req, res) => {
   const tags = await Db.getAllTags();
   res.status(200).json({ tags: tags || [] });
+});
+
+//** Get a tag by slug*/
+export const tag = asyncHandler(async (req, res) => {
+  const { slug } = req.params;
+
+  //tag exist
+  const tag = await Db.getTagBySlug(slug);
+  if (!tag) throw new ApiError("Tag not exist", 404);
+
+  res.status(200).json({ tag });
 });
