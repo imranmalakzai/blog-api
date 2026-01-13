@@ -35,3 +35,17 @@ export const update = asyncHandler(async (req, res) => {
 
   res.status(200).json({ message: "Tag updated successfully" });
 });
+
+//** delete a tag */
+export const remove = asyncHandler(async (req, res) => {
+  const { slug } = req.params;
+
+  const tag = await Db.getTagBySlug(slug);
+  if (!tag) throw new ApiError("Tag not exist", 404);
+
+  //result
+  const result = await Db.deleteATag(tag.id);
+  if (result === 0) throw new ApiError("Internal server error", 500);
+
+  res.status(200).json({ message: "tag deleted successfully" });
+});
