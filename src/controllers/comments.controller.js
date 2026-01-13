@@ -129,3 +129,20 @@ export const commentComments = asyncHandler(async (req, res) => {
   const comments = await Db.nestedComments(commentId);
   res.status(200).json({ comments: comments || [] });
 });
+
+//**Delete a nested comments (author) */
+export const commentRemove = asyncHandler(async (req, res) => {
+  const { articleId, commentId, nestCommentId } = req.params;
+
+  const comment = await Db.nestedComment(nestCommentId, commentId, articleId);
+  if (!comment) throw new ApiError("comment not exist", 404);
+
+  if (comment.user_id.toString() !== req.user.id.toString()) {
+    throw new ApiError("Access denied", 403);
+  }
+
+  const remove = await Db.deleteComment(nestCommentId);
+  if (remove === 0) throw new ApiError("Internal server error", 404);
+
+  res.status(200).json({ message: "comment delete successfully" });
+});
