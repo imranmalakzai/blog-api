@@ -77,3 +77,13 @@ export const publications = asyncHandler(async (req, res) => {
   const publications = await Db.publications();
   res.status(200).json({ publications: publications || [] });
 });
+
+//**Get publication by slug */
+export const publication = asyncHandler(async (req, res) => {
+  const { slug } = req.params;
+
+  const publication = await Db.publicationBySlug(slug);
+  if (!publication) throw new ApiError("publication not exist", 404);
+
+  res.status(200).json({ publication });
+});
