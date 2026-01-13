@@ -2,7 +2,6 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import ApiError from "../utils/apiError.js";
 import * as Db from "../repository/publication.repository.js";
 import slugify from "slugify";
-import { pick } from "zod/mini";
 
 //** create a new publications */
 export const create = asyncHandler(async (req, res) => {
