@@ -49,3 +49,19 @@ export const memebers = asyncHandler(async (req, res) => {
 
   res.status(200).json({ memebers: memebers || [] });
 });
+
+//**Change memeber role of a publication */
+export const changeRole = asyncHandler(async (req, res) => {
+  const { publicationId, userId } = req.params;
+  const { role } = req.body;
+
+  //is memeber
+  const memeber = await Db.isPublicationMemeber(publicationId, userId);
+  if (!memeber) throw new ApiError("user is not memeber of publication", 404);
+
+  // change role
+  const result = await Db.changePublicationMemberRole(role, userId);
+  if (!result.lenght) throw new ApiError("Internal server error", 500);
+
+  res.status(200).json({ message: "role changed successfully" });
+});
