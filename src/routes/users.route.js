@@ -1,60 +1,38 @@
 import express from "express";
 import { auth } from "../middleware/auth.middleware.js";
-import {
-  userFollowers,
-  myFollowers,
-  followUser,
-  unfollow,
-  meFollowing,
-  userFollowing,
-} from "../controllers/user_follower.controller.js";
-import {
-  register,
-  login,
-  username,
-  logout,
-  users,
-  me,
-  user,
-  changeRole,
-  deleteAccount,
-  changeAvatar,
-  changePassword,
-  updateProfile,
-  getUsersByRole,
-  refreshAccessToken,
-} from "../controllers/users.controller.js";
+import * as fl from "../controllers/user_follower.controller.js";
+import * as cr from "../controllers/users.controller.js";
 import { allowed } from "../helper/allowedRoles.js";
 
 //**define routed */
 const userRouter = express.Router();
 
 //auth endpoints
-userRouter.route("/auth/register").post(register);
-userRouter.route("/auth/login").post(login);
-userRouter.route("/auth/logout").post(logout);
-userRouter.route("/auth/refresh").post(refreshAccessToken);
+userRouter.route("/auth/register").post(cr.register);
+userRouter.route("/auth/login").post(cr.login);
+userRouter.route("/auth/logout").post(cr.logout);
+userRouter.route("/auth/refresh").post(cr.refreshAccessToken);
 
 userRouter.use(auth);
 
 //me
-userRouter.route("/users/me").get(me);
-userRouter.route("/users/me").delete(deleteAccount);
-userRouter.route("/users/me").patch(updateProfile);
-userRouter.route("/users/me/avatar").patch(changeAvatar);
-userRouter.route("/users/me/password").patch(changePassword);
-userRouter.route("/users/me/followers").get(myFollowers);
-userRouter.route("/users/me/following").get(meFollowing);
+userRouter.route("/users/me").get(cr.me);
+userRouter.route("/users/me").delete(cr.deleteAccount);
+userRouter.route("/users/me").patch(cr.updateProfile);
+userRouter.route("/users/me/avatar").patch(cr.changeAvatar);
+userRouter.route("/users/me/password").patch(cr.changePassword);
+userRouter.route("/users/me/followers").get(fl.myFollowers);
+userRouter.route("/users/me/following").get(fl.meFollowing);
 
 // users endpoints
-userRouter.route("/users").get(users);
-userRouter.route("/users/:userId").get(user);
-userRouter.route("/users/@:username").get(username);
-userRouter.route("/users/@:username/follow").post(followUser);
-userRouter.route("/users/@:username/follow").delete(unfollow);
-userRouter.route("/users/@:username/followers").get(userFollowers);
-userRouter.route("/users/@:username/following").get(userFollowing);
+userRouter.route("/users").get(cr.users);
+userRouter.route("/users/:userId").get(cr.user);
+userRouter.route("/users/@:username").get(cr.username);
+userRouter.route("/users/@:username/follow").post(fl.followUser);
+userRouter.route("/users/@:username/follow").delete(fl.unfollow);
+userRouter.route("/users/@:username/followers").get(fl.userFollowers);
+userRouter.route("/users/@:username/following").get(fl.userFollowing);
 
 //admin only
-userRouter.route("/users/:userId/role").patch(allowed("admin"), changeRole);
-userRouter.route("/users/role").get(allowed("admin"), getUsersByRole); // role ? user | editor | admin
+userRouter.route("/users/:userId/role").patch(allowed("admin"), cr.changeRole);
+userRouter.route("/users/role").get(allowed("admin"), cr.getUsersByRole); // role ? user | editor | admin
