@@ -2,6 +2,7 @@ import slugify from "slugify";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { publicationById } from "../repository/publication.repository.js";
 import { isPublicationMemeber } from "../repository/publication_members.repository.js";
+import * as viewDb from "../repository/article_views.repository.js";
 import {
   getArticleById,
   getMyArticles,
@@ -177,6 +178,15 @@ export const publicationArticle = asyncHandler(async (req, res) => {
   const { publicationId, articleId } = req.body;
   const article = await getAPublicationArticleById(publicationId, articleId);
   if (!article) throw new ApiError("article not exist", 404);
+
+  // add views
+  const viewed = await viewDb.viewedArticle(article, req.user.id);
+  if (!viewed)
+    await viewDb.create({
+      article_id: article,
+      user_id: req.user.id,
+      ip_address: req.ip,
+    });
 
   res.status(200).json({ article });
 });
