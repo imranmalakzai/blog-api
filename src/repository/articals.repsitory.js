@@ -43,7 +43,9 @@ export const getPublicArticles = async () => {
      FROM articles
      WHERE status = 'published'
        AND visibility = 'public'
-       AND deleted_at IS NULL`
+       AND deleted_at IS NULL
+       AND publication_id IS NULL
+       `
   );
 
   return rows;
