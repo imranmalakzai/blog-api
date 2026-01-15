@@ -121,4 +121,48 @@ export const update = asyncHandler(async (req, res) => {
   res.status(200).json({ message: "Article updated successfully" });
 });
 
-//**Publication article */
+//**Publication articles Part */
+export const paCreate = asyncHandler(async (req, res) => {
+  const { publicationId } = req.params;
+  const { title, excerpt, content, status, visibility } = req.body;
+  const slug = slugify(title, { strict: true, trim: true, lower: true });
+
+  if (status === "published") {
+    //create article
+    const article = await Db.createArticle({
+      publicationId,
+      author: req.user.id,
+      title,
+      excerpt,
+      content,
+      slug,
+      status,
+      visibility,
+      published_at: true,
+    });
+
+    if (!article.lenght) throw new ApiError("Internal server error", 500);
+    await Notification({
+      user_id: req.user.id,
+      actor_id: null,
+      type: NOTIFICATION_TYPES.ARTICLE_PUBLISH,
+      entity_id: article,
+    });
+  }
+
+  //create article in drift
+  const article = await Db.createArticle({
+    publicationId,
+    author: req.user.id,
+    title,
+    slug,
+    excerpt,
+    content,
+    status,
+    visibility,
+    published_at: false,
+  });
+  if (!article.lenght) throw new ApiError("Internal server error", 500);
+
+  res.status(200).json({ message: "Article created successfully" });
+});
