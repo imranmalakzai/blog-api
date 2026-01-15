@@ -167,7 +167,7 @@ export const paCreate = asyncHandler(async (req, res) => {
       excerpt,
       content,
       slug,
-      status: "archived",
+      status: "review",
       visibility,
       published_at: true,
     });
@@ -195,10 +195,10 @@ export const paCreate = asyncHandler(async (req, res) => {
 
 //**publicationa article delete */
 export const paRemove = asyncHandler(async (req, res) => {
-  const { publicationId, articleId } = req.params;
+  const { articleSlug } = req.params;
 
   //article exist
-  const article = await Db.getAPublicationArticleById(publicationId, articleId);
+  const article = await Db.getArticleBySlug(articleSlug);
   if (!article) throw new ApiError("Article not exist", 404);
 
   const owner = (await article.author_id.toString()) === req.user.id.toString();
