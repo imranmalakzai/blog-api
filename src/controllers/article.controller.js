@@ -166,3 +166,12 @@ export const paCreate = asyncHandler(async (req, res) => {
 
   res.status(200).json({ message: "Article created successfully" });
 });
+
+//**publicationa article delete */
+export const paRemove = asyncHandler(async (req, res) => {
+  const { publicationId, articleId } = req.params;
+
+  //article exist
+  const article = await Db.getAPublicationArticleById(publicationId, articleId);
+  if (!article) throw new ApiError("Article not exist", 404);
+});
