@@ -22,13 +22,15 @@ export const createArticle = async (data) => {
 };
 
 /**Soft delete article*/
-export const deleteArticle = async (articleId) => {
+export const deleteArticle = async (articleId, authorId) => {
   const [result] = await pool.query(
     `UPDATE articles
      SET deleted_at = NOW()
      WHERE id = ?
-       AND deleted_at IS NULL`,
-    [articleId]
+       AND deleted_at IS NULL
+       AND author_id = ?
+       `,
+    [articleId, authorId]
   );
 
   return result.affectedRows;
