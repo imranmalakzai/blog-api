@@ -155,14 +155,13 @@ export const userArticle = async (req, res) => {
 
 //**Publication articles Part */
 export const paCreate = asyncHandler(async (req, res) => {
-  const { publicationId } = req.params;
   const { title, excerpt, content, status, visibility } = req.body;
   const slug = slugify(title, { strict: true, trim: true, lower: true });
 
   if (status === "published") {
     //create article
     const article = await Db.createArticle({
-      publicationId,
+      publicationId: req.publication.id,
       author: req.user.id,
       title,
       excerpt,
@@ -179,7 +178,7 @@ export const paCreate = asyncHandler(async (req, res) => {
 
   //create article in drift
   const article = await Db.createArticle({
-    publicationId,
+    publicationId: req.publication.id,
     author: req.user.id,
     title,
     slug,
