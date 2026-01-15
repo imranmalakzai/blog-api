@@ -4,11 +4,10 @@ import { pool } from "../config/db.config.js";
 export const createArticle = async (data) => {
   const [result] = await pool.query(
     `INSERT INTO articles 
-     (author_id, publication_id, title, slug, excerpt, content, status, visibility, published_at)
+     (author_id, title, slug, excerpt, content, status, visibility, published_at)
      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
     [
       data.author_id,
-      data.publication_id || null,
       data.title,
       data.slug,
       data.excerpt,
