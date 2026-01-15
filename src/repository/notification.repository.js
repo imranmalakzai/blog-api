@@ -44,3 +44,12 @@ export const remove = async (notificationId, userId) => {
   );
   return result.affectedRows;
 };
+
+//** delete all notifications */
+export const removeAll = async (userId) => {
+  const result = await pool.query(
+    "DELETE * FRON notifications WHERE user_id = ?",
+    [userId]
+  );
+  return result.affectedRows;
+};
