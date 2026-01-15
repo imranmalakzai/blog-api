@@ -21,7 +21,7 @@ export const notifications = async (userId) => {
 //** Mark notification as read on notification */
 export const readNotification = async (notificationId, userId) => {
   const result = await pool.query(
-    `UPDATE notifications SET is_read = 'true' WHERE id = ? AND user_id = ?`,
+    `UPDATE notifications SET is_read = true WHERE id = ? AND user_id = ?`,
     [notificationId, userId]
   );
   return result.affectedRows;
