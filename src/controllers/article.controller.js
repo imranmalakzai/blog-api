@@ -135,6 +135,24 @@ export const userArticles = async (req, res) => {
   res.status(200).json({ articles });
 };
 
+//**user article by Id */
+export const userArticle = async (req, res) => {
+  const { username } = req.params;
+  const { articleId } = req.params;
+
+  //user exist
+  const user = await userDb.getUserByUsername(username);
+  if (!user) throw new ApiError("user not exist", 404);
+
+  const article = await Db.getArticleById(articleId);
+  if (!article) throw new ApiError("article not exist", 404);
+
+  const owner = (await article.author_id.toString()) === user.id.toString();
+  if (!owner) throw new ApiError("Access Denied", 403);
+
+  res.status(200).json({ article });
+};
+
 //**Publication articles Part */
 export const paCreate = asyncHandler(async (req, res) => {
   const { publicationId } = req.params;
