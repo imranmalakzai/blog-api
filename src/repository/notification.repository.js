@@ -26,3 +26,12 @@ export const readNotification = async (notificationId, userId) => {
   );
   return result.affectedRows;
 };
+
+//** Mark all notifications as read */
+export const readNotifications = async (userId) => {
+  const result = await pool.query(
+    `UPDATE notifications SET is_read = true AND user_id = ?`,
+    [userId]
+  );
+  return result.affectedRows;
+};
