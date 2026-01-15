@@ -1,6 +1,8 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
 import ApiError from "../utils/apiError.js";
 import { getUserByUsername } from "../repository/users.repository.js";
+import * as Notification from "../repository/notification.repository.js";
+import { NOTIFICATION_TYPES } from "../constant/notification.js";
 import {
   follow,
   isFollowing,
@@ -27,7 +29,14 @@ export const followUser = asyncHandler(async (req, res) => {
   const result = await follow(req.user.id, user.id);
   if (!result) throw new ApiError("Internal server error", 500);
 
-  res.status(200).json({ message: "following" });
+  await Notification.create({
+    user_id: user.id,
+    actor_id: req.user.id,
+    type: NOTIFICATION_TYPES.FOLLOW,
+    entity_id: following.id,
+  });
+
+  res.status(200).json({ message: "You start following" });
 });
 
 //** Un follow a user */
