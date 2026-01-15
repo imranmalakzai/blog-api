@@ -137,18 +137,13 @@ export const paCreate = asyncHandler(async (req, res) => {
       excerpt,
       content,
       slug,
-      status,
+      status: "archived",
       visibility,
       published_at: true,
     });
 
     if (!article.lenght) throw new ApiError("Internal server error", 500);
-    await Notification({
-      user_id: req.user.id,
-      actor_id: null,
-      type: NOTIFICATION_TYPES.ARTICLE_PUBLISH,
-      entity_id: article,
-    });
+    res.status(200).json({ message: "Article created successfully" });
   }
 
   //create article in drift
