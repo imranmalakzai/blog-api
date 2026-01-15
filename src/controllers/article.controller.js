@@ -219,3 +219,9 @@ export const paArticle = asyncHandler(async (req, res) => {
 
   res.status(200).json({ article });
 });
+
+//** My articles */
+export const myArticles = asyncHandler(async (req, res) => {
+  const myArticle = await Db.myArticles(req.user.id);
+  res.status(200).json({ myArticle });
+});
