@@ -35,3 +35,12 @@ export const readNotifications = async (userId) => {
   );
   return result.affectedRows;
 };
+
+//** delete a notification */
+export const remove = async (notificationId, userId) => {
+  const result = await pool.query(
+    "DELETE FROM notifications WHERE notification_id = ? AND user_id = ?",
+    [notificationId, userId]
+  );
+  return result.affectedRows;
+};
