@@ -84,3 +84,30 @@ export const article = asyncHandler(async (req, res) => {
 
   res.status(200).json({ article });
 });
+
+//** Update an article */
+export const update = asyncHandler(async (req, res) => {
+  const { articleId } = req.params;
+  const { title, excerpt, content } = req.body;
+  const slug = slugify(title, { lower: true, trim: true, strict: true });
+
+  //article exist
+  const article = await Db.getArticleById(articleId);
+  if (!article) throw new ApiError("article not exist", 404);
+
+  //is owner
+  const owner = req.user.id.toString() === article.author_id.toString();
+  if (!owner) throw new ApiError("Access denied", 403);
+
+  // result
+  const result = await Db.update({
+    author_id: req.user.id,
+    content,
+    title,
+    excerpt,
+    slug,
+    articleId,
+  });
+  if (result === 0) throw new ApiError("Internal server error", 500);
+  res.status(200).json({ message: "Article updated successfully" });
+});
