@@ -214,14 +214,8 @@ export const paRemove = asyncHandler(async (req, res) => {
 
 //**Get all article of publication */
 export const paArticles = asyncHandler(async (req, res) => {
-  const { publicationId } = req.params;
-
-  //publication exist
-  const publication = await publicationDb.publicationById(publicationId);
-  if (!publication) throw new ApiError("publication not eixst", 404);
-
   //articles
-  const articles = await Db.getPublicationArticles(publicationId);
+  const articles = await Db.getPublicationArticles(req.publication.id);
 
   res.status(200).json({ article: articles || [] });
 });
