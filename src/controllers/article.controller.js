@@ -6,6 +6,8 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import ApiError from "../utils/apiError.js";
 
 //** Person Articles crud */
+
+//** Create new article */
 export const create = asyncHandler(async (req, res) => {
   const { title, excerpt, content, status, visibility } = req.body;
   const slug = slugify(title, { strict: true, trim: true, lower: true });
@@ -46,4 +48,22 @@ export const create = asyncHandler(async (req, res) => {
   if (!article.lenght) throw new ApiError("Internal server error", 500);
 
   res.status(200).json({ message: "Article created successfully" });
+});
+
+//** delete article */
+export const article = asyncHandler(async (req, res) => {
+  const { articleId } = req.params;
+
+  const article = await Db.getArticleById(articleId);
+  if (!article) throw new ApiError("Article not exist", 404);
+
+  //is owner of the article
+  if (article.author_id.toString() !== req.user.id.toString()) {
+    throw new ApiError("Access Denied", 403);
+  }
+
+  const result = await Db.deleteArticle(article.id, req.user.id);
+  if (result === 0) throw new ApiError("Internal server error", 500);
+
+  res.status(200).json({ message: "Article deleted successfully" });
 });
