@@ -91,6 +91,22 @@ export const getArchivedArticles = async (authorId) => {
   return rows;
 };
 
+//** update an article */
+export const update = async (data) => {
+  const result = await pool.query(
+    "UPDATE articles SET content = ? , title = ? , excerpt = ? slug = ? WHERE id ? AND author_id = ?",
+    [
+      data.content,
+      data.title,
+      data.excerpt,
+      data.slug,
+      data.articleId,
+      data.authorId,
+    ]
+  );
+  return result.affectedRows;
+};
+
 /** Publish article */
 export const publishArticle = async (articleId) => {
   const [result] = await pool.query(
