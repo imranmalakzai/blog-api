@@ -201,7 +201,8 @@ export const paRemove = asyncHandler(async (req, res) => {
   const article = await Db.getArticleBySlug(articleSlug);
   if (!article) throw new ApiError("Article not exist", 404);
 
-  const owner = (await article.author_id.toString()) === req.user.id.toString();
+  const owner = article.author_id.toString() === req.user.id.toString();
+
   if (!owner) throw new ApiError("Access Denied", 403);
 
   //result
