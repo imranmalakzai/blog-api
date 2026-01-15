@@ -3,6 +3,7 @@ import { NOTIFICATION_TYPES } from "../constant/notification.js";
 import * as Notification from "../repository/notification.repository.js";
 import * as Db from "../repository/articals.repsitory.js";
 import * as view from "../repository/article_views.repository.js";
+import * as publicationDb from "../repository/publication.repository.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import ApiError from "../utils/apiError.js";
 
@@ -183,4 +184,18 @@ export const paRemove = asyncHandler(async (req, res) => {
   if (result === 0) throw new ApiError("internal server error", 500);
 
   res.status(200).json({ message: "Article deleted successfully" });
+});
+
+//**Get all article of publication */
+export const paArticles = asyncHandler(async (req, res) => {
+  const { publicationId } = req.params;
+
+  //publication exist
+  const publication = await publicationDb.publicationById(publicationId);
+  if (!publication) throw new ApiError("publication not eixst", 404);
+
+  //articles
+  const articles = await Db.getPublicationArticles(publicationId);
+
+  res.status(200).json({ article: articles || [] });
 });
