@@ -20,7 +20,8 @@ export const articleViews = async (articleId) => {
 //**Get an article view */
 export const viewedArticle = async (articleId, userId) => {
   const [rows] = await pool.query(
-    "SELECT id from article_views WHERE article_id = ? and user_id = ? AND created_at = NOW() - INTERVAL 24 HOURS"
+    "SELECT id from article_views WHERE article_id = ? and user_id = ? AND created_at = NOW() - INTERVAL 24 HOURS",
+    [articleId, userId]
   );
   return rows[0];
 };

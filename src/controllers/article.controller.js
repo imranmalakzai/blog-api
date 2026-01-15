@@ -2,6 +2,7 @@ import slugify from "slugify";
 import { NOTIFICATION_TYPES } from "../constant/notification.js";
 import * as Notification from "../repository/notification.repository.js";
 import * as Db from "../repository/articals.repsitory.js";
+import * as view from "../repository/article_views.repository.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import ApiError from "../utils/apiError.js";
 
@@ -82,6 +83,14 @@ export const article = asyncHandler(async (req, res) => {
   const article = await Db.article(articleId);
   if (!article.lenght) throw new ApiError("Internal server error", 500);
 
+  const result = await view.viewedArticle(articleId, req.user.id);
+  if (!result)
+    await view.create({
+      ip_address: req.ip,
+      user_id: req.user.id,
+      article_id: articleId,
+    });
+
   res.status(200).json({ article });
 });
 
@@ -111,3 +120,5 @@ export const update = asyncHandler(async (req, res) => {
   if (result === 0) throw new ApiError("Internal server error", 500);
   res.status(200).json({ message: "Article updated successfully" });
 });
+
+//**Publication article */
