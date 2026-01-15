@@ -4,7 +4,6 @@ import * as Notification from "../repository/notification.repository.js";
 import * as Db from "../repository/articals.repsitory.js";
 import * as view from "../repository/article_views.repository.js";
 import * as userDb from "../repository/users.repository.js";
-import * as publicationDb from "../repository/publication.repository.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import ApiError from "../utils/apiError.js";
 
