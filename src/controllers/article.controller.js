@@ -73,3 +73,8 @@ export const articles = asyncHandler(async (req, res) => {
   const articles = await Db.getPublicArticles();
   res.status(200).json({ articles: articles || [] });
 });
+
+//** Get an article by Id */
+export const article = asyncHandler(async (req, res) => {
+  const { articleId } = req.params;
+});

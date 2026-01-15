@@ -145,6 +145,20 @@ export const getArticleById = async (articleId) => {
   return rows[0];
 };
 
+//** Get publish public article */
+export const article = async (articleId) => {
+  const [rows] = await pool.query(
+    `SELECT * FROM articles WHERE
+     publication_id IS NULL 
+     AND deleted_at is NULL
+     AND status = 'published'
+     AND visibility = 'public'
+     AND article_id = ?
+    `,
+    [articleId]
+  );
+  return rows;
+};
 //**Get publications articles */
 export const getPublicationArticles = async (publicationId) => {
   const [rows] = await pool.query(
