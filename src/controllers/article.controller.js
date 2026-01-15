@@ -222,18 +222,18 @@ export const paArticles = asyncHandler(async (req, res) => {
 
 //** publication article by Id */
 export const paArticle = asyncHandler(async (req, res) => {
-  const { articleId } = req.params;
+  const { articleSlug } = req.params;
 
   //const article exist
-  const article = await Db.getAPublicationArticleById(req.publication.id);
+  const article = await Db.getArticleBySlug(articleSlug);
   if (!article.lenght) throw new ApiError("Internal server error", 500);
 
-  const result = await view.viewedArticle(articleId, req.user.id);
+  const result = await view.viewedArticle(article.id, req.user.id);
   if (!result)
     await view.create({
       ip_address: req.ip,
       user_id: req.user.id,
-      article_id: articleId,
+      article_id: article.id,
     });
 
   res.status(200).json({ article });
