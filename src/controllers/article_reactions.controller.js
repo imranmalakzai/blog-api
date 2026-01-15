@@ -3,11 +3,17 @@ import ApiError from "../utils/apiError.js";
 import * as reactionDb from "../repository/reactions.repository.js";
 import * as articleDb from "../repository/articals.repsitory.js";
 import * as db from "../repository/article_rection.repository.js";
+import * as Notification from "../repository/notification.repository.js";
+import { NOTIFICATION_TYPES } from "../constant/notification.js";
 
 //** like an article */
 export const create = asyncHandler(async (req, res) => {
   const { articleId } = req.params;
   const { reactionId } = req.body;
+
+  //article exist
+  const article = await articleDb.getArticleById(articleId);
+  if (!article) throw new ApiError("article not exist", 404);
 
   // reaction exist
   const reaction = await reactionDb.reaction(reactionId);
@@ -20,7 +26,7 @@ export const create = asyncHandler(async (req, res) => {
   if (isExist && isExist.reaction_id.toString() === reaction.id.toString()) {
     const remove = await db.remove(req.user.id, reaction.id);
     if (remove === 0) throw new ApiError("Internal server error", 500);
-    res.status(200).json({ message: "Reaction removed successfully" });
+    await res.status(200).json({ message: "Reaction removed successfully" });
   }
 
   //check if the reaction is defferent
@@ -38,6 +44,13 @@ export const create = asyncHandler(async (req, res) => {
   });
 
   if (!result) throw new ApiError("Internal server error", 500);
+  await Notification.create({
+    user_id: article.author_id,
+    actor_id: req.user.id,
+    type: NOTIFICATION_TYPES.ARTICLE_LIKE,
+    entiry_id: article.id,
+  });
+
   res.status(200).json({ message: "Reaction added" });
 });
 
