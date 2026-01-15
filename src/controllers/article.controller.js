@@ -51,7 +51,7 @@ export const create = asyncHandler(async (req, res) => {
 });
 
 //** delete article */
-export const article = asyncHandler(async (req, res) => {
+export const remove = asyncHandler(async (req, res) => {
   const { articleId } = req.params;
 
   const article = await Db.getArticleById(articleId);
