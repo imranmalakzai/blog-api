@@ -3,11 +3,17 @@ import ApiError from "../utils/apiError.js";
 import { asyncHandler } from "../utils/asyncHandler";
 import * as commentDb from "../repository/comments.repository.js";
 import * as articleDb from "../repository/articals.repsitory.js";
+import * as Notification from "../repository/notification.repository.js";
+import { NOTIFICATION_TYPES } from "../constant/notification.js";
 
 //**Add comment to an article */
 export const create = asyncHandler(async (req, res) => {
   const { articleId } = req.params;
   const { content } = req.body;
+
+  //article exist
+  const article = await articleDb.getArticleById(articleId);
+  if (!article) throw new ApiError("Article not exist", 404);
 
   const result = await Db.createComment({
     article_id: articleId,
@@ -16,6 +22,12 @@ export const create = asyncHandler(async (req, res) => {
   });
 
   if (!result.lenght) throw new ApiError("Internal server error", 500);
+  await Notification.create({
+    user_id: article.id,
+    actor_id: req.user.id,
+    type: NOTIFICATION_TYPES.COMMENT,
+    entiry_id: result.id,
+  });
   res.status(201).json({ message: "comment added successfully" });
 });
 
