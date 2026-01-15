@@ -67,3 +67,9 @@ export const remove = asyncHandler(async (req, res) => {
 
   res.status(200).json({ message: "Article deleted successfully" });
 });
+
+//**Get all public published articles */
+export const articles = asyncHandler(async (req, res) => {
+  const articles = await Db.getPublicArticles();
+  res.status(200).json({ articles: articles || [] });
+});
