@@ -98,12 +98,12 @@ export const article = asyncHandler(async (req, res) => {
 
 //** Update an article */
 export const update = asyncHandler(async (req, res) => {
-  const { articleId } = req.params;
+  const { articleSlug } = req.params;
   const { title, excerpt, content } = req.body;
   const slug = slugify(title, { lower: true, trim: true, strict: true });
 
   //article exist
-  const article = await Db.getArticleById(articleId);
+  const article = await Db.getArticleBySlug(articleSlug);
   if (!article) throw new ApiError("article not exist", 404);
 
   //is owner
@@ -117,7 +117,7 @@ export const update = asyncHandler(async (req, res) => {
     title,
     excerpt,
     slug,
-    articleId,
+    articleId: article.id,
   });
   if (result === 0) throw new ApiError("Internal server error", 500);
   res.status(200).json({ message: "Article updated successfully" });
