@@ -152,7 +152,6 @@ export const article = async (articleId) => {
      publication_id IS NULL 
      AND deleted_at is NULL
      AND status = 'published'
-     AND visibility = 'public'
      AND article_id = ?
     `,
     [articleId]
