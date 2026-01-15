@@ -3,6 +3,7 @@ import { NOTIFICATION_TYPES } from "../constant/notification.js";
 import * as Notification from "../repository/notification.repository.js";
 import * as Db from "../repository/articals.repsitory.js";
 import * as view from "../repository/article_views.repository.js";
+import * as userDb from "../repository/users.repository.js";
 import * as publicationDb from "../repository/publication.repository.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import ApiError from "../utils/apiError.js";
@@ -121,6 +122,18 @@ export const update = asyncHandler(async (req, res) => {
   if (result === 0) throw new ApiError("Internal server error", 500);
   res.status(200).json({ message: "Article updated successfully" });
 });
+
+//** user articles */
+export const userArticles = async (req, res) => {
+  const { username } = req.params;
+
+  //user exist
+  const user = await userDb.getUserByUsername(username);
+  if (!user) throw new ApiError("user not exist", 404);
+
+  const articles = await Db.myArticles(user.id);
+  res.status(200).json({ articles });
+};
 
 //**Publication articles Part */
 export const paCreate = asyncHandler(async (req, res) => {
