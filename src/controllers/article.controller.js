@@ -77,4 +77,8 @@ export const articles = asyncHandler(async (req, res) => {
 //** Get an article by Id */
 export const article = asyncHandler(async (req, res) => {
   const { articleId } = req.params;
+
+  //const article exist
+  const article = await Db.article(articleId);
+  if (!article.lenght) throw new ApiError("Internal server error", 500);
 });
