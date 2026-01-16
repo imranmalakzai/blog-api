@@ -209,3 +209,12 @@ export const myArticles = async (userId) => {
   );
   return rows;
 };
+
+//**Get under reviewd articles */
+export const articleUnderReivew = async (publicatinId) => {
+  const [rows] = await pool.query(
+    "SELECT * FROM articles WHERE status = 'review' AND deleted_at is NULL AND publication_id = ?",
+    [publicatinId]
+  );
+  return rows;
+};
