@@ -269,3 +269,12 @@ export const paPublish = asyncHandler(async (req, res) => {
 
   res.status(200).json({ message: "published article successfully" });
 });
+
+//** Reject under review article */
+export const PaReject = asyncHandler(async (req, res) => {
+  const { articleSlug } = req.params;
+  const article = await Db.getArticleBySlug(articleSlug);
+  if (!article || !article.status === "review") {
+    throw new ApiError("article not exist or not under reivew", 403);
+  }
+});
