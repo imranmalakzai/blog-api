@@ -8,11 +8,11 @@ import { NOTIFICATION_TYPES } from "../constant/notification.js";
 
 //** like an article */
 export const create = asyncHandler(async (req, res) => {
-  const { articleId } = req.params;
+  const { articleSlug } = req.params;
   const { reactionId } = req.body;
 
   //article exist
-  const article = await articleDb.getArticleById(articleId);
+  const article = await articleDb.getArticleBySlug(articleSlug);
   if (!article) throw new ApiError("article not exist", 404);
 
   // reaction exist
@@ -20,7 +20,7 @@ export const create = asyncHandler(async (req, res) => {
   if (!reaction) throw new ApiError("Invalid reaction", 404);
 
   //check reaction exist
-  const isExist = await db.userReacion(req.user.id, articleId);
+  const isExist = await db.userReacion(req.user.id, article.id);
 
   //check user reacted again ? the same then remove the reaction
   if (isExist && isExist.reaction_id.toString() === reaction.id.toString()) {
@@ -39,7 +39,7 @@ export const create = asyncHandler(async (req, res) => {
   //no react yest ?
   const result = await db.createLikeArticle({
     user_id: req.user.id,
-    article_id: articleId,
+    article_id: article.id,
     reaction_id: reactionId,
   });
 
