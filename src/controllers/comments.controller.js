@@ -79,12 +79,12 @@ export const remove = asyncHandler(async (req, res) => {
 
 //**Get all comment of on article */
 export const comments = asyncHandler(async (req, res) => {
-  const { articleId } = req.params;
+  const { articleSlug } = req.params;
 
-  const article = await articleDb.getArticleById(articleId);
+  const article = await articleDb.getArticleBySlug(articleSlug);
   if (!article) throw new ApiError("article not exist", 404);
 
-  const comments = await Db.articleComments(articleId);
+  const comments = await Db.articleComments(article.id);
 
   res.status(200).json({ comments });
 });
