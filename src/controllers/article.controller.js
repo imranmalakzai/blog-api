@@ -194,18 +194,7 @@ export const paCreate = asyncHandler(async (req, res) => {
 
 //**publicationa article delete */
 export const paRemove = asyncHandler(async (req, res) => {
-  const { articleSlug } = req.params;
-
-  //article exist
-  const article = await Db.getArticleBySlug(articleSlug);
-  if (!article) throw new ApiError("Article not exist", 404);
-
-  const owner = article.author_id.toString() === req.user.id.toString();
-
-  if (!owner) throw new ApiError("Access Denied", 403);
-
-  //result
-  const result = await Db.deleteArticle(article.id);
+  const result = await Db.deleteArticle(req.article.id);
   if (result === 0) throw new ApiError("internal server error", 500);
 
   res.status(200).json({ message: "Article deleted successfully" });
