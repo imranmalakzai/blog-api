@@ -9,7 +9,7 @@ export const requireArticleOwnerIfWriter = async (req, res, next) => {
 
     const { articleSlug } = req.params;
 
-    const article = await articles.getArticleBySlug();
+    const article = await articles.getArticleBySlug(articleSlug);
 
     if (!article) {
       return res.status(404).json({ message: "Article not found" });
