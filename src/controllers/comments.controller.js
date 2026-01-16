@@ -8,15 +8,15 @@ import { NOTIFICATION_TYPES } from "../constant/notification.js";
 
 //**Add comment to an article */
 export const create = asyncHandler(async (req, res) => {
-  const { articleId } = req.params;
+  const { articleSlug } = req.params;
   const { content } = req.body;
 
   //article exist
-  const article = await articleDb.getArticleById(articleId);
+  const article = await articleDb.getArticleBySlug(articleSlug);
   if (!article) throw new ApiError("Article not exist", 404);
 
   const result = await Db.createComment({
-    article_id: articleId,
+    article_id: article.id,
     user_id: req.user.id,
     content,
   });
