@@ -218,3 +218,12 @@ export const articleUnderReivew = async (publicatinId) => {
   );
   return rows;
 };
+
+//** publication publish article under Reviewed */
+export const publishReviewdArticle = async (publicationId, articleId) => {
+  const result = await pool.query(
+    "UPDATE articles SET status = 'published' WHERE publication_id = ? and id = ? ",
+    [publicationId, articleId]
+  );
+  result.affectedRows;
+};
