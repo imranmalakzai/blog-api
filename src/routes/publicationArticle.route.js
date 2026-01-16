@@ -67,10 +67,21 @@ publicationArtileRouter
 
 // Publish article or approve article
 publicationArtileRouter
-  .route("publications/:publicationId/articles/:articleSlug/publish")
+  .route("/publications/:publicationId/articles/:articleSlug/aprove")
   .patch(
     loadPublication,
     publicationMember,
     validMemeber("owner", "editor"),
     publicationArticles.paPublish
+  );
+
+// Reject an article
+publicationArtileRouter
+  .route("publications/:publicationId/articles/:articleSlug/reject")
+  .patch(
+    loadPublication,
+    publicationMember,
+    validMemeber("editor", "owner", "writer"),
+    requireArticleOwnerIfWriter,
+    publicationArticles.PaReject
   );
