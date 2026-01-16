@@ -227,3 +227,11 @@ export const publishReviewdArticle = async (publicationId, articleId) => {
   );
   result.affectedRows;
 };
+
+//** publication reject under reviewd article */
+export const rejectUnderReviewdArticle = async (publicationId, articleId) => {
+  const result = await pool.query(
+    "UPDATE articles SET status = 'rejected' WHERE publication_id = ? AND article_id = ? AND deleted_at IS NULL"
+  );
+  return result.affectedRows;
+};
