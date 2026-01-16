@@ -33,13 +33,17 @@ export const create = asyncHandler(async (req, res) => {
 
 //** Update a comment */
 export const update = asyncHandler(async (req, res) => {
-  const { articleId, commentId } = req.params;
+  const { articleSlug, commentId } = req.params;
   const { content } = req.body;
+
+  // article exist
+  const article = await articleDb.getArticleBySlug(articleSlug);
+  if (!article) throw new ApiError("article not exist", 404);
 
   //comment exist
   const comment = await commentDb.getCommentById(commentId);
 
-  if (!comment || !comment.articleId.toString() !== articleId.toString()) {
+  if (!comment || !comment.articleId.toString() !== article.id.toString()) {
     throw new ApiError("comment or article not exist", 404);
   }
 
