@@ -250,3 +250,9 @@ export const myArticles = asyncHandler(async (req, res) => {
   const myArticle = await Db.myArticles(req.user.id);
   res.status(200).json({ myArticle });
 });
+
+//** Reivewd article */
+export const paReview = asyncHandler(async (req, res) => {
+  const articles = await Db.articleUnderReivew(req.publication.id);
+  res.status(200).json({ articles: articles || [] });
+});
