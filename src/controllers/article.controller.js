@@ -277,4 +277,11 @@ export const PaReject = asyncHandler(async (req, res) => {
   if (!article || !article.status === "review") {
     throw new ApiError("article not exist or not under reivew", 403);
   }
+  //result
+  const result = await Db.rejectUnderReviewdArticle(
+    req.publication.id,
+    article.id
+  );
+  if (result === 0) throw new ApiError("Internal server error", 500);
+  res.status(200).json({ message: "Article rejected" });
 });
