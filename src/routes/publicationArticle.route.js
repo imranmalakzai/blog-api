@@ -54,3 +54,23 @@ publicationArtileRouter
     requireArticleOwnerIfWriter,
     publicationArticles.paUpdate
   );
+
+// under review articles
+publicationArtileRouter
+  .route("/publications/:publicationId/articles/review")
+  .get(
+    loadPublication,
+    publicationMember,
+    validMemeber("owner", "editor"),
+    publicationArticles.paReview
+  );
+
+// Publish article or approve article
+publicationArtileRouter
+  .route("publications/:publicationId/articles/:articleSlug/publish")
+  .patch(
+    loadPublication,
+    publicationMember,
+    validMemeber("owner", "editor"),
+    publicationArticles.paPublish
+  );
