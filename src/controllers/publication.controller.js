@@ -6,19 +6,19 @@ import slugify from "slugify";
 //** create a new publications */
 export const create = asyncHandler(async (req, res) => {
   const { name, description } = req.body;
+  const slug = slugify(slug, { lower: true, trim: true, strict: true });
 
   //check for dublication slug
   const publication = await Db.publicationBySlug(slug);
   if (publication) throw new ApiError("publication name is taken", 403);
 
   //add slug
-  const newSlug = slugify(slug, { lower: true, trim: true, strict: true });
 
   //create
   const result = await Db.create({
     name,
     description,
-    slug: newSlug,
+    slug: slug,
     user_id: req.user.id,
   });
   if (!result.lenght) throw new ApiError("Internal server error, 500");
