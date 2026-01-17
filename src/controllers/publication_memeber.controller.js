@@ -20,13 +20,11 @@ export const create = asyncHandler(async (req, res) => {
   res.status(200).json({ message: "Join to publication successed" });
 });
 
-//** leave a publicatin or remove a publication */
+//** leave a publication or remove a publication */
 export const remove = asyncHandler(async (req, res) => {
-  const { publicationId } = req.params;
-
   // is memeber of publication
-  const member = await Db.isPublicationMemeber(publicationId, req.user.id);
-  if (!member) throw new ApiError("not publication member");
+  const member = await Db.isPublicationMemeber(req.publication.id, req.user.id);
+  if (!member) throw new ApiError("not publication member", 303);
 
   //result
   const result = await Db.deletePublicationMember(req.user.id);
