@@ -9,7 +9,7 @@ import { NOTIFICATION_TYPES } from "../constant/notification.js";
 //**Add comment to an article */
 export const create = asyncHandler(async (req, res) => {
   const { articleSlug } = req.params;
-  const { content } = req.body;
+  const { content, parentId } = req.body;
 
   //article exist
   const article = await articleDb.getArticleBySlug(articleSlug);
@@ -18,6 +18,7 @@ export const create = asyncHandler(async (req, res) => {
   const result = await Db.createComment({
     article_id: article.id,
     user_id: req.user.id,
+    parent_id: parentId || null,
     content,
   });
 
