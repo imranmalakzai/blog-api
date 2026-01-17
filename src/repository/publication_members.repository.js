@@ -54,3 +54,12 @@ export const isPublicationMemeber = async (publicationId, userId) => {
   );
   return rows[0];
 };
+
+//** publication followers */
+export const publicationFollowers = async (publicationId) => {
+  const [rows] = await pool.query(
+    "SELECT * FROM publication_members WHERE role IS NULL AND publication_id = ?",
+    [publicationId]
+  );
+  return rows;
+};
