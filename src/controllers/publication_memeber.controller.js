@@ -5,18 +5,15 @@ import ApiError from "../utils/apiError.js";
 
 //** Join to a publication */
 export const create = asyncHandler(async (req, res) => {
-  const { publicationId } = req.params;
-
-  //is publication exist
-  const publication = await publicationDb.publicationById(publicationId);
-  if (!publication) throw new ApiError("publication not exist", 404);
-
   //is publicatin memeber
-  const memeber = await Db.isPublicationMemeber(publicationId, req.user.id);
-  if (memeber) throw new ApiError("user already memeber of publication");
+  const memeber = await Db.isPublicationMemeber(
+    req.publication.id,
+    req.user.id
+  );
+  if (memeber) throw new ApiError("user already memeber of publication", 403);
 
   const result = await Db.createPublicationMember({
-    publication_id: publicationId,
+    publication_id: req.publication.id,
     user_id: req.user.id,
   });
   if (!result.lenght) throw new ApiError("Internal server error", 500);
