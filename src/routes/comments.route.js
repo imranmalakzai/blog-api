@@ -9,8 +9,10 @@ commentRouter
   .route("/articles/:articleSlug/comments")
   .post(auth, comment.create);
 
-//get a comment
+// Get all comments
 commentRouter.route("/articles/:articleSlug/comments").get(comment.comments);
+
+//get a comment
 commentRouter
   .route("/articles/:articleSlug/comments/:commentId")
   .get(comment.comment);
