@@ -60,13 +60,16 @@ export const update = asyncHandler(async (req, res) => {
 
 //** Delete a comment */
 export const remove = asyncHandler(async (req, res) => {
-  const { articleId, commentId } = req.params;
+  const { articleSluge, commentId } = req.params;
 
+  //article exist
+  const article = await articleDb.getArticleBySlug(articleSluge);
+  if (!article) throw new ApiError("Article not exist", 404);
   //comment exist
   const comment = await commentDb.getCommentById(commentId);
 
-  if (!comment || !comment.articleId.toString() !== articleId.toString()) {
-    throw new ApiError("comment or article not exist", 404);
+  if (!comment || !comment.articleId.toString() !== article.id.toString()) {
+    throw new ApiError("comment or or not belong to the article", 404);
   }
 
   // id owner
