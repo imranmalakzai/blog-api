@@ -24,7 +24,7 @@ export const create = asyncHandler(async (req, res) => {
 export const remove = asyncHandler(async (req, res) => {
   // is memeber of publication
   const member = await Db.isPublicationMemeber(req.publication.id, req.user.id);
-  if (!member) throw new ApiError("not publication member", 303);
+  if (!member) throw new ApiError("not publication member", 403);
 
   //result
   const result = await Db.deletePublicationMember(req.user.id);
