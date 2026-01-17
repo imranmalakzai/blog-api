@@ -61,3 +61,9 @@ export const myPublications = asyncHandler(async (req, res) => {
 
   res.status(200).json({ publictions: publictions || [] });
 });
+
+//**Get all followers of a publications */
+export const followers = asyncHandler(async (req, res) => {
+  const followers = await Db.publicationFollowers(req.publication.id);
+  res.status(200).json({ followers: followers || [] });
+});
