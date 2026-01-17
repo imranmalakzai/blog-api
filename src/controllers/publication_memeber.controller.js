@@ -35,13 +35,7 @@ export const remove = asyncHandler(async (req, res) => {
 
 //** Get publiction memebers users */
 export const memebers = asyncHandler(async (req, res) => {
-  const { publicationId } = req.params;
-
-  const publication = await publicationDb.publicationById(publicationId);
-  if (!publication) throw new ApiError("publication not exist");
-
-  const memebers = await Db.publicationMemebers(publicationId);
-
+  const memebers = await Db.publicationMemebers(req.publication.id);
   res.status(200).json({ memebers: memebers || [] });
 });
 
