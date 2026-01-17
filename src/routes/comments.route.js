@@ -1,0 +1,26 @@
+import express from "express";
+import * as comment from "../controllers/comments.controller.js";
+import { auth } from "../middleware/auth.middleware.js";
+
+const commentRouter = express.Router();
+
+//create a comment
+commentRouter
+  .route("/articles/:articleSlug/comments")
+  .post(auth, comment.create);
+
+//get a comment
+commentRouter.route("/articles/:articleSlug/comments").get(comment.comments);
+commentRouter
+  .route("/articles/:articleSlug/comments/:commentId")
+  .get(comment.comment);
+
+//delete a comment
+commentRouter
+  .route("/articles/:articleSlug/comments/:commentId")
+  .delete(auth, comment.remove);
+
+//update a comment
+commentRouter
+  .route("/articles/:articleSlug/comments/:commentId")
+  .patch(comment.update);
