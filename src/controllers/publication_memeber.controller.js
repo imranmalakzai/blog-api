@@ -41,11 +41,11 @@ export const memebers = asyncHandler(async (req, res) => {
 
 //**Change memeber role of a publication */
 export const changeRole = asyncHandler(async (req, res) => {
-  const { publicationId, userId } = req.params;
+  const { userId } = req.params;
   const { role } = req.body;
 
   //is memeber
-  const memeber = await Db.isPublicationMemeber(publicationId, userId);
+  const memeber = await Db.isPublicationMemeber(req.user.id, userId);
   if (!memeber) throw new ApiError("user is not memeber of publication", 404);
 
   // change role
@@ -66,4 +66,19 @@ export const myPublications = asyncHandler(async (req, res) => {
 export const followers = asyncHandler(async (req, res) => {
   const followers = await Db.publicationFollowers(req.publication.id);
   res.status(200).json({ followers: followers || [] });
+});
+
+//**remove from publications */
+export const removeUser = asyncHandler(async (req, res) => {
+  const { userId } = req.params;
+
+  //is publication memeber
+  const memeber = await Db.isPublicationMemeber(req.publication.id, userId);
+  if (!memeber) throw new ApiError("Not publication memeber", 403);
+
+  //result
+  const result = await Db.deletePublicationMember(userId);
+  if (result === 0) throw new ApiError("Internal server error", 500);
+
+  res.status(200).json({ message: "user removed successfully" });
 });
