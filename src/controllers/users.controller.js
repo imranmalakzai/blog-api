@@ -190,9 +190,7 @@ export const getUsersByRole = asyncHandler(async (req, res) => {
 
 //**Change avatar controller */
 export const changeAvatar = asyncHandler(async (req, res) => {
-  //leter we add multer to handle this senario
-  const { avatar_url } = req.body;
-
+  const avatar_url = req.file?.path;
   const user = await updateUserAvatar(avatar_url, req.user.id);
   if (user === 0) throw new ApiError("Internal server error", 500);
 
