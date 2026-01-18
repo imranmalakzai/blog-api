@@ -2,6 +2,7 @@ import express from "express";
 import { CORS_ORIGIN } from "./config/env.config.js";
 import { globleErrorHandlerMiddleWare } from "./middleware/globleErrorHandler.middelware.js";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 //**Swagger setup */
 import swaggerUi from "swagger-ui-express";
 import { swaggerSpec } from "./config/swagger.config.js";
@@ -16,6 +17,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({ credentials: true, origin: CORS_ORIGIN }));
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 //app route endpoints
 app.use("/api/", userRouter);
