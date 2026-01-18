@@ -7,6 +7,7 @@ export const {
   DB_USER,
   DB_password,
   HOST_URI,
+  CORS_ORIGIN,
   REFRESH_TOKEN,
   REFRESH_TOKEN_EXPIRE,
   ACCESS_TOKEN,
