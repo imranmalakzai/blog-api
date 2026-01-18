@@ -103,8 +103,8 @@ export const logout = asyncHandler(async (req, res) => {
   };
   res
     .status(200)
-    .clearCookie("refreshToken", options)
-    .json({ message: "Logout successfully" });
+    .json({ message: "Logout successfully" })
+    .clearCookie("refreshToken", options);
 });
 
 //** Refresh Token */
@@ -124,7 +124,7 @@ export const refreshAccessToken = asyncHandler(async (req, res) => {
 
   //find user
   const user = await getUserbyId(id);
-  if (!) throw new ApiError("user not exist", 404);
+  if (!user) throw new ApiError("user not exist", 404);
 
   //Generate AccessToken
   const accessToken = await generateAccessToken(user);
