@@ -22,6 +22,6 @@ tagsRouter.route("/tags").get(tags.tag);
 tagsRouter.route("/tags/:slug").get(tags.tag);
 
 //update a tag
-tagsRouter.route("/tags/:slug").patch(tags.update);
+tagsRouter.route("/tags/:slug").patch(validate(schema.update), tags.update);
 
 export default tagsRouter;
