@@ -27,4 +27,4 @@ publicationRouter
 //update a publications
 publicationRouter
   .route("/publications/:publicationSlug")
-  .patch(publications.publication);
+  .patch(publications.update);
