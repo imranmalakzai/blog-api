@@ -10,11 +10,3 @@ export const create = z.object({
     .min(1)
     .max(100, "comment lenght must be less then 100 characters"),
 });
-
-//create comment
-export const update = z.object({
-  content: z
-    .string()
-    .min(1)
-    .max(100, "comment lenght must be less then 100 characters"),
-});
