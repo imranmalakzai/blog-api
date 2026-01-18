@@ -1,5 +1,6 @@
 import express from "express";
 import { CORS_ORIGIN } from "./config/env.config.js";
+import { globleErrorHandlerMiddleWare } from "./middleware/globleErrorHandler.middelware.js";
 
 const app = express();
 
@@ -12,3 +13,8 @@ app.use(express.urlencoded({ extended: true }));
 app.get("/", (req, res) => {
   res.send("API is working fine");
 });
+
+//custom middlewares
+app.use(globleErrorHandlerMiddleWare);
+
+export default app;
