@@ -30,7 +30,7 @@ export const followers = async (userId) => {
 //**Get all user I'm following */
 export const following = async (userId) => {
   const [rows] = await pool.query(
-    "SELECT u.id,u.username,u.avatar_url FROM users s JOIN user_followers us ON u.id = us.followed_id WHERE us.follower_id = ?",
+    "SELECT u.id,u.username,u.avatar_url FROM users s JOIN user_follows us ON u.id = us.followed_id WHERE us.follower_id = ?",
     [userId]
   );
   return rows;
