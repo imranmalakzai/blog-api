@@ -4,6 +4,9 @@ import { loadPublication } from "../middleware/loadPublications.middleware.js";
 import * as publication from "../controllers/publication_memeber.controller.js";
 import { publicationMember } from "../middleware/loadPublicationRole.middleware.js";
 import { validMemeber } from "../middleware/validPublicationMemeber.middleware.js";
+import * as schema from "../validation/publicationMemebers.js";
+import { validate } from "../config/zod.config.js";
+
 const publicationMembersRouter = express.Router();
 
 //follow publications
@@ -45,6 +48,7 @@ publicationMembersRouter
     loadPublication,
     publicationMember,
     validMemeber("admin"),
+    validate(schema.role),
     publication.changeRole
   );
 
