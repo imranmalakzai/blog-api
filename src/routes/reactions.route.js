@@ -21,7 +21,7 @@ reactionRouter
 //update a reactions
 reactionRouter
   .route("/reactions/:reactionId")
-  .post(auth, authoriz("admin"), reactions.update);
+  .post(auth, authoriz("admin"), validate(schema.update), reactions.update);
 
 //delete a reaction
 reactionRouter.route(
