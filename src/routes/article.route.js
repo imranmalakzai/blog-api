@@ -16,7 +16,12 @@ articleRouter
 
 articleRouter.route("/articles").get(article.articles);
 articleRouter.route("/articles/:articleSlug").get(article.article);
-articleRouter.route("/articles/:articleSlug").patch(auth, article.update);
+
+//update article
+articleRouter
+  .route("/articles/:articleSlug")
+  .patch(auth, validate(schema.update), article.update);
+
 articleRouter.route("/articles/:articleSlug").delete(auth, article.remove);
 
 export default articleRouter;
