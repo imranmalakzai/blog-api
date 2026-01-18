@@ -4,11 +4,15 @@ import * as fl from "../controllers/user_follower.controller.js";
 import * as cr from "../controllers/users.controller.js";
 import { allowed } from "../helper/allowedRoles.js";
 
+//**validation schema files */
+import { validate } from "../config/zod.config.js";
+import * as schema from "../validation/user.schema.js";
+
 //**define routed */
 const userRouter = express.Router();
 
 //auth endpoints
-userRouter.route("/auth/register").post(cr.register);
+userRouter.route("/auth/register").post(validate(schema.register), cr.register);
 userRouter.route("/auth/login").post(cr.login);
 userRouter.route("/auth/logout").post(cr.logout);
 userRouter.route("/auth/refresh").post(cr.refreshAccessToken);
