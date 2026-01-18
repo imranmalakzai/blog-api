@@ -28,4 +28,4 @@ publicationRouter
 //update a publications
 publicationRouter
   .route("/publications/:publicationSlug")
-  .patch(loadPublication, publications.update);
+  .patch(loadPublication, validate(schema.update), publications.update);
