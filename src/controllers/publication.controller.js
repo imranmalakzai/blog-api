@@ -28,14 +28,9 @@ export const create = asyncHandler(async (req, res) => {
 
 //** Update a publication */
 export const update = asyncHandler(async (req, res) => {
-  const { publicationId } = req.params;
   const { name, description } = req.body;
 
-  //publication exist
-  const publication = await Db.publicationById(publicationId);
-  if (publication) throw new ApiError("publication not exist", 404);
-
-  if (publication.owner_id.toString() !== req.user.id.toString()) {
+  if (req.publication.owner_id.toString() !== req.user.id.toString()) {
     throw new ApiError("Access denied", 403);
   }
 
@@ -43,8 +38,8 @@ export const update = asyncHandler(async (req, res) => {
 
   //check for the publication
   const isExist = await Db.publicationBySlug(slug);
-  if (isExist && isExist.id.toString() !== publication.toString()) {
-    throw new ApiError("publicatin name exist", 400);
+  if (isExist && isExist.id.toString() !== req.publication.id.toString()) {
+    throw new ApiError("publication name exist", 400);
   }
   const result = await Db.updatePublications({ name, slug, description });
 
