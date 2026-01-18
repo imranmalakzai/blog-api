@@ -29,3 +29,5 @@ publicationRouter
 publicationRouter
   .route("/publications/:publicationSlug")
   .patch(loadPublication, validate(schema.update), publications.update);
+
+export default publicationRouter;
