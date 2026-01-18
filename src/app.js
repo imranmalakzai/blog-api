@@ -1,5 +1,5 @@
 import express from "express";
-import { CORS_ORIGIN } from "./config/env.config.js";
+import { CORS_ORIGIN, PORT } from "./config/env.config.js";
 import { globleErrorHandlerMiddleWare } from "./middleware/globleErrorHandler.middelware.js";
 
 const app = express();
@@ -16,5 +16,9 @@ app.get("/", (req, res) => {
 
 //custom middlewares
 app.use(globleErrorHandlerMiddleWare);
+
+app.listen(PORT, () => {
+  console.log(`server is listening on port : ${PORT}`);
+});
 
 export default app;
