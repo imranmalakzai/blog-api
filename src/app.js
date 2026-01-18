@@ -13,11 +13,12 @@ const app = express();
 
 // important middlewares
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cors({ credentials: true, origin: CORS_ORIGIN }));
 app.use(express.urlencoded({ extended: true }));
 
 //app route endpoints
-app.get("/api", userRouter);
+app.use("/api/", userRouter);
 
 // swagger docs
 app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
