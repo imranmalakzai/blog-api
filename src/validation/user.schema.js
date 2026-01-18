@@ -1,7 +1,7 @@
-import zod from "zod";
+import z from "zod";
 
 //registration schema
-export const register = zod.object({
+export const register = z.object({
   username: z
     .string()
     .min(3, "Username must be at least 3 characters")
@@ -31,4 +31,10 @@ export const register = zod.object({
     .url("Avatar must be a valid URL")
     .optional()
     .or(z.literal("")),
+});
+
+//Login schema
+export const login = z.object({
+  email: z.string().email("Invalid email address"),
+  password: z.string().min(6, "password must be more then 6 characters"),
 });
