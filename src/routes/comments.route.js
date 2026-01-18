@@ -27,4 +27,4 @@ commentRouter
 //update a comment
 commentRouter
   .route("/articles/:articleSlug/comments/:commentId")
-  .patch(comment.update);
+  .patch(validate(schema.update), comment.update);
