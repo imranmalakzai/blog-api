@@ -1,9 +1,12 @@
 import express from "express";
-import { CORS_ORIGIN, PORT } from "./config/env.config.js";
+import { CORS_ORIGIN } from "./config/env.config.js";
 import { globleErrorHandlerMiddleWare } from "./middleware/globleErrorHandler.middelware.js";
 //**Swagger setup */
 import swaggerUi from "swagger-ui-express";
 import { swaggerSpec } from "./config/swagger.config.js";
+
+//** import API endpoints  */
+import userRouter from "./routes/users.route.js";
 
 const app = express();
 
@@ -13,6 +16,7 @@ app.use(cors({ credentials: true, origin: CORS_ORIGIN }));
 app.use(express.urlencoded({ extended: true }));
 
 //app route endpoints
+app.get("/api", userRouter);
 
 // swagger docs
 app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
@@ -29,9 +33,5 @@ app.get("/", (req, res) => {
 
 //custom middlewares
 app.use(globleErrorHandlerMiddleWare);
-
-app.listen(PORT, () => {
-  console.log(`server is listening on port : ${PORT}`);
-});
 
 export default app;
