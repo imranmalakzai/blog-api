@@ -124,7 +124,7 @@ export const refreshAccessToken = asyncHandler(async (req, res) => {
 
   //find user
   const user = await getUserbyId(id);
-  if (user === 0) throw new ApiError("user not exist", 404);
+  if (!) throw new ApiError("user not exist", 404);
 
   //Generate AccessToken
   const accessToken = await generateAccessToken(user);
