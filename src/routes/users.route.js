@@ -51,3 +51,5 @@ userRouter
   .route("/users/:userId/role")
   .patch(allowed("admin"), validate(schema.role), cr.changeRole);
 userRouter.route("/users/role").get(allowed("admin"), cr.getUsersByRole); // role ? user | editor | admin
+
+export default userRouter;
