@@ -1,6 +1,7 @@
 import express from "express";
 import { CORS_ORIGIN } from "./config/env.config.js";
 import { globleErrorHandlerMiddleWare } from "./middleware/globleErrorHandler.middelware.js";
+import cors from "cors";
 //**Swagger setup */
 import swaggerUi from "swagger-ui-express";
 import { swaggerSpec } from "./config/swagger.config.js";
