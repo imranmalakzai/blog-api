@@ -230,6 +230,7 @@ export const username = asyncHandler(async (req, res) => {
 //**Get current user logged profile */
 export const me = asyncHandler(async (req, res) => {
   const user = await getUserbyId(req.user.id);
+  if (!user) throw new ApiError("user not exist", 404);
   res.status(200).json({ ...user });
 });
 
