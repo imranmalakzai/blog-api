@@ -1,13 +1,15 @@
 import express from "express";
 import * as publications from "../controllers/publication.controller.js";
+import * as schema from "../validation/publication.schema.js";
+import { validate } from "../config/zod.config.js";
 import { auth } from "../middleware/auth.middleware.js";
 
 const publicationRouter = express.Router();
 
-publicationRouter.use(auth);
-
 //create publications
-publicationRouter.route("/publications").post(publications.create);
+publicationRouter
+  .route("/publications")
+  .post(auth, validate(schema.create), publications.create);
 
 //delete publication
 publicationRouter
