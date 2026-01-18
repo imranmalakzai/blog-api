@@ -52,7 +52,18 @@ export const profile = z.object({
   bio: z.string().max(160, "Bio must be under 160 characters"),
 });
 
-// chang avatr
+// change avatar
 export const avatar = z.object({
   avatar_url: z.string().url("Avatar must be a valid URL"),
+});
+
+//change password
+export const password = z.object({
+  oldPassword: z.string("old password is required"),
+  newPassword: z
+    .string("New password is required")
+    .min(8, "Password must be at least 8 characters")
+    .max(100)
+    .regex(/[A-Z]/, "Password must contain at least one uppercase letter")
+    .regex(/[0-9]/, "Password must contain at least one number"),
 });
