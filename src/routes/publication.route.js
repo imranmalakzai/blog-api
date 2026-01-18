@@ -1,5 +1,6 @@
 import express from "express";
 import * as publications from "../controllers/publication.controller.js";
+import { loadPublication } from "../middleware/loadPublications.middleware.js";
 import * as schema from "../validation/publication.schema.js";
 import { validate } from "../config/zod.config.js";
 import { auth } from "../middleware/auth.middleware.js";
@@ -27,4 +28,4 @@ publicationRouter
 //update a publications
 publicationRouter
   .route("/publications/:publicationSlug")
-  .patch(publications.update);
+  .patch(loadPublication, publications.update);
