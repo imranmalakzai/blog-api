@@ -2,11 +2,15 @@ import express from "express";
 import * as tags from "../controllers/tags.controller.js";
 import { auth } from "../middleware/auth.middleware.js";
 import { authoriz } from "../middleware/allowedRole.middleware.js";
+import * as schema from "../validation/tags.schema.js";
+import { validate } from "../config/zod.config.js";
 
 const tagsRouter = express.Router();
 
 //create tag
-tagsRouter.route("/tags").post(auth, authoriz("admin"), tags.create);
+tagsRouter
+  .route("/tags")
+  .post(auth, authoriz("admin"), validate(schema.create), tags.create);
 
 //delete tag slug
 tagsRouter.route("/tags/:slug").delete(auth, authoriz("admin"), tags.remove);
