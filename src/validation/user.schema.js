@@ -67,3 +67,12 @@ export const password = z.object({
     .regex(/[A-Z]/, "Password must contain at least one uppercase letter")
     .regex(/[0-9]/, "Password must contain at least one number"),
 });
+
+//change role
+export const role = z.object({
+  role: z
+    .enum(["admin", "editor", "user"])
+    .refine((val) => ["user", "admin", "editor"].includes(val), {
+      message: "Invalid role please select user || admin || editor",
+    }),
+});
