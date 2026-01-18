@@ -30,9 +30,8 @@ export const deleteSessionByToken = async (refreshToken) => {
 //**Get a user session by refreshToken */
 export const tokenSession = async (refreshToken) => {
   const [rows] = await pool.query(
-    "SELECT * FROM user_sessions WHERE refresh_token = ?  AND expires_at > NOW()"[
-      refreshToken
-    ]
+    "SELECT * FROM user_sessions WHERE refresh_token = ?  AND expires_at > NOW()",
+    [refreshToken]
   );
   return rows[0];
 };
