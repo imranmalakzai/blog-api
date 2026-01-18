@@ -256,7 +256,8 @@ export const updateProfile = asyncHandler(async (req, res) => {
 
   //is username exist
   const user = await getUserByUsername(username);
-  if (user) throw new ApiError("username exist", 403);
+  if (user && user.id.toString() !== req.user.id.toString())
+    throw new ApiError("username exist", 403);
 
   const result = await updateUserProfile({ bio, username }, req.user.id);
   if (result === 0) throw new ApiError("Internal server error", 500);
