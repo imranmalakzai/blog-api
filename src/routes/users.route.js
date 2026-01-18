@@ -3,6 +3,7 @@ import { auth } from "../middleware/auth.middleware.js";
 import * as fl from "../controllers/user_follower.controller.js";
 import * as cr from "../controllers/users.controller.js";
 import { allowed } from "../helper/allowedRoles.js";
+import { upload } from "../config/multer.config.js";
 
 //**validation schema files */
 import { validate } from "../config/zod.config.js";
@@ -13,6 +14,7 @@ const userRouter = express.Router();
 
 //auth endpoints
 userRouter.route("/auth/register").post(validate(schema.register), cr.register);
+
 userRouter.route("/auth/login").post(validate(schema.login), cr.login);
 userRouter.route("/auth/logout").post(cr.logout);
 userRouter.route("/auth/refresh").post(cr.refreshAccessToken);
