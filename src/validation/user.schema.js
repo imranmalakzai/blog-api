@@ -38,3 +38,16 @@ export const login = z.object({
   email: z.string().email("Invalid email address"),
   password: z.string().min(6, "password must be more then 6 characters"),
 });
+
+//** Update profile(bio,and username) */
+export const profile = z.object({
+  username: z
+    .string()
+    .min(3, "Username must be at least 3 characters")
+    .max(30, "Username must be less than 30 characters")
+    .regex(
+      /^[a-zA-Z0-9_]+$/,
+      "Username can only contain letters, numbers, and _"
+    ),
+  bio: z.string().max(160, "Bio must be under 160 characters"),
+});
