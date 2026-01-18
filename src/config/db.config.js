@@ -1,6 +1,6 @@
 import mysql from "mysql2/promise";
 
-import { DB_NAME, DB_USER, DB_password, HOST_URI } from "./env.js";
+import { DB_NAME, DB_USER, DB_password, HOST_URI } from "./env.config.js";
 
 export const pool = mysql.createPool({
   host: HOST_URI || "localhost",
