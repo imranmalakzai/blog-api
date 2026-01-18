@@ -39,7 +39,7 @@ export const login = z.object({
   password: z.string().min(6, "password must be more then 6 characters"),
 });
 
-//** Update profile(bio,and username) */
+// Update profile(bio,and username)
 export const profile = z.object({
   username: z
     .string()
@@ -50,4 +50,9 @@ export const profile = z.object({
       "Username can only contain letters, numbers, and _"
     ),
   bio: z.string().max(160, "Bio must be under 160 characters"),
+});
+
+// chang avatr
+export const avatar = z.object({
+  avatar_url: z.string().url("Avatar must be a valid URL"),
 });
