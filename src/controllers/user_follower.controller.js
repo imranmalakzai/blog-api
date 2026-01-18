@@ -59,7 +59,7 @@ export const unfollow = asyncHandler(async (req, res) => {
 //** My follwers */
 export const myFollowers = asyncHandler(async (req, res) => {
   const follwers = await followers(req.user.id);
-  res.status(200).json({ users: follwers || [] });
+  res.status(200).json({ followers: follwers || [] });
 });
 
 //** I follow  users */
