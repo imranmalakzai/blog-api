@@ -23,7 +23,9 @@ userRouter.use(auth);
 userRouter.route("/users/me").get(cr.me);
 userRouter.route("/users/me").delete(cr.deleteAccount);
 userRouter.route("/users/me").patch(validate(schema.profile), cr.updateProfile);
-userRouter.route("/users/me/avatar").patch(cr.changeAvatar);
+userRouter
+  .route("/users/me/avatar")
+  .patch(validate(schema.avatar), cr.changeAvatar);
 userRouter.route("/users/me/password").patch(cr.changePassword);
 userRouter.route("/users/me/followers").get(fl.myFollowers);
 userRouter.route("/users/me/following").get(fl.meFollowing);
