@@ -7,6 +7,7 @@ import { allowed } from "../helper/allowedRoles.js";
 //**validation schema files */
 import { validate } from "../config/zod.config.js";
 import * as schema from "../validation/user.schema.js";
+import { upload } from "../config/multer.config.js";
 
 //**define routed */
 const userRouter = express.Router();
@@ -27,7 +28,7 @@ userRouter.route("/users/me").patch(validate(schema.profile), cr.updateProfile);
 //change avatar
 userRouter
   .route("/users/me/avatar")
-  .patch(validate(schema.avatar), cr.changeAvatar);
+  .patch(upload.single("avatar"), cr.changeAvatar);
 
 //change password
 userRouter
