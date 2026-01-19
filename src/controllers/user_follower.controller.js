@@ -20,11 +20,11 @@ export const followUser = asyncHandler(async (req, res) => {
   if (!user) throw new ApiError("user not exist", 404);
 
   if (user.id.toString() === req.user.id.toString())
-    throw ApiError("you can't follow your self", 403);
+    throw new ApiError("you can't follow your self", 403);
 
   //prevent from dublication following
   const following = await isFollowing(req.user.id, user.id);
-  if (following) throw new ApiError("user aready followed", 403);
+  if (!following) throw new ApiError("user already followed", 403);
 
   const result = await follow(req.user.id, user.id);
   if (!result) throw new ApiError("Internal server error", 500);
