@@ -40,7 +40,10 @@ export const update = asyncHandler(async (req, res) => {
   if (isExist && isExist.id.toString() !== req.publication.id.toString()) {
     throw new ApiError("publication name exist", 400);
   }
-  const result = await Db.updatePublications({ name, slug, description });
+  const result = await Db.updatePublications(
+    { name, slug, description },
+    req.publication.id,
+  );
 
   if (result === 0) throw new ApiError("Internal server error", 500);
 
