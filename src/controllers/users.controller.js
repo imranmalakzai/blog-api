@@ -168,14 +168,14 @@ export const changePassword = asyncHandler(async (req, res) => {
 
 //**Change user role Controller */
 export const changeRole = asyncHandler(async (req, res) => {
-  const { userId } = req.params;
+  const { username } = req.params;
   const { role } = req.body;
 
   //user exist
-  const user = await getUserbyId(userId);
+  const user = await getUserByUsername(username);
   if (!user) throw new ApiError("user not exist", 404);
 
-  const result = await updateRole(role, userId);
+  const result = await updateRole(role, user.id);
   if (result === 0) throw new ApiError("Internal server error", 500);
 
   res.status(200).json({ message: "role changed successfully" });
