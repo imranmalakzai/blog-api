@@ -77,7 +77,7 @@ export const publications = asyncHandler(async (req, res) => {
 export const publication = asyncHandler(async (req, res) => {
   const { publicationSlug } = req.params;
 
-  const publication = await Db.publicationBySlug(publicationSlug);
+  const publication = await Db.getPublicationBySlug(publicationSlug);
   if (!publication) throw new ApiError("publication not exist", 404);
 
   res.status(200).json({ publication });
