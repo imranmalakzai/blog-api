@@ -169,7 +169,7 @@ export const article = async (articleId) => {
      publication_id IS NULL 
      AND deleted_at is NULL
      AND status = 'published'
-     AND article_id = ?
+     AND id = ?
     `,
     [articleId],
   );
