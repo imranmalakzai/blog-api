@@ -57,15 +57,17 @@ export const create = asyncHandler(async (req, res) => {
 
 //** delete article */
 export const remove = asyncHandler(async (req, res) => {
-  const { articleId } = req.params;
+  const { articleSlug } = req.params;
 
-  const article = await Db.getArticleById(articleId);
+  const article = await Db.getArticleBySlug(articleSlug);
+
   if (!article) throw new ApiError("Article not exist", 404);
 
-  //is owner of the article
-  if (article.author_id.toString() !== req.user.id.toString()) {
-    throw new ApiError("Access Denied", 403);
-  }
+  //is owner of the article admin
+  const owner = article.author_id.toString() !== req.user.id.toString();
+  const admin = req.user.role === "admin";
+
+  if (!owner && !admin) throw new ApiError("Access denied", 403);
 
   const result = await Db.deleteArticle(article.id, req.user.id);
   if (result === 0) throw new ApiError("Internal server error", 500);
