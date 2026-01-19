@@ -55,6 +55,7 @@ export const remove = asyncHandler(async (req, res) => {
 
   //reaction exist
   const reaction = await db.reaction(reactionId);
+  console.log(reaction);
   if (!reaction) throw new ApiError("Reaction not exist", 404);
 
   //result

@@ -32,7 +32,7 @@ export const reactions = async () => {
 
 //** Get reaction by Id  */
 export const reaction = async (id) => {
-  const rows = await pool.query("SELECT * FROM reactions WHERE id = ?", [id]);
+  const [rows] = await pool.query("SELECT * FROM reactions WHERE id = ?", [id]);
   return rows[0];
 };
 
