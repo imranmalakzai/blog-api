@@ -4,7 +4,7 @@ import { pool } from "../config/db.config.js";
 export const follow = async (followerId, followedId) => {
   const [result] = await pool.query(
     "INSERT INTO user_followers (follower_id,followed_id)",
-    [followerId, followedId]
+    [followerId, followedId],
   );
   return result.insertId;
 };
@@ -13,7 +13,7 @@ export const follow = async (followerId, followedId) => {
 export const unFollow = async (followerId, followedId) => {
   const result = await pool.query(
     "DELETE from user_followers WHERE follower_id = ? AND followed_Id = ? ",
-    [followerId, followedId]
+    [followerId, followedId],
   );
   return result.affectedRows;
 };
@@ -22,7 +22,7 @@ export const unFollow = async (followerId, followedId) => {
 export const followers = async (userId) => {
   const [rows] = await pool.query(
     "SELECT u.id,u.username,u.avatar_url FROM users u JOIN user_follows us ON u.id = us.follower_id WHERE us.followed_id = ?",
-    [userId]
+    [userId],
   );
   return rows;
 };
@@ -30,8 +30,8 @@ export const followers = async (userId) => {
 //**Get all user I'm following */
 export const following = async (userId) => {
   const [rows] = await pool.query(
-    "SELECT u.id,u.username,u.avatar_url FROM users s JOIN user_follows us ON u.id = us.followed_id WHERE us.follower_id = ?",
-    [userId]
+    "SELECT u.id,u.username,u.avatar_url FROM users u JOIN user_follows us ON u.id = us.followed_id WHERE us.follower_id = ?",
+    [userId],
   );
   return rows;
 };
@@ -40,7 +40,7 @@ export const following = async (userId) => {
 export const isFollowing = async (followerId, followedId) => {
   const [rows] = await pool.query(
     "SELECT follower_id FROM user_followers WHERE follower_id = ? AND followed_id = ? ",
-    [followerId, followedId]
+    [followerId, followedId],
   );
   return rows;
 };
