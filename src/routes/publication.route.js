@@ -15,7 +15,7 @@ publicationRouter
 //delete publication
 publicationRouter
   .route("/publications/:publicationSlug")
-  .delete(publications.remove);
+  .delete(auth, loadPublication, publications.remove);
 
 //Get all publications
 publicationRouter.route("/publications").get(publications.publications);
