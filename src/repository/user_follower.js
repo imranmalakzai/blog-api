@@ -3,7 +3,7 @@ import { pool } from "../config/db.config.js";
 //** Follow a user */
 export const follow = async (followerId, followedId) => {
   const [result] = await pool.query(
-    "INSERT INTO user_follows (follower_id,followed_id)",
+    "INSERT INTO user_follows (follower_id,followed_id) VALUES (?,?)",
     [followerId, followedId],
   );
   return result.insertId;
