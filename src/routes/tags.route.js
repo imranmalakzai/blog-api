@@ -16,7 +16,7 @@ tagsRouter
 tagsRouter.route("/tags/:slug").delete(auth, authoriz("admin"), tags.remove);
 
 //get all tags
-tagsRouter.route("/tags").get(tags.tag);
+tagsRouter.route("/tags").get(tags.tags);
 
 //get a tag by slug
 tagsRouter.route("/tags/:slug").get(tags.tag);
