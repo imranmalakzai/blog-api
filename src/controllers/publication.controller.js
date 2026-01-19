@@ -58,7 +58,7 @@ export const remove = asyncHandler(async (req, res) => {
 
   if (!owner && !amdin) throw new ApiError("Access denied", 403);
 
-  const result = await Db.deletePublication(publication.id);
+  const result = await Db.deletePublication(req.publication.id);
   if (result === 0) throw new ApiError("Internal server error", 500);
 
   res.status(200).json({ message: "publication deleted successfully" });
