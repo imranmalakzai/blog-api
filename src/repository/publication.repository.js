@@ -11,7 +11,9 @@ export const create = async (data) => {
 
 //** Get all putlictions */
 export const publications = async () => {
-  const [rows] = await pool.query("SELECT * FROM publictions");
+  const [rows] = await pool.query(
+    "SELECT p.id,p.name,p.description,u.username as owner FROM publications p JOIN users u ON u.id = p.owner_id ",
+  );
   return rows;
 };
 
