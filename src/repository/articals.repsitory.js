@@ -7,16 +7,16 @@ export const createArticle = async (data) => {
      (author_id,publication_id, title, slug, excerpt, content, status, visibility, published_at)
      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
     [
-      data.publicationId || null,
       data.author_id,
+      data.publicationId || null,
       data.title,
       data.slug,
       data.excerpt,
       data.content,
       data.status,
       data.visibility,
-      data.published_at ? "NOW()" : null,
-    ]
+      data.published_at,
+    ],
   );
 
   return result.insertId;
@@ -31,7 +31,7 @@ export const deleteArticle = async (articleId, authorId) => {
        AND deleted_at IS NULL
        AND author_id = ?
        `,
-    [articleId, authorId]
+    [articleId, authorId],
   );
 
   return result.affectedRows;
@@ -46,7 +46,7 @@ export const getPublicArticles = async () => {
        AND visibility = 'public'
        AND deleted_at IS NULL
        AND publication_id IS NULL
-       `
+       `,
   );
 
   return rows;
@@ -59,7 +59,7 @@ export const getMyArticles = async (authorId) => {
      FROM articles
      WHERE author_id = ?
        AND deleted_at IS NULL`,
-    [authorId]
+    [authorId],
   );
 
   return rows;
@@ -72,7 +72,7 @@ export const changeArticleVisibility = async (articleId, visibility) => {
      SET visibility = ?
      WHERE id = ?
        AND deleted_at IS NULL`,
-    [visibility, articleId]
+    [visibility, articleId],
   );
 
   return result.affectedRows;
@@ -86,7 +86,7 @@ export const getArchivedArticles = async (authorId) => {
      WHERE status = 'archived'
        AND author_id = ?
        AND deleted_at IS NULL`,
-    [authorId]
+    [authorId],
   );
 
   return rows;
@@ -103,7 +103,7 @@ export const update = async (data) => {
       data.slug,
       data.articleId,
       data.authorId,
-    ]
+    ],
   );
   return result.affectedRows;
 };
@@ -117,7 +117,7 @@ export const publishArticle = async (articleId) => {
      WHERE id = ?
        AND status != 'published'
        AND deleted_at IS NULL`,
-    [articleId]
+    [articleId],
   );
 
   return result.affectedRows;
@@ -133,7 +133,7 @@ export const getArticleBySlug = async (slug) => {
        AND visibility IN ('public', 'unlisted')
        AND deleted_at IS NULL
      LIMIT 1`,
-    [slug]
+    [slug],
   );
 
   return rows[0] || null;
@@ -148,7 +148,7 @@ export const getDraftArticles = async (authorId) => {
     AND deleted_at IS NULL
     AND author_id = ?
     `,
-    [authorId]
+    [authorId],
   );
   return rows;
 };
@@ -157,7 +157,7 @@ export const getDraftArticles = async (authorId) => {
 export const getArticleById = async (articleId) => {
   const [rows] = await pool.query(
     "SELECT * FROM articles WHERE id = ? AND deleted_at IS NULL",
-    articleId
+    articleId,
   );
   return rows[0];
 };
@@ -171,7 +171,7 @@ export const article = async (articleId) => {
      AND status = 'published'
      AND article_id = ?
     `,
-    [articleId]
+    [articleId],
   );
   return rows;
 };
@@ -179,7 +179,7 @@ export const article = async (articleId) => {
 export const getPublicationArticles = async (publicationId) => {
   const [rows] = await pool.query(
     "SELECT * FROM articles WHERE publication_id = ? AND stuatus = 'published' AND deleted_at IS NULL",
-    [publicationId]
+    [publicationId],
   );
   return rows;
 };
@@ -188,7 +188,7 @@ export const getPublicationArticles = async (publicationId) => {
 export const getAPublicationArticleById = async (publicationId, articleId) => {
   const [rows] = await pool.query(
     "SELECT * FROM articles WHERE publication_id = ? AND id = ? AND deleted_at IS NULL AND status = 'published' ",
-    [publicationId, articleId]
+    [publicationId, articleId],
   );
   return rows[0];
 };
@@ -196,7 +196,7 @@ export const getAPublicationArticleById = async (publicationId, articleId) => {
 //**Get all published Articles */
 export const publishedArticles = async () => {
   const [rows] = await pool.query(
-    "SELECT * FROM articles WHERE status = 'published' AND visibility = 'public' AND deleted_at IS NULL"
+    "SELECT * FROM articles WHERE status = 'published' AND visibility = 'public' AND deleted_at IS NULL",
   );
   return rows;
 };
@@ -205,7 +205,7 @@ export const publishedArticles = async () => {
 export const myArticles = async (userId) => {
   const [rows] = await pool.query(
     "SELECT * FROM articles WHERE status = 'published' AND visibility = 'public' AND deleted_at IS NULL AND publication_id IS NULL AND author_id = ?  ",
-    [userId]
+    [userId],
   );
   return rows;
 };
@@ -214,7 +214,7 @@ export const myArticles = async (userId) => {
 export const articleUnderReivew = async (publicatinId) => {
   const [rows] = await pool.query(
     "SELECT * FROM articles WHERE status = 'review' AND deleted_at is NULL AND publication_id = ?",
-    [publicatinId]
+    [publicatinId],
   );
   return rows;
 };
@@ -223,7 +223,7 @@ export const articleUnderReivew = async (publicatinId) => {
 export const publishReviewdArticle = async (publicationId, articleId) => {
   const result = await pool.query(
     "UPDATE articles SET status = 'published' WHERE publication_id = ? and id = ? ",
-    [publicationId, articleId]
+    [publicationId, articleId],
   );
   result.affectedRows;
 };
@@ -231,7 +231,7 @@ export const publishReviewdArticle = async (publicationId, articleId) => {
 //** publication reject under reviewd article */
 export const rejectUnderReviewdArticle = async (publicationId, articleId) => {
   const result = await pool.query(
-    "UPDATE articles SET status = 'rejected' WHERE publication_id = ? AND article_id = ? AND deleted_at IS NULL"
+    "UPDATE articles SET status = 'rejected' WHERE publication_id = ? AND article_id = ? AND deleted_at IS NULL",
   );
   return result.affectedRows;
 };
