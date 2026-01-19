@@ -38,8 +38,8 @@ export const reaction = async (id) => {
 
 //** Get reaction by name */
 export const getReactionByName = async (name) => {
-  const [rows] = await pool.query("SELECT id FROM rections WHERE name = ?", [
+  const [rows] = await pool.query("SELECT id FROM reactions WHERE name = ?", [
     name,
   ]);
-  return rows;
+  return rows[0];
 };
