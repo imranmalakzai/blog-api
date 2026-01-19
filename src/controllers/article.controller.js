@@ -14,20 +14,23 @@ export const create = asyncHandler(async (req, res) => {
   const { title, excerpt, content, status, visibility } = req.body;
   const slug = slugify(title, { strict: true, trim: true, lower: true });
 
+  //is article exist by this slug
+  const exist = await Db.getArticleBySlug(slug);
+
   if (status === "published") {
     //create article
     const article = await Db.createArticle({
-      author: req.user.id,
+      author_id: req.user.id,
       title,
       excerpt,
       content,
-      slug,
+      slug: exist ? `${slug}-1` : slug,
       status,
       visibility,
-      published_at: true,
+      published_at: new Date(),
     });
-
-    if (!article.lenght) throw new ApiError("Internal server error", 500);
+    if (article === 0) throw new ApiError("Internal server error", 500);
+    res.status(200).json({ message: "Article published successfully" });
     await Notification({
       user_id: req.user.id,
       actor_id: null,
@@ -47,7 +50,7 @@ export const create = asyncHandler(async (req, res) => {
     visibility,
     published_at: false,
   });
-  if (!article.lenght) throw new ApiError("Internal server error", 500);
+  if (article === 0) throw new ApiError("Internal server error", 500);
 
   res.status(200).json({ message: "Article created successfully" });
 });
@@ -280,7 +283,7 @@ export const PaReject = asyncHandler(async (req, res) => {
   //result
   const result = await Db.rejectUnderReviewdArticle(
     req.publication.id,
-    article.id
+    article.id,
   );
   if (result === 0) throw new ApiError("Internal server error", 500);
   res.status(200).json({ message: "Article rejected" });
