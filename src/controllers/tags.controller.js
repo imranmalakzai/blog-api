@@ -29,7 +29,13 @@ export const update = asyncHandler(async (req, res) => {
   if (!tag) throw new ApiError("Tag not exist", 404);
 
   const newSlug = slugify(name, { lower: true, strict: true, trim: true });
-  //result
+
+  // is unique
+  const unique = await Db.getTagBySlug(newSlug);
+  if (unique && unique.id.toString() !== tag.id.toString()) {
+    throw new ApiError("tag exist please select unique tag name", 400);
+  }
+
   const result = await Db.updateTag(tag.id, name, newSlug);
   if (result === 0) throw new ApiError("Internal server error", 500);
 
