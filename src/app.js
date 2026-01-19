@@ -10,6 +10,7 @@ import { swaggerSpec } from "./config/swagger.config.js";
 //** import API endpoints  */
 import userRouter from "./routes/users.route.js";
 import tagsRouter from "./routes/tags.route.js";
+import reactionRouter from "./routes/reactions.route.js";
 import publicationRouter from "./routes/publication.route.js";
 
 const app = express();
@@ -25,6 +26,7 @@ app.use(cookieParser());
 app.use("/api/", userRouter);
 app.use("/api/", publicationRouter);
 app.use("/api/", tagsRouter);
+app.use("/api/", reactionRouter);
 
 // swagger docs
 app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
