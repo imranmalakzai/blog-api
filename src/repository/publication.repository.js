@@ -25,10 +25,19 @@ export const publicationById = async (publicationId) => {
   return rows[0];
 };
 
-//**Get a publiction by slug */
+//**Get a publiction by slug  (use in middlewares)*/
 export const publicationBySlug = async (slug) => {
   const [rows] = await pool.query(
     `SELECT id FROM publications WHERE slug = ?`,
+    [slug],
+  );
+  return rows[0];
+};
+
+//** Get a publication by slug (use to fetch publication) */
+export const getPublicationBySlug = async (slug) => {
+  const [rows] = await pool.query(
+    "SELECT u.username as owner,p.id,p.name,p.description FROM publications p JOIN users u ON p.owner_id = u.id WHERE p.slug = ?",
     [slug],
   );
   return rows[0];
