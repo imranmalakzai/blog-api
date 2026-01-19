@@ -110,9 +110,13 @@ export const update = asyncHandler(async (req, res) => {
   const article = await Db.getArticleBySlug(articleSlug);
   if (!article) throw new ApiError("article not exist", 404);
 
+  //is slug is unique
+  const unique = await Db.getArticleBySlug(slug);
+
   //is owner
   const owner = req.user.id.toString() === article.author_id.toString();
-  if (!owner) throw new ApiError("Access denied", 403);
+  const editor = req.user.role === "editor";
+  if (!owner && !editor) throw new ApiError("Access denied", 403);
 
   // result
   const result = await Db.update({
@@ -120,7 +124,7 @@ export const update = asyncHandler(async (req, res) => {
     content,
     title,
     excerpt,
-    slug,
+    slug: unique ? `${unique}-1` : slug,
     articleId: article.id,
   });
   if (result === 0) throw new ApiError("Internal server error", 500);
