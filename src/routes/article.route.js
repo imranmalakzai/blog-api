@@ -15,6 +15,8 @@ articleRouter
   .post(auth, validate(schema.create), article.create);
 
 articleRouter.route("/articles").get(article.articles);
+
+//get article by slug
 articleRouter.route("/articles/:articleSlug").get(article.article);
 
 //update article
