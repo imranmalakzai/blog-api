@@ -33,7 +33,7 @@ export const followUser = asyncHandler(async (req, res) => {
     user_id: user.id,
     actor_id: req.user.id,
     type: NOTIFICATION_TYPES.FOLLOW,
-    entity_id: following.id,
+    entity_id: result,
   });
 
   res.status(200).json({ message: "You start following" });
