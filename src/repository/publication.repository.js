@@ -46,7 +46,7 @@ export const getPublicationBySlug = async (slug) => {
 //** Update a publications  */
 export const updatePublications = async (data, publicationId) => {
   const result = await pool.query(
-    "UPDATE publications SET name = ?,sluge = ?, description = ?,  WHERE id = ? ",
+    "UPDATE publications SET name = ?,slug = ?, description = ?  WHERE id = ? ",
     [data.name, data.slug, data.description, publicationId],
   );
   return result.affectedRows;
