@@ -24,11 +24,8 @@ reactionRouter
   .post(auth, authoriz("admin"), validate(schema.update), reactions.update);
 
 //delete a reaction
-reactionRouter.route(
-  "/reactions/:reactionId",
-  auth,
-  authoriz("admin"),
-  reactions.remove
-);
+reactionRouter
+  .route("/reactions/:reactionId")
+  .delete(auth, authoriz("admin"), reactions.remove);
 
 export default reactionRouter;
