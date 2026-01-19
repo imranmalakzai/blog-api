@@ -12,7 +12,7 @@ export const create = async (name) => {
 export const update = async (name, id) => {
   const result = await pool.query(
     "UPDATE reactions SET name = ? WHERE id = ?",
-    [name, id]
+    [name, id],
   );
   return result.affectedRows;
 };
@@ -25,7 +25,7 @@ export const remove = async (id) => {
 
 //**Get all reactions */
 export const reactions = async () => {
-  const rows = await pool.query("SELECT * FROM reactions");
+  const [rows] = await pool.query("SELECT * FROM reactions");
   return rows;
 };
 
