@@ -14,7 +14,7 @@ export const create = asyncHandler(async (req, res) => {
 
   //result
   const result = await Db.createTags(name, slug);
-  if (!result.lenght) throw new ApiError("Internal server error", 500);
+  if (result === 0) throw new ApiError("Internal server error", 500);
 
   res.status(201).json({ message: "Tag created successfully" });
 });
