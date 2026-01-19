@@ -48,7 +48,7 @@ userRouter.route("/users/@:username/following").get(fl.userFollowing);
 
 //admin only
 userRouter
-  .route("/users/:userId/role")
+  .route("/users/@:username/role")
   .patch(allowed("admin"), validate(schema.role), cr.changeRole);
 userRouter.route("/users/role").get(allowed("admin"), cr.getUsersByRole); // role ? user | editor | admin
 
