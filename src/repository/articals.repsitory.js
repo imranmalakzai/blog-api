@@ -136,7 +136,7 @@ export const getArticleBySlug = async (slug) => {
     [slug],
   );
 
-  return rows[0] || null;
+  return rows[0];
 };
 
 //** GET Draft Articles */
