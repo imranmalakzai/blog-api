@@ -4,9 +4,9 @@ import { pool } from "../config/db.config.js";
 export const create = async (data) => {
   const [result] = await pool.query(
     "INSERT INTO publications (name,slug,description,owner_id) VALUES (?,?,?,?)",
-    [data.name, data.slug, data.description, data.owner_id]
+    [data.name, data.slug, data.description, data.owner_id],
   );
-  return result.insertId;
+  return result.affectedRows;
 };
 
 //** Get all putlictions */
@@ -27,7 +27,7 @@ export const publicationById = async (publicationId) => {
 export const publicationBySlug = async (slug) => {
   const [rows] = await pool.query(
     `SELECT id FROM publications WHERE slug = ?`,
-    [slug]
+    [slug],
   );
   return rows[0];
 };
@@ -36,7 +36,7 @@ export const publicationBySlug = async (slug) => {
 export const updatePublications = async (data, publicationId) => {
   const result = await pool.query(
     "UPDATE publications SET name = ?,sluge = ?, description = ?,  WHERE id = ? ",
-    [data.name, data.slug, data.description, publicationId]
+    [data.name, data.slug, data.description, publicationId],
   );
   return result.affectedRows;
 };
