@@ -40,6 +40,7 @@ userRouter.route("/users/me/following").get(fl.meFollowing);
 
 // users endpoints
 userRouter.route("/users").get(cr.users);
+userRouter.route("/users/:userId").get(cr.user);
 userRouter.route("/users/@:username").get(cr.username);
 userRouter.route("/users/@:username/follow").post(fl.followUser);
 userRouter.route("/users/@:username/follow").delete(fl.unfollow);
