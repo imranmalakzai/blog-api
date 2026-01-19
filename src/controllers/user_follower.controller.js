@@ -24,10 +24,10 @@ export const followUser = asyncHandler(async (req, res) => {
 
   //prevent from dublication following
   const following = await isFollowing(req.user.id, user.id);
-  if (!following) throw new ApiError("user already followed", 403);
+  if (following) throw new ApiError("user already followed", 403);
 
   const result = await follow(req.user.id, user.id);
-  if (!result) throw new ApiError("Internal server error", 500);
+  if (result === 0) throw new ApiError("Internal server error", 500);
 
   await Notification.create({
     user_id: user.id,
