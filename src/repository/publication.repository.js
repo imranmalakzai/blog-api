@@ -28,7 +28,7 @@ export const publicationById = async (publicationId) => {
 //**Get a publiction by slug  (use in middlewares)*/
 export const publicationBySlug = async (slug) => {
   const [rows] = await pool.query(
-    `SELECT id FROM publications WHERE slug = ?`,
+    `SELECT id,owner_id FROM publications WHERE slug = ?`,
     [slug],
   );
   return rows[0];
