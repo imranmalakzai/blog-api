@@ -217,6 +217,7 @@ export const user = asyncHandler(async (req, res) => {
 //**get a user by username */
 export const username = asyncHandler(async (req, res) => {
   const { username } = req.params;
+  console.log("Hello, everyone");
 
   //user exist
   const user = await getUserByUsername(username);
