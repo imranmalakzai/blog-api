@@ -4,9 +4,9 @@ import { pool } from "../config/db.config.js";
 export const createTags = async (name, slug) => {
   const [result] = await pool.query(
     "INSERT INTO tags (name,slug) VALUES (?,?)",
-    [name, slug]
+    [name, slug],
   );
-  return result.insertId;
+  return result.affectedRows;
 };
 
 //**GET all tages */
@@ -22,7 +22,7 @@ export const getTagByname = async (name) => {
 };
 
 //**Get a tage by slug */
-export const getTagBySlug = async () => {
+export const getTagBySlug = async (slug) => {
   const [rows] = await pool.query("SELECT * FROM tags WHERE slug = ?", [slug]);
   return rows[0];
 };
@@ -37,7 +37,7 @@ export const getTagById = async (tagId) => {
 export const updateTag = async (tagId, name, slug) => {
   const result = await pool.query(
     "UPDATE tags SET name = ? , slug = ? WHERE id = ?",
-    [name, slug, tagId]
+    [name, slug, tagId],
   );
   return result.affectedRows;
 };
@@ -52,7 +52,7 @@ export const deleteATag = async (tagId) => {
 export const searchTag = async (tag) => {
   const [rows] = await pool.query(
     `SELECT * 
-     FROM tags WHERE name like '%${tag}%' OR slug like '%${tag}%'`
+     FROM tags WHERE name like '%${tag}%' OR slug like '%${tag}%'`,
   );
   return rows;
 };
@@ -61,7 +61,7 @@ export const searchTag = async (tag) => {
 export const tags = async (tags) => {
   const [rows] = await pool.query(
     "SELECT id,slug FROM tags WHERE slug IN (?)",
-    [tags]
+    [tags],
   );
   return rows;
 };
