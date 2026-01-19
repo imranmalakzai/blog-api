@@ -3,7 +3,7 @@ import { pool } from "../config/db.config.js";
 //** Follow a user */
 export const follow = async (followerId, followedId) => {
   const [result] = await pool.query(
-    "INSERT INTO user_followers (follower_id,followed_id)",
+    "INSERT INTO user_follows (follower_id,followed_id)",
     [followerId, followedId],
   );
   return result.insertId;
@@ -12,7 +12,7 @@ export const follow = async (followerId, followedId) => {
 //** Unfollow a user */
 export const unFollow = async (followerId, followedId) => {
   const result = await pool.query(
-    "DELETE from user_followers WHERE follower_id = ? AND followed_Id = ? ",
+    "DELETE from user_follows WHERE follower_id = ? AND followed_Id = ? ",
     [followerId, followedId],
   );
   return result.affectedRows;
@@ -39,7 +39,7 @@ export const following = async (userId) => {
 //** is following */
 export const isFollowing = async (followerId, followedId) => {
   const [rows] = await pool.query(
-    "SELECT follower_id FROM user_followers WHERE follower_id = ? AND followed_id = ? ",
+    "SELECT follower_id FROM user_follows WHERE follower_id = ? AND followed_id = ? ",
     [followerId, followedId],
   );
   return rows;
