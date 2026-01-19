@@ -1,3 +1,4 @@
+import { Router } from "express";
 import { pool } from "../config/db.config.js";
 
 //** Create Reaction */
@@ -33,4 +34,12 @@ export const reactions = async () => {
 export const reaction = async (id) => {
   const rows = await pool.query("SELECT * FROM reactions WHERE id = ?", [id]);
   return rows[0];
+};
+
+//** Get reaction by name */
+export const getReactionByName = async (name) => {
+  const [rows] = await pool.query("SELECT id FROM rections WHERE name = ?", [
+    name,
+  ]);
+  return rows;
 };
