@@ -6,6 +6,10 @@ import * as db from "../repository/reactions.repository.js";
 export const create = asyncHandler(async (req, res) => {
   const { name } = req.body;
 
+  //prevent dublication
+  const reaction = await db.getReactionByName(name);
+  if (reaction) throw new ApiError("Reaction already exist", 400);
+
   const result = await db.create(name);
   if (result === 0) throw new ApiError("Internal server error", 500);
 
