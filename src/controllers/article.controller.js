@@ -111,7 +111,8 @@ export const update = asyncHandler(async (req, res) => {
   if (!article) throw new ApiError("article not exist", 404);
 
   //is slug is unique
-  const unique = await Db.getArticleBySlug(slug);
+  const exist = await Db.getArticleBySlug(slug);
+  const unique = exist && exist.slug !== article.slug;
 
   //is owner
   const owner = req.user.id.toString() === article.author_id.toString();
