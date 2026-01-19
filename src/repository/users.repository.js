@@ -92,7 +92,7 @@ export const updateRole = async (role, userId) => {
 //**Get user by username */
 export const getUserByUsername = async (username) => {
   const [rows] = await pool.query(
-    "SELECT id,username,email,role FROM users WHERE deleted_at IS NULL",
+    "SELECT id,username,email,role FROM users WHERE deleted_at IS NULL AND username = ?",
     [username],
   );
   return rows[0];
