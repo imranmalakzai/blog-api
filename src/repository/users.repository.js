@@ -20,7 +20,7 @@ export const getAllUsers = async () => {
 //**GET a user by id */
 export const getUserbyId = async (userId) => {
   const [rows] = await pool.query(
-    "SELECT * FROM users WHERE id = ? AND deleted_at is NULL",
+    "SELECT id,username,avatar_url,role FROM users WHERE id = ? AND deleted_at is NULL",
     [userId],
   );
   return rows[0];
