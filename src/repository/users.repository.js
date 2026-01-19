@@ -4,7 +4,7 @@ import { pool } from "../config/db.config.js";
 export const userRegistration = async (data) => {
   const result = await pool.query(
     "INSERT INTO users (username,email,password_hash) VALUES (?,?,?)",
-    [data.username, data.email, data.password_hash]
+    [data.username, data.email, data.password_hash],
   );
   return result.affectedRows;
 };
@@ -12,7 +12,7 @@ export const userRegistration = async (data) => {
 //** GET all users database query */
 export const getAllUsers = async () => {
   const [rows] = await pool.query(
-    "SELECT id,username,email,role FROM users WHERE deleted_at is NULL"
+    "SELECT id,username,avatar_url,role FROM users WHERE deleted_at is NULL",
   );
   return rows;
 };
@@ -21,7 +21,7 @@ export const getAllUsers = async () => {
 export const getUserbyId = async (userId) => {
   const [rows] = await pool.query(
     "SELECT * FROM users WHERE id = ? AND deleted_at is NULL",
-    [userId]
+    [userId],
   );
   return rows[0];
 };
@@ -30,7 +30,7 @@ export const getUserbyId = async (userId) => {
 export const getUserByEmail = async (email) => {
   const [rows] = await pool.query(
     "SELECT * FROM users WHERE email = ? AND deleted_at is NULL",
-    [email]
+    [email],
   );
   return rows[0];
 };
@@ -39,7 +39,7 @@ export const getUserByEmail = async (email) => {
 export const getUserByRole = async (role) => {
   const [rows] = await pool.query(
     "SELECT * FROM users WHERE role = ? AND deleted_at is NULL",
-    [role]
+    [role],
   );
   return rows;
 };
@@ -48,7 +48,7 @@ export const getUserByRole = async (role) => {
 export const updateUserRole = async (role, userId) => {
   const result = await pool.query(
     "UPDATE users SET role = ?, WHERE id = ? AND deleted_at is NULL",
-    [role, userId]
+    [role, userId],
   );
   return result.affectedRows;
 };
@@ -57,7 +57,7 @@ export const updateUserRole = async (role, userId) => {
 export const updateUserPassword = async (password, userId) => {
   const result = await pool.query(
     "UPDATE users SET password_hash = ? WHERE id = ? AND deleted_at is NULL",
-    [password, userId]
+    [password, userId],
   );
   return result.affectedRows;
 };
@@ -66,7 +66,7 @@ export const updateUserPassword = async (password, userId) => {
 export const updateUserAvatar = async (avatar, userId) => {
   const result = await pool.query(
     "UPDATE users SET avatar_url = ? WHERE id = ? AND deleted_at is NULL",
-    [avatar, userId]
+    [avatar, userId],
   );
   return result.affectedRows;
 };
@@ -75,7 +75,7 @@ export const updateUserAvatar = async (avatar, userId) => {
 export const updateUserProfile = async (data, userId) => {
   const result = await pool.query(
     "UPDATE users SET bio = ? , username = ? WHERE id = ? AND deleted_at is NULL",
-    [data.bio, data.username, userId]
+    [data.bio, data.username, userId],
   );
   return result.affectedRows;
 };
@@ -84,7 +84,7 @@ export const updateUserProfile = async (data, userId) => {
 export const updateRole = async (role, userId) => {
   const result = pool.query(
     "UPDATE users SET role = ? WHERE id = ? AND deleted_at is NULL",
-    [role, userId]
+    [role, userId],
   );
   return result.affectedRows;
 };
@@ -93,7 +93,7 @@ export const updateRole = async (role, userId) => {
 export const getUserByUsername = async (username) => {
   const [rows] = await pool.query(
     "SELECT id,username,email,role FROM users WHERE deleted_at IS NULL",
-    [username]
+    [username],
   );
   return rows[0];
 };
@@ -102,7 +102,7 @@ export const getUserByUsername = async (username) => {
 export const userDeleteAccount = async (userId) => {
   const result = await pool.query(
     "UPDATE users SET deleted_at = NOW()  WHERE id = ?",
-    [userId]
+    [userId],
   );
   return result.affectedRows;
 };
