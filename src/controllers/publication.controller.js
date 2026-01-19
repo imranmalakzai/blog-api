@@ -52,14 +52,8 @@ export const update = asyncHandler(async (req, res) => {
 
 /**Delete a publication */
 export const remove = asyncHandler(async (req, res) => {
-  const { publicationSlug } = req.params;
-
-  //publication exist
-  const publication = await Db.publicationBySlug(publicationSlug);
-  if (!publication) throw new ApiError("publicaiton not exist", 404);
-
   //publication owner
-  const owner = publication.owner_id.toString() !== req.user.id.toString();
+  const owner = req.publication.owner_id.toString() === req.user.id.toString();
   const amdin = req.user.role === "admin";
 
   if (!owner && !amdin) throw new ApiError("Access denied", 403);
