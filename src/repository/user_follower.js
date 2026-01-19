@@ -6,7 +6,7 @@ export const follow = async (followerId, followedId) => {
     "INSERT INTO user_follows (follower_id,followed_id) VALUES (?,?)",
     [followerId, followedId],
   );
-  return result.insertId;
+  return result.affectedRows;
 };
 
 //** Unfollow a user */
@@ -42,5 +42,5 @@ export const isFollowing = async (followerId, followedId) => {
     "SELECT follower_id FROM user_follows WHERE follower_id = ? AND followed_id = ? ",
     [followerId, followedId],
   );
-  return rows;
+  return rows[0];
 };
