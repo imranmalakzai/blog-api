@@ -8,6 +8,8 @@ export const create = asyncHandler(async (req, res) => {
 
   const result = await db.create(name);
   if (result === 0) throw new ApiError("Internal server error", 500);
+
+  res.status(200).json({ message: "created successfully" });
 });
 
 //** update a reactions */
