@@ -109,8 +109,9 @@ export const logout = asyncHandler(async (req, res) => {
 
 //** Refresh Token */
 export const refreshAccessToken = asyncHandler(async (req, res) => {
-  const refreshToken = await req.cookies?.refreshToken;
-  if (!refreshToken) throw new ApiError("RefreshToken not exist", 404);
+  const refreshToken = await req.cookies.refreshToken;
+  if (!refreshToken)
+    throw new ApiError("Invalid token or token is expired", 401);
 
   const session = await tokenSession(refreshToken);
   if (!session) throw new ApiError("Invalid token  or token is expired", 401);
