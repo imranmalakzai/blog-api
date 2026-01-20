@@ -23,6 +23,7 @@ export const create = asyncHandler(async (req, res) => {
       author_id: req.user.id,
       title,
       excerpt,
+      status,
       content,
       slug,
       visibility,
