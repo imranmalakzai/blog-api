@@ -163,13 +163,15 @@ export const userArticle = async (req, res) => {
 //**Publication articles Part */
 export const paCreate = asyncHandler(async (req, res) => {
   const { title, excerpt, content, status, visibility } = req.body;
-  const slug = slugify(title, { strict: true, trim: true, lower: true });
+
+  //add unique slug
+  const slug = slugify(title, { lower: true, strict: true }) + "-" + nanoid(5);
 
   if (status === "published") {
     //create article
     const article = await Db.createArticle({
       publicationId: req.publication.id,
-      author: req.user.id,
+      author_id: req.user.id,
       title,
       excerpt,
       content,
@@ -179,8 +181,24 @@ export const paCreate = asyncHandler(async (req, res) => {
       published_at: true,
     });
 
-    if (!article.lenght) throw new ApiError("Internal server error", 500);
-    res.status(200).json({ message: "Article created successfully" });
+    if (article === 0) throw new ApiError("Internal server error", 500);
+
+    //Notification
+    if (req.publicationRole !== "writer") {
+      await Notification.create({
+        user_id: req.user.id,
+        actor_id: null,
+        type: NOTIFICATION_TYPES.ARTICLE_PUBLISH,
+        entity_id: article,
+      });
+    }
+
+    res.status(201).json({
+      message:
+        req.publicationRole === "writer"
+          ? "article is pending wait to approve"
+          : "article published successfully",
+    });
   }
 
   //create article in drift
@@ -195,7 +213,7 @@ export const paCreate = asyncHandler(async (req, res) => {
     visibility,
     published_at: false,
   });
-  if (!article.lenght) throw new ApiError("Internal server error", 500);
+  if (article === 0) throw new ApiError("Internal server error", 500);
 
   res.status(200).json({ message: "Article created successfully" });
 });
