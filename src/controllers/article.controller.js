@@ -1,4 +1,5 @@
 import slugify from "slugify";
+import { nanoid } from "nanoid";
 import { NOTIFICATION_TYPES } from "../constant/notification.js";
 import * as Notification from "../repository/notification.repository.js";
 import * as Db from "../repository/articals.repsitory.js";
@@ -12,10 +13,9 @@ import ApiError from "../utils/apiError.js";
 //** Create new article */
 export const create = asyncHandler(async (req, res) => {
   const { title, excerpt, content, status, visibility } = req.body;
-  const slug = slugify(title, { strict: true, trim: true, lower: true });
 
-  //is article exist by this slug
-  const exist = await Db.getArticleBySlug(slug);
+  //add unique slug
+  const slug = slugify(title, { lower: true, strict: true }) + "-" + nanoid(5);
 
   if (status === "published") {
     //create article
@@ -24,8 +24,7 @@ export const create = asyncHandler(async (req, res) => {
       title,
       excerpt,
       content,
-      slug: exist ? `${slug}-1` : slug,
-      status,
+      slug,
       visibility,
       published_at: new Date(),
     });
@@ -104,15 +103,13 @@ export const article = asyncHandler(async (req, res) => {
 export const update = asyncHandler(async (req, res) => {
   const { articleSlug } = req.params;
   const { title, excerpt, content } = req.body;
-  const slug = slugify(title, { lower: true, trim: true, strict: true });
+
+  //add unique slug
+  const slug = slugify(title, { lower: true, strict: true }) + "-" + nanoid(5);
 
   //article exist
   const article = await Db.getArticleBySlug(articleSlug);
   if (!article) throw new ApiError("article not exist", 404);
-
-  //is slug is unique
-  const exist = await Db.getArticleBySlug(slug);
-  const unique = exist && exist.slug !== article.slug;
 
   //is owner
   const owner = req.user.id.toString() === article.author_id.toString();
@@ -125,7 +122,7 @@ export const update = asyncHandler(async (req, res) => {
     content,
     title,
     excerpt,
-    slug: unique ? `${slug}-1` : slug,
+    slug,
     articleId: article.id,
   });
   if (result === 0) throw new ApiError("Internal server error", 500);
