@@ -3,14 +3,25 @@ import { ACCESS_TOKEN } from "../config/env.config.js";
 import ApiError from "../utils/apiError.js";
 
 export const auth = (req, res, next) => {
-  const header = req.headers.authorization;
-  if (!header || !header.startsWith("Bearer")) {
-    throw new ApiError("please authenticate", 401);
-  }
-  const token = header.split(" ")[1];
-  const decode = jwt.verify(token, ACCESS_TOKEN);
-  if (!decode) throw new ApiError("Invalid token", 401);
+  try {
+    const authHeader = req.headers.authorization;
 
-  req.user = decode;
-  next();
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      throw new ApiError("Please authenticate", 401);
+    }
+
+    const token = authHeader.split(" ")[1];
+
+    const decoded = jwt.verify(token, ACCESS_TOKEN);
+
+    req.user = {
+      id: decoded.id,
+      role: decoded.role,
+      email: decoded.email,
+    };
+
+    next();
+  } catch (error) {
+    throw new ApiError("Invalid or expired token", 401);
+  }
 };
