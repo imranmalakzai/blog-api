@@ -1,7 +1,8 @@
 import express from "express";
 
 import * as publicationArticles from "../controllers/article.controller.js";
-
+import * as schema from "../validation/articles.schema.js";
+import { validate } from "../config/zod.config.js";
 import { auth } from "../middleware/auth.middleware.js";
 import { publicationMember } from "../middleware/loadPublicationRole.middleware.js";
 import { validMemeber } from "../middleware/validPublicationMemeber.middleware.js";
@@ -21,7 +22,7 @@ publicationArticleRouter
   .route("/publications/:publicationSlug/articles/:slug")
   .get(auth, loadPublication, publicationArticles.paArticles);
 
-// Post an article this will be in review state
+// Post an article this will be in review for writers state
 publicationArticleRouter
   .route("/publications/:publicationSlug/articles")
   .post(
@@ -29,6 +30,7 @@ publicationArticleRouter
     loadPublication,
     publicationMember,
     validMemeber("owner", "editor", "writer"),
+    validate(schema.create),
     publicationArticles.paCreate,
   );
 
