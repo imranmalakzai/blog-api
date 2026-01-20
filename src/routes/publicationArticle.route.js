@@ -48,7 +48,7 @@ publicationArticleRouter
 
 // update publication article content only
 publicationArticleRouter
-  .route("/publications/:publicationId/articles/:articleSlug")
+  .route("/publications/:publicationSlug/articles/:articleSlug")
   .patch(
     auth,
     loadPublication,
@@ -60,7 +60,7 @@ publicationArticleRouter
 
 // under review articles
 publicationArticleRouter
-  .route("/publications/:publicationId/articles/review")
+  .route("/publications/:publicationSlug/articles/review")
   .get(
     loadPublication,
     publicationMember,
@@ -70,7 +70,7 @@ publicationArticleRouter
 
 // Publish article or approve article
 publicationArticleRouter
-  .route("/publications/:publicationId/articles/:articleSlug/aprove")
+  .route("/publications/:publicationSlug/articles/:articleSlug/aprove")
   .patch(
     loadPublication,
     publicationMember,
@@ -80,7 +80,7 @@ publicationArticleRouter
 
 // Reject an article
 publicationArticleRouter
-  .route("publications/:publicationId/articles/:articleSlug/reject")
+  .route("publications/:publicationSlug/articles/:articleSlug/reject")
   .patch(
     loadPublication,
     publicationMember,
