@@ -28,7 +28,7 @@ publicationArtileRouter
     auth,
     loadPublication,
     publicationMember,
-    validMemeber("owner", "editor", "writer")
+    validMemeber("owner", "editor", "writer"),
   );
 
 // delete a publiction article
@@ -40,7 +40,7 @@ publicationArtileRouter
     publicationMember,
     validMemeber("owner", "writer"),
     requireArticleOwnerIfWriter,
-    publicationArticles.paRemove
+    publicationArticles.paRemove,
   );
 
 // update publication article content only
@@ -52,7 +52,7 @@ publicationArtileRouter
     publicationMember,
     validMemeber("owner", "editor", "writer"),
     requireArticleOwnerIfWriter,
-    publicationArticles.paUpdate
+    publicationArticles.paUpdate,
   );
 
 // under review articles
@@ -62,7 +62,7 @@ publicationArtileRouter
     loadPublication,
     publicationMember,
     validMemeber("owner", "editor"),
-    publicationArticles.paReview
+    publicationArticles.paReview,
   );
 
 // Publish article or approve article
@@ -72,7 +72,7 @@ publicationArtileRouter
     loadPublication,
     publicationMember,
     validMemeber("owner", "editor"),
-    publicationArticles.paPublish
+    publicationArticles.paPublish,
   );
 
 // Reject an article
@@ -83,5 +83,7 @@ publicationArtileRouter
     publicationMember,
     validMemeber("editor", "owner", "writer"),
     requireArticleOwnerIfWriter,
-    publicationArticles.PaReject
+    publicationArticles.PaReject,
   );
+
+export default publicationArticles;
