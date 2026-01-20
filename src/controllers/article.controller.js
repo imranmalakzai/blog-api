@@ -178,7 +178,7 @@ export const paCreate = asyncHandler(async (req, res) => {
       slug,
       status: req.publicationRole === "writer" ? "review" : status,
       visibility,
-      published_at: true,
+      published_at: req.publicationRole !== "writer" ? new Date() : null,
     });
 
     if (article === 0) throw new ApiError("Internal server error", 500);
