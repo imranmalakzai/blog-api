@@ -125,7 +125,7 @@ export const update = asyncHandler(async (req, res) => {
     content,
     title,
     excerpt,
-    slug: unique ? `${unique}-1` : slug,
+    slug: unique ? `${slug}-1` : slug,
     articleId: article.id,
   });
   if (result === 0) throw new ApiError("Internal server error", 500);
