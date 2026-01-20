@@ -6,7 +6,7 @@ export const create = async (data) => {
     "INSERT INTO publications (name,slug,description,owner_id) VALUES (?,?,?,?)",
     [data.name, data.slug, data.description, data.owner_id],
   );
-  return result.affectedRows;
+  return result.insertId;
 };
 
 //** Get all putlictions */
