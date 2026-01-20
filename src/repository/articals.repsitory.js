@@ -178,7 +178,7 @@ export const article = async (articleId) => {
 //**Get publications articles */
 export const getPublicationArticles = async (publicationId) => {
   const [rows] = await pool.query(
-    "SELECT * FROM articles WHERE publication_id = ? AND stuatus = 'published' AND deleted_at IS NULL",
+    "SELECT * FROM articles WHERE publication_id = ? AND status = 'published' AND deleted_at IS NULL",
     [publicationId],
   );
   return rows;
