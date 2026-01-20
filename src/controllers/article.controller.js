@@ -86,7 +86,7 @@ export const article = asyncHandler(async (req, res) => {
 
   //const article exist
   const article = await Db.getArticleBySlug(articleSlug);
-  if (!article) throw new ApiError("Internal server error", 500);
+  if (!article) throw new ApiError("article not exist", 404);
 
   const result = await view.viewedArticle(article.id, req.user.id);
   if (!result)
