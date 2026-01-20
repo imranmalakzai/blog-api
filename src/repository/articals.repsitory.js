@@ -95,14 +95,14 @@ export const getArchivedArticles = async (authorId) => {
 //** update an article */
 export const update = async (data) => {
   const result = await pool.query(
-    "UPDATE articles SET content = ? , title = ? , excerpt = ? slug = ? WHERE id ? AND author_id = ?",
+    "UPDATE articles SET content = ? , title = ? , excerpt = ?, slug = ? WHERE id = ? AND author_id = ?",
     [
       data.content,
       data.title,
       data.excerpt,
       data.slug,
       data.articleId,
-      data.authorId,
+      data.author_id,
     ],
   );
   return result.affectedRows;
