@@ -29,6 +29,7 @@ publicationArticleRouter
     loadPublication,
     publicationMember,
     validMemeber("owner", "editor", "writer"),
+    publicationArticles.paCreate,
   );
 
 // delete a publiction article

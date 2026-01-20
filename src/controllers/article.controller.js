@@ -174,7 +174,7 @@ export const paCreate = asyncHandler(async (req, res) => {
       excerpt,
       content,
       slug,
-      status: "review",
+      status: req.publicationRole === "writer" ? "review" : status,
       visibility,
       published_at: true,
     });
