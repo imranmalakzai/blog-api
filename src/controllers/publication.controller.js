@@ -1,6 +1,7 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
 import ApiError from "../utils/apiError.js";
 import * as Db from "../repository/publication.repository.js";
+import * as publictionMemeber from "../repository/publication_members.repository.js";
 import slugify from "slugify";
 
 //** create a new publications */
@@ -20,7 +21,15 @@ export const create = asyncHandler(async (req, res) => {
     slug: slug,
     user_id: req.user.id,
   });
-  if (result === 0) throw new ApiError("Internal server error, 500");
+
+  // add user as publication owner
+  const owner = await publictionMemeber.createPublicationMember({
+    role: "owner",
+    user_id: req.user.id,
+    publication_id: result,
+  });
+
+  if (owner === 0) throw new ApiError("Internal server error", 500);
 
   res.status(201).json({ message: "publication created successfully" });
 });
