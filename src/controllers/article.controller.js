@@ -193,7 +193,7 @@ export const paCreate = asyncHandler(async (req, res) => {
       });
     }
 
-    res.status(201).json({
+    return res.status(201).json({
       message:
         req.publicationRole === "writer"
           ? "article is pending wait to approve"
