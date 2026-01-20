@@ -9,20 +9,20 @@ import { loadPublication } from "../middleware/loadPublications.middleware.js";
 import { requireArticleOwnerIfWriter } from "../middleware/articleOwner.middleware.js";
 
 //publication Article Router
-const publicationArtileRouter = express.Router();
+const publicationArticleRouter = express.Router();
 
 //Get all articles
-publicationArtileRouter
+publicationArticleRouter
   .route("/publications/:publicationSlug/articles")
   .get(auth, loadPublication, publicationArticles.paArticles);
 
 //Get article by Id
-publicationArtileRouter
+publicationArticleRouter
   .route("/publications/:publicationSlug/articles/:slug")
   .get(auth, loadPublication, publicationArticles.paArticles);
 
 // Post an article this will be in review state
-publicationArtileRouter
+publicationArticleRouter
   .route("/publications/:publicationSlug/articles")
   .post(
     auth,
@@ -32,7 +32,7 @@ publicationArtileRouter
   );
 
 // delete a publiction article
-publicationArtileRouter
+publicationArticleRouter
   .route("/publications/:publicationSlug/articles/:articleSlug")
   .delete(
     auth,
@@ -44,7 +44,7 @@ publicationArtileRouter
   );
 
 // update publication article content only
-publicationArtileRouter
+publicationArticleRouter
   .route("/publications/:publicationId/articles/:articleSlug")
   .patch(
     auth,
@@ -56,7 +56,7 @@ publicationArtileRouter
   );
 
 // under review articles
-publicationArtileRouter
+publicationArticleRouter
   .route("/publications/:publicationId/articles/review")
   .get(
     loadPublication,
@@ -66,7 +66,7 @@ publicationArtileRouter
   );
 
 // Publish article or approve article
-publicationArtileRouter
+publicationArticleRouter
   .route("/publications/:publicationId/articles/:articleSlug/aprove")
   .patch(
     loadPublication,
@@ -76,7 +76,7 @@ publicationArtileRouter
   );
 
 // Reject an article
-publicationArtileRouter
+publicationArticleRouter
   .route("publications/:publicationId/articles/:articleSlug/reject")
   .patch(
     loadPublication,
@@ -86,4 +86,4 @@ publicationArtileRouter
     publicationArticles.PaReject,
   );
 
-export default publicationArticles;
+export default publicationArticleRouter;
