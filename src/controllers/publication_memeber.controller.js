@@ -8,16 +8,17 @@ export const create = asyncHandler(async (req, res) => {
   //is publicatin memeber
   const memeber = await Db.isPublicationMemeber(
     req.publication.id,
-    req.user.id
+    req.user.id,
   );
-  if (memeber) throw new ApiError("user already memeber of publication", 403);
+  if (memeber)
+    throw new ApiError("user is already memeber of publication", 403);
 
   const result = await Db.createPublicationMember({
     publication_id: req.publication.id,
     user_id: req.user.id,
   });
-  if (!result.lenght) throw new ApiError("Internal server error", 500);
-  res.status(200).json({ message: "Join to publication successed" });
+  if (result === 0) throw new ApiError("Internal server error", 500);
+  res.status(201).json({ message: "Join to publication successed" });
 });
 
 //** leave a publication or remove a publication */
