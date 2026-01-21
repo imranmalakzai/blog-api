@@ -13,7 +13,7 @@ import tagsRouter from "./routes/tags.route.js";
 import articleRouter from "./routes/article.route.js";
 import reactionRouter from "./routes/reactions.route.js";
 import publicationRouter from "./routes/publication.route.js";
-import publicationArticleRouter from "./routes/publicationArticle.route.js";
+
 const app = express();
 
 // important middlewares
@@ -28,8 +28,7 @@ app.use("/api/", userRouter);
 app.use("/api/", publicationRouter);
 app.use("/api/", tagsRouter);
 app.use("/api/", reactionRouter);
-app.use("/api/", publicationArticleRouter);
-app.use;
+app.use("/api/", articleRouter);
 // swagger docs
 app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 //  Swagger JSON
@@ -44,6 +43,6 @@ app.get("/", (req, res) => {
 });
 
 //custom middlewares
-app.use(globleErrorHandlerMiddleWare);
+// app.use(globleErrorHandlerMiddleWare);
 
 export default app;
