@@ -13,31 +13,26 @@ const publicationRouter = express.Router();
 
 //create publications
 publicationRouter
-  .route("/publications")
+  .route("/")
   .post(auth, validate(schema.create), publications.create);
 
 //delete publication
 publicationRouter
-  .route("/publications/:publicationSlug")
+  .route("/:publicationSlug")
   .delete(auth, loadPublication, publications.remove);
 
 //Get all publications
-publicationRouter.route("/publications").get(publications.publications);
+publicationRouter.route("/").get(publications.publications);
 
 //Get a publication by slug
-publicationRouter
-  .route("/publications/:publicationSlug")
-  .get(publications.publication);
+publicationRouter.route("/:publicationSlug").get(publications.publication);
 
 //update a publications
 publicationRouter
-  .route("/publications/:publicationSlug")
+  .route("/:publicationSlug")
   .patch(loadPublication, validate(schema.update), publications.update);
 
 //nested route endpoints
-publicationRouter.use(
-  "/publications/:publicationSlug",
-  publicationArticleRouter,
-);
+publicationRouter.use("/:publicationSlug", publicationArticleRouter);
 
 export default publicationRouter;
