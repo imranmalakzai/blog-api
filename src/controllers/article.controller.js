@@ -256,16 +256,21 @@ export const paArticle = asyncHandler(async (req, res) => {
 //** publication article update */
 export const paUpdate = asyncHandler(async (req, res) => {
   const { title, excerpt, content } = req.body;
-  const slug = slugify(title, { lower: true, trim: true, strict: true });
+  const { articleSlug } = req.params;
 
-  // result
+  //article exist
+  const article = await Db.getArticleBySlug(articleSlug);
+  if (!article) throw new ApiError("Article not exist", 404);
+
+  const slug =
+    slugify(title, { lower: true, trim: true, strict: true }) + "-" + nanoid(5);
   const result = await Db.update({
     author_id: req.user.id,
     content,
     title,
     excerpt,
     slug,
-    articleId: req.article.id,
+    articleId: article.id,
   });
   if (result === 0) throw new ApiError("Internal server error", 500);
   res.status(200).json({ message: "Article updated successfully" });
