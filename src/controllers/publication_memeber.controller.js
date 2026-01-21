@@ -42,16 +42,25 @@ export const memebers = asyncHandler(async (req, res) => {
 
 //**Change memeber role of a publication */
 export const changeRole = asyncHandler(async (req, res) => {
-  const { userId } = req.params;
+  const { username } = req.params;
   const { role } = req.body;
 
+  // user exist
+  const user = await Users.getUserByUsername(username);
+  if (!user) throw new ApiError("user not exist", 404);
+
   //is memeber
-  const memeber = await Db.isPublicationMemeber(req.user.id, userId);
+  const memeber = await Db.isPublicationMemeber(req.user.id, user.id);
   if (!memeber) throw new ApiError("user is not memeber of publication", 404);
 
+  //owner can't change it's role
+  if (user.id.toString() === req.user.id.toString()) {
+    throw new ApiError("unble to change your self role", 403);
+  }
+
   // change role
-  const result = await Db.changePublicationMemberRole(role, userId);
-  if (!result.lenght) throw new ApiError("Internal server error", 500);
+  const result = await Db.changePublicationMemberRole(role, user.id);
+  if (result === 0) throw new ApiError("Internal server error", 500);
 
   res.status(200).json({ message: "role changed successfully" });
 });
