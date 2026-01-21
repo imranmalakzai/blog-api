@@ -39,7 +39,7 @@ export const articleComments = async (articleId) => {
 //**Get a comment by Id */
 export const getCommentById = async (commentId) => {
   const [rows] = await pool.query(
-    "SELECT * FROM comments WHERE id = ? AND is_deleted = '0' ",
+    "SELECT a.slug as article,c.article_id,c.id,c.content,u.username,u.avatar_url FROM  comments c JOIN users u ON u.id = c.user_id Join articles a ON c.article_id = a.id WHERE c.id = ? AND c.is_deleted = '0' ",
     [commentId],
   );
   return rows[0];
