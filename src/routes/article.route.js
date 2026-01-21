@@ -10,20 +10,18 @@ const articleRouter = express.Router();
 //** global route endpoints */
 
 //create article
-articleRouter
-  .route("/articles")
-  .post(auth, validate(schema.create), article.create);
+articleRouter.route("/").post(auth, validate(schema.create), article.create);
 
-articleRouter.route("/articles").get(article.articles);
+articleRouter.route("/").get(article.articles);
 
 //get article by slug
-articleRouter.route("/articles/:articleSlug").get(article.article);
+articleRouter.route("/:articleSlug").get(article.article);
 
 //update article
 articleRouter
-  .route("/articles/:articleSlug")
+  .route("/:articleSlug")
   .patch(auth, validate(schema.update), article.update);
 
-articleRouter.route("/articles/:articleSlug").delete(auth, article.remove);
+articleRouter.route("/:articleSlug").delete(auth, article.remove);
 
 export default articleRouter;
