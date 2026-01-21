@@ -5,6 +5,10 @@ import * as schema from "../validation/publication.schema.js";
 import { validate } from "../config/zod.config.js";
 import { auth } from "../middleware/auth.middleware.js";
 
+//child routes
+
+import publicationArticleRouter from "./publicationArticle.route.js";
+
 const publicationRouter = express.Router();
 
 //create publications
@@ -29,5 +33,11 @@ publicationRouter
 publicationRouter
   .route("/publications/:publicationSlug")
   .patch(loadPublication, validate(schema.update), publications.update);
+
+//nested route endpoints
+publicationRouter.use(
+  "/publications/:publicationSlug",
+  publicationArticleRouter,
+);
 
 export default publicationRouter;
