@@ -34,6 +34,6 @@ publicationRouter
 
 //nested route endpoints
 publicationRouter.use("/:publicationSlug", publicationArticleRouter);
-publicationRouter.use("/:publictionSlug", publicationMembersRouter);
+publicationRouter.use("/:publicationSlug", publicationMembersRouter);
 
 export default publicationRouter;
