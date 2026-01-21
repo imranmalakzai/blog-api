@@ -8,15 +8,9 @@ import { NOTIFICATION_TYPES } from "../constant/notification.js";
 
 //**Add comment to an article */
 export const create = asyncHandler(async (req, res) => {
-  const { articleSlug } = req.params;
   const { content, parentId } = req.body;
-
-  //article exist
-  const article = await articleDb.getArticleBySlug(articleSlug);
-  if (!article) throw new ApiError("Article not exist", 404);
-
   const result = await Db.createComment({
-    article_id: article.id,
+    article_id: req.article.id,
     user_id: req.user.id,
     parent_id: parentId || null,
     content,
@@ -24,7 +18,7 @@ export const create = asyncHandler(async (req, res) => {
 
   if (!result.lenght) throw new ApiError("Internal server error", 500);
   await Notification.create({
-    user_id: article.id,
+    user_id: req.article.id,
     actor_id: req.user.id,
     type: NOTIFICATION_TYPES.COMMENT,
     entiry_id: result.id,
@@ -34,17 +28,13 @@ export const create = asyncHandler(async (req, res) => {
 
 //** Update a comment */
 export const update = asyncHandler(async (req, res) => {
-  const { articleSlug, commentId } = req.params;
+  const { commentId } = req.params;
   const { content } = req.body;
-
-  // article exist
-  const article = await articleDb.getArticleBySlug(articleSlug);
-  if (!article) throw new ApiError("article not exist", 404);
 
   //comment exist
   const comment = await commentDb.getCommentById(commentId);
 
-  if (!comment || !comment.articleId.toString() !== article.id.toString()) {
+  if (!comment || !comment.articleId.toString() !== req.article.id.toString()) {
     throw new ApiError("comment or article not exist", 404);
   }
 
@@ -61,15 +51,12 @@ export const update = asyncHandler(async (req, res) => {
 
 //** Delete a comment */
 export const remove = asyncHandler(async (req, res) => {
-  const { articleSluge, commentId } = req.params;
+  const { commentId } = req.params;
 
-  //article exist
-  const article = await articleDb.getArticleBySlug(articleSluge);
-  if (!article) throw new ApiError("Article not exist", 404);
   //comment exist
   const comment = await commentDb.getCommentById(commentId);
 
-  if (!comment || !comment.articleId.toString() !== article.id.toString()) {
+  if (!comment || !comment.articleId.toString() !== req.article.id.toString()) {
     throw new ApiError("comment or or not belong to the article", 404);
   }
 
@@ -93,13 +80,12 @@ export const comments = asyncHandler(async (req, res) => {
 
 //** Get a comment by  */
 export const comment = asyncHandler(async (req, res) => {
-  const { articleId } = req.params;
   const { commentId } = req.params;
 
   //comment exist
   const comment = await Db.getCommentById(commentId);
 
-  if (!comment || !comment.article_id.toString() === articleId.toString()) {
+  if (!comment || !comment.article_id.toString() === req.articleId.toString()) {
     throw new ApiError("Article or comment not exist", 404);
   }
 
