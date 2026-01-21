@@ -1,19 +1,20 @@
 import * as articles from "../repository/articals.repsitory.js";
+import ApiError from "../utils/apiError.js";
 
 export const requireArticleOwnerIfWriter = async (req, res, next) => {
+  const { articleSlug } = req.params;
+
   try {
     // Only restrict writers
     if (req.publicationRole !== "writer") {
+      const article = await articles.getArticleBySlug(articleSlug);
+      if (!article) throw new ApiError("Article not exist", 404);
+      req.article = article;
       return next();
     }
 
-    const { articleSlug } = req.params;
-
     const article = await articles.getArticleBySlug(articleSlug);
-
-    if (!article) {
-      return res.status(404).json({ message: "Article not found" });
-    }
+    if (!article) throw new ApiError("Article not exist", 404);
 
     if (article.author_id !== req.user.id) {
       return res.status(403).json({
