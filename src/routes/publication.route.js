@@ -33,7 +33,12 @@ publicationRouter
   .patch(loadPublication, validate(schema.update), publications.update);
 
 //nested route endpoints
-publicationRouter.use("/:publicationSlug", publicationArticleRouter);
+publicationRouter.use(
+  "/:publicationSlug/articles",
+  auth,
+  loadPublication,
+  publicationArticleRouter,
+);
 publicationRouter.use("/:publicationSlug", publicationMembersRouter);
 
 export default publicationRouter;

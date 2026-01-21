@@ -3,10 +3,8 @@ import express from "express";
 import * as publicationArticles from "../controllers/article.controller.js";
 import * as schema from "../validation/articles.schema.js";
 import { validate } from "../config/zod.config.js";
-import { auth } from "../middleware/auth.middleware.js";
 import { publicationMember } from "../middleware/loadPublicationRole.middleware.js";
 import { validMemeber } from "../middleware/validPublicationMemeber.middleware.js";
-import { loadPublication } from "../middleware/loadPublications.middleware.js";
 import { articleMiddleware } from "../middleware/article.middleware.js";
 import { requireArticleOwnerIfWriter } from "../middleware/articleOwner.middleware.js";
 //child route
@@ -16,21 +14,15 @@ import commentRouter from "./comments.route.js";
 const publicationArticleRouter = express.Router({ mergeParams: true });
 
 //Get all articles
-publicationArticleRouter
-  .route("/articles")
-  .get(auth, loadPublication, publicationArticles.paArticles);
+publicationArticleRouter.route("/").get(publicationArticles.paArticles);
 
 //Get article by Id
-publicationArticleRouter
-  .route("/articles/:slug")
-  .get(auth, loadPublication, publicationArticles.paArticles);
+publicationArticleRouter.route("/:slug").get(publicationArticles.paArticles);
 
 // Post an article this will be in review for writers state
 publicationArticleRouter
-  .route("/articles")
+  .route("/")
   .post(
-    auth,
-    loadPublication,
     publicationMember,
     validMemeber("owner", "editor", "writer"),
     validate(schema.create),
@@ -39,10 +31,8 @@ publicationArticleRouter
 
 // delete a publiction article
 publicationArticleRouter
-  .route("/articles/:articleSlug")
+  .route("/:articleSlug")
   .delete(
-    auth,
-    loadPublication,
     publicationMember,
     validMemeber("owner", "writer"),
     requireArticleOwnerIfWriter,
@@ -51,10 +41,8 @@ publicationArticleRouter
 
 // update publication article content only
 publicationArticleRouter
-  .route("/articles/:articleSlug")
+  .route("/:articleSlug")
   .patch(
-    auth,
-    loadPublication,
     publicationMember,
     validMemeber("owner", "editor", "writer"),
     requireArticleOwnerIfWriter,
@@ -63,9 +51,8 @@ publicationArticleRouter
 
 // under review articles
 publicationArticleRouter
-  .route("/articles/review")
+  .route("/review")
   .get(
-    loadPublication,
     publicationMember,
     validMemeber("owner", "editor"),
     publicationArticles.paReview,
@@ -73,9 +60,8 @@ publicationArticleRouter
 
 // Publish article or approve article
 publicationArticleRouter
-  .route("/articles/:articleSlug/aprove")
+  .route("/:articleSlug/aprove")
   .patch(
-    loadPublication,
     publicationMember,
     validMemeber("owner", "editor"),
     publicationArticles.paPublish,
@@ -83,9 +69,8 @@ publicationArticleRouter
 
 // Reject an article
 publicationArticleRouter
-  .route("/articles/:articleSlug/reject")
+  .route("/:articleSlug/reject")
   .patch(
-    loadPublication,
     publicationMember,
     validMemeber("editor", "owner", "writer"),
     requireArticleOwnerIfWriter,
@@ -94,8 +79,7 @@ publicationArticleRouter
 
 //nested route
 publicationArticleRouter.use(
-  "/articles/:articleSlug/comments",
-  loadPublication,
+  "/:articleSlug/comments",
   articleMiddleware,
   commentRouter,
 );
