@@ -39,12 +39,7 @@ export const deleteArticle = async (articleId, authorId) => {
 /** Get all public published articles*/
 export const getPublicArticles = async () => {
   const [rows] = await pool.query(
-    `SELECT *
-     FROM articles
-     WHERE status = 'published'
-       AND visibility = 'public'
-       AND deleted_at IS NULL
-       AND publication_id IS NULL
+    `SELECT a.*,u.username as author,u.avatar_url FROM articles a JOIN users u ON a.author_id = u.id  WHERE a.publication_id IS null AND a.status = 'published' AND a.visibility = 'public' AND a.deleted_at IS null
        `,
   );
 
