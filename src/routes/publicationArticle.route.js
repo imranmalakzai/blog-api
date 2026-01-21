@@ -7,7 +7,10 @@ import { auth } from "../middleware/auth.middleware.js";
 import { publicationMember } from "../middleware/loadPublicationRole.middleware.js";
 import { validMemeber } from "../middleware/validPublicationMemeber.middleware.js";
 import { loadPublication } from "../middleware/loadPublications.middleware.js";
+import { articleMiddleware } from "../middleware/article.middleware.js";
 import { requireArticleOwnerIfWriter } from "../middleware/articleOwner.middleware.js";
+//child route
+import commentRouter from "./comments.route.js";
 
 //publication Article Router
 const publicationArticleRouter = express.Router({ mergeParams: true });
@@ -88,5 +91,13 @@ publicationArticleRouter
     requireArticleOwnerIfWriter,
     publicationArticles.PaReject,
   );
+
+//nested route
+publicationArticleRouter.use(
+  "/articles/:articleSlug/comments",
+  loadPublication,
+  articleMiddleware,
+  commentRouter,
+);
 
 export default publicationArticleRouter;
