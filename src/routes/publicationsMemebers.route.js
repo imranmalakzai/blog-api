@@ -36,7 +36,7 @@ publicationMembersRouter
     auth,
     loadPublication,
     publicationMember,
-    validMemeber("admin"),
+    validMemeber("owner"),
     publication.removeUser,
   );
 
@@ -47,7 +47,7 @@ publicationMembersRouter
     auth,
     loadPublication,
     publicationMember,
-    validMemeber("admin"),
+    validMemeber("owner"),
     validate(schema.role),
     publication.changeRole,
   );
