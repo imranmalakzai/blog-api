@@ -87,7 +87,6 @@ export const remove = asyncHandler(async (req, res) => {
 
 //**Get all comment of on article */
 export const comments = asyncHandler(async (req, res) => {
-  console.log(req.article.id);
   const comments = await Db.articleComments(req.article.id);
   res.status(200).json({ comments });
 });
