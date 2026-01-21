@@ -8,6 +8,7 @@ import { NOTIFICATION_TYPES } from "../constant/notification.js";
 //**Add comment to an article */
 export const create = asyncHandler(async (req, res) => {
   const { content, parentId } = req.body;
+
   const result = await Db.createComment({
     article_id: req.article.id,
     user_id: req.user.id,
@@ -15,12 +16,13 @@ export const create = asyncHandler(async (req, res) => {
     content,
   });
 
-  if (!result.lenght) throw new ApiError("Internal server error", 500);
+  if (result === 0) throw new ApiError("Internal server error", 500);
+
   await Notification.create({
-    user_id: req.article.id,
+    user_id: req.user.id,
     actor_id: req.user.id,
     type: NOTIFICATION_TYPES.COMMENT,
-    entiry_id: result.id,
+    entity_id: result,
   });
   res.status(201).json({ message: "comment added successfully" });
 });
