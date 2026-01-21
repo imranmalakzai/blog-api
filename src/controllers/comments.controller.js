@@ -73,14 +73,7 @@ export const comments = asyncHandler(async (req, res) => {
 
 //** Get a comment by  */
 export const comment = asyncHandler(async (req, res) => {
-  const { commentId } = req.params;
-
-  //comment exist
-  const comment = await Db.getCommentById(commentId);
-
-  if (!comment || !comment.article_id.toString() === req.articleId.toString()) {
-    throw new ApiError("Article or comment not exist", 404);
-  }
-
+  const comment = await Db.getCommentById(req.comment.id);
+  if (!comment) throw new ApiError("comment not exist", 404);
   res.status(200).json({ comment });
 });
