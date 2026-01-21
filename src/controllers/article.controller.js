@@ -226,7 +226,7 @@ export const paRemove = asyncHandler(async (req, res) => {
   const article = await Db.getArticleBySlug(articleSlug);
   if (!article) throw new ApiError("Article not exist", 404);
 
-  const result = await Db.deleteArticle(req.article.id);
+  const result = await Db.deleteArticle(article.id);
   if (result === 0) throw new ApiError("internal server error", 500);
 
   res.status(200).json({ message: "Article deleted successfully" });
