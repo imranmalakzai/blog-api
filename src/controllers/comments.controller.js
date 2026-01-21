@@ -49,18 +49,14 @@ export const remove = asyncHandler(async (req, res) => {
   //comment exist
   const comment = await commentDb.getCommentById(commentId);
 
-  if (!comment || !comment.articleId.toString() !== req.article.id.toString()) {
-    throw new ApiError("comment or or not belong to the article", 404);
-  }
-
   // id owner
-  if (comment.user_id.toString() !== req.user.id.toString()) {
+  if (req.comment.user_id.toString() !== req.user.id.toString()) {
     throw new ApiError("Access denied", 403);
   }
 
   //result
   const result = await Db.deleteComment(comment.id);
-  if (!result.lenght) throw new ApiError("Internal server error, 500");
+  if (result === 0) throw new ApiError("Internal server error", 500);
 
   res.status(200).json({ message: "Comment deleted successfully" });
 });
