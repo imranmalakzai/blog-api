@@ -10,21 +10,21 @@ import { loadPublication } from "../middleware/loadPublications.middleware.js";
 import { requireArticleOwnerIfWriter } from "../middleware/articleOwner.middleware.js";
 
 //publication Article Router
-const publicationArticleRouter = express.Router();
+const publicationArticleRouter = express.Router({ mergeParams: true });
 
 //Get all articles
 publicationArticleRouter
-  .route("/publications/:publicationSlug/articles")
+  .route("/articles")
   .get(auth, loadPublication, publicationArticles.paArticles);
 
 //Get article by Id
 publicationArticleRouter
-  .route("/publications/:publicationSlug/articles/:slug")
+  .route("/articles/:slug")
   .get(auth, loadPublication, publicationArticles.paArticles);
 
 // Post an article this will be in review for writers state
 publicationArticleRouter
-  .route("/publications/:publicationSlug/articles")
+  .route("/articles")
   .post(
     auth,
     loadPublication,
@@ -36,7 +36,7 @@ publicationArticleRouter
 
 // delete a publiction article
 publicationArticleRouter
-  .route("/publications/:publicationSlug/articles/:articleSlug")
+  .route("/articles/:articleSlug")
   .delete(
     auth,
     loadPublication,
@@ -48,7 +48,7 @@ publicationArticleRouter
 
 // update publication article content only
 publicationArticleRouter
-  .route("/publications/:publicationSlug/articles/:articleSlug")
+  .route("/articles/:articleSlug")
   .patch(
     auth,
     loadPublication,
@@ -60,7 +60,7 @@ publicationArticleRouter
 
 // under review articles
 publicationArticleRouter
-  .route("/publications/:publicationSlug/articles/review")
+  .route("/articles/review")
   .get(
     loadPublication,
     publicationMember,
@@ -70,7 +70,7 @@ publicationArticleRouter
 
 // Publish article or approve article
 publicationArticleRouter
-  .route("/publications/:publicationSlug/articles/:articleSlug/aprove")
+  .route("/articles/:articleSlug/aprove")
   .patch(
     loadPublication,
     publicationMember,
@@ -80,7 +80,7 @@ publicationArticleRouter
 
 // Reject an article
 publicationArticleRouter
-  .route("publications/:publicationSlug/articles/:articleSlug/reject")
+  .route("/articles/:articleSlug/reject")
   .patch(
     loadPublication,
     publicationMember,
