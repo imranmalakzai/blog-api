@@ -9,7 +9,7 @@ import { auth } from "../middleware/auth.middleware.js";
 import publicationArticleRouter from "./publicationArticle.route.js";
 import publicationMembersRouter from "./publicationsMemebers.route.js";
 
-const publicationRouter = express.Router({ mergeParams: true });
+const publicationRouter = express.Router();
 
 //create publications
 publicationRouter

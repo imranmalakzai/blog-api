@@ -7,7 +7,7 @@ import { validMemeber } from "../middleware/validPublicationMemeber.middleware.j
 import * as schema from "../validation/publicationMemebers.js";
 import { validate } from "../config/zod.config.js";
 
-const publicationMembersRouter = express.Router();
+const publicationMembersRouter = express.Router({ mergeParams: true });
 
 //follow publications
 publicationMembersRouter
