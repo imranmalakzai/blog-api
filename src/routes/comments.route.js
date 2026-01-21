@@ -4,27 +4,23 @@ import { auth } from "../middleware/auth.middleware.js";
 import * as schema from "../validation/comment.schema.js";
 import { validate } from "../config/zod.config.js";
 
-const commentRouter = express.Router();
+const commentRouter = express.Router({ mergeParams: true });
 
 //create a comment
-commentRouter
-  .route("/articles/:articleSlug/comments")
-  .post(auth, validate(schema.create), comment.create);
+commentRouter.route("/").post(auth, validate(schema.create), comment.create);
 
 // Get all comments
-commentRouter.route("/articles/:articleSlug/comments").get(comment.comments);
+commentRouter.route("/").get(comment.comments);
 
 //get a comment
-commentRouter
-  .route("/articles/:articleSlug/comments/:commentId")
-  .get(comment.comment);
+commentRouter.route("/:commentId").get(comment.comment);
 
 //delete a comment
-commentRouter
-  .route("/articles/:articleSlug/comments/:commentId")
-  .delete(auth, comment.remove);
+commentRouter.route("/:commentId").delete(auth, comment.remove);
 
 //update a comment
 commentRouter
-  .route("/articles/:articleSlug/comments/:commentId")
+  .route("/:commentId")
   .patch(validate(schema.update), comment.update);
+
+export default commentRouter;
