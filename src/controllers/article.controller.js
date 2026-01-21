@@ -220,6 +220,12 @@ export const paCreate = asyncHandler(async (req, res) => {
 
 //**publicationa article delete */
 export const paRemove = asyncHandler(async (req, res) => {
+  const { articleSlug } = req.params;
+
+  //article exist
+  const article = await Db.getArticleBySlug(articleSlug);
+  if (!article) throw new ApiError("Article not exist", 404);
+
   const result = await Db.deleteArticle(req.article.id);
   if (result === 0) throw new ApiError("internal server error", 500);
 
