@@ -6,10 +6,10 @@ import { validate } from "../config/zod.config.js";
 import { auth } from "../middleware/auth.middleware.js";
 
 //child routes
-
 import publicationArticleRouter from "./publicationArticle.route.js";
+import publicationMembersRouter from "./publicationsMemebers.route.js";
 
-const publicationRouter = express.Router();
+const publicationRouter = express.Router({ mergeParams: true });
 
 //create publications
 publicationRouter
@@ -34,5 +34,6 @@ publicationRouter
 
 //nested route endpoints
 publicationRouter.use("/:publicationSlug", publicationArticleRouter);
+publicationRouter.use("/:publictionSlug", publicationMembersRouter);
 
 export default publicationRouter;
