@@ -11,45 +11,45 @@ const publicationMembersRouter = express.Router();
 
 //follow publications
 publicationMembersRouter
-  .route("/publications/:publicationSlug/follow")
+  .route("/follow")
   .post(auth, loadPublication, publication.create);
 
 //unfollow publications
 publicationMembersRouter
-  .route("/publications/:publicationSlug/follow")
+  .route("/follow")
   .delete(auth, loadPublication, publication.remove);
 
 //followers
 publicationMembersRouter
-  .route("/publications/:publicationSlug/followers")
+  .route("/followers")
   .get(auth, loadPublication, publication.followers);
 
 //memebers
 publicationMembersRouter
-  .route("/publications/:publicationSlug/memebers")
+  .route("/memebers")
   .get(auth, loadPublication, publication.memebers);
 
 //remove a memeber from publication
 publicationMember
-  .route("/publications/:publicationSlug/memebers/:userId")
+  .route("/memebers/:userId")
   .delete(
     auth,
     loadPublication,
     publicationMember,
     validMemeber("admin"),
-    publication.removeUser
+    publication.removeUser,
   );
 
 //change memebership
 publicationMembersRouter
-  .route("/publications/:publicationSlug/memebers/:userId")
+  .route("/memebers/:userId")
   .patch(
     auth,
     loadPublication,
     publicationMember,
     validMemeber("admin"),
     validate(schema.role),
-    publication.changeRole
+    publication.changeRole,
   );
 
 export default publicationMembersRouter;
