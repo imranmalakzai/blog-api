@@ -42,7 +42,7 @@ publicationMembersRouter
 
 //change memebership
 publicationMembersRouter
-  .route("/members/:userId")
+  .route("/members/:username")
   .patch(
     auth,
     loadPublication,
