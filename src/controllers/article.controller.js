@@ -57,14 +57,8 @@ export const create = asyncHandler(async (req, res) => {
 
 //** delete article */
 export const remove = asyncHandler(async (req, res) => {
-  const { articleSlug } = req.params;
-
-  const article = await Db.getArticleBySlug(articleSlug);
-
-  if (!article) throw new ApiError("Article not exist", 404);
-
   //is owner of the article admin
-  const owner = article.author_id.toString() !== req.user.id.toString();
+  const owner = req.article.author_id.toString() === req.user.id.toString();
   const admin = req.user.role === "admin";
 
   if (!owner && !admin) throw new ApiError("Access denied", 403);
@@ -83,13 +77,7 @@ export const articles = asyncHandler(async (req, res) => {
 
 //** Get an article by slug*/
 export const article = asyncHandler(async (req, res) => {
-  const { articleSlug } = req.params;
-
-  //const article exist
-  const article = await Db.getArticleBySlug(articleSlug);
-  if (!article) throw new ApiError("article not exist", 404);
-
-  const result = await view.viewedArticle(article.id, req.user.id);
+  const result = await view.viewedArticle(req.article.id, req.user.id);
   if (!result)
     await view.create({
       ip_address: req.ip,
@@ -97,23 +85,19 @@ export const article = asyncHandler(async (req, res) => {
       article_id: article.id,
     });
 
-  res.status(200).json({ article });
+  res.status(200).json({ article: req.article });
 });
 
 //** Update an article */
 export const update = asyncHandler(async (req, res) => {
-  const { articleSlug } = req.params;
   const { title, excerpt, content } = req.body;
 
   //add unique slug
   const slug = slugify(title, { lower: true, strict: true }) + "-" + nanoid(5);
 
-  //article exist
-  const article = await Db.getArticleBySlug(articleSlug);
-  if (!article) throw new ApiError("article not exist", 404);
-
   //is owner
-  const owner = req.user.id.toString() === article.author_id.toString();
+  const owner = req.user.id.toString() === req.article.author_id.toString();
+
   const editor = req.user.role === "editor";
   if (!owner && !editor) throw new ApiError("Access denied", 403);
 
