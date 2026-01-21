@@ -1,6 +1,5 @@
 import express from "express";
 import * as comment from "../controllers/comments.controller.js";
-import { auth } from "../middleware/auth.middleware.js";
 import * as schema from "../validation/comment.schema.js";
 import { validate } from "../config/zod.config.js";
 
