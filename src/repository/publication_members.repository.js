@@ -30,7 +30,7 @@ export const changePublicationMemberRole = async (role, user_id) => {
 //**Get all members of  publications */
 export const publicationMemebers = async (publicationId) => {
   const [rows] = await pool.query(
-    "SELECT u.id as userId,u.username,u.avatar_url FROM publication_members pm JOIN  users u ON u.id = pm.user_id  WHERE publication_id = ? AND role IS NOT null",
+    "SELECT u.id as userId,u.username,pm.role,u.avatar_url FROM publication_members pm JOIN  users u ON u.id = pm.user_id  WHERE publication_id = ? AND pm.role IS NOT null",
     publicationId,
   );
   return rows;
