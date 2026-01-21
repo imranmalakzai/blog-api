@@ -31,7 +31,7 @@ publicationMembersRouter
 
 //remove a memeber from publication
 publicationMembersRouter
-  .route("/members/:userId")
+  .route("/members/:username")
   .delete(
     auth,
     loadPublication,
