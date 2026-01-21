@@ -81,6 +81,11 @@ export const removeUser = asyncHandler(async (req, res) => {
   const memeber = await Db.isPublicationMemeber(req.publication.id, user.id);
   if (!memeber) throw new ApiError("Not publication memeber", 403);
 
+  //prevent admin for delete his self
+  if (user.id.toString() === req.user.id.toString()) {
+    throw new ApiError("You can't delete you account", 403);
+  }
+
   //result
   const result = await Db.deletePublicationMember(user.id);
   if (result === 0) throw new ApiError("Internal server error", 500);
