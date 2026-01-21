@@ -58,7 +58,7 @@ export const isPublicationMemeber = async (publicationId, userId) => {
 //** publication followers */
 export const publicationFollowers = async (publicationId) => {
   const [rows] = await pool.query(
-    "SELECT * FROM publication_members WHERE role IS NULL AND publication_id = ?",
+    "SELECT u.id as userId,u.username,u.avatar_url,pm.role FROM publication_members pm JOIN users u on u.id = pm.user_id WHERE pm.publication_id = ?",
     [publicationId],
   );
   return rows;
