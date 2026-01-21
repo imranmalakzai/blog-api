@@ -2,7 +2,6 @@ import * as Db from "../repository/comments.repository.js";
 import ApiError from "../utils/apiError.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import * as commentDb from "../repository/comments.repository.js";
-import * as articleDb from "../repository/articals.repsitory.js";
 import * as Notification from "../repository/notification.repository.js";
 import { NOTIFICATION_TYPES } from "../constant/notification.js";
 
