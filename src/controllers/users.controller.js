@@ -49,11 +49,11 @@ export const login = asyncHandler(async (req, res) => {
 
   //user exist
   const user = await getUserByEmail(email);
-  if (!user) throw new ApiError("Invalid cridential", 400);
+  if (!user) throw new ApiError("Invalid cridential", 401);
 
   //compare password
   const isMatch = await bcrypt.compare(password, user.password_hash);
-  if (!isMatch) throw new ApiError("Invalid cridential", 400);
+  if (!isMatch) throw new ApiError("Invalid cridential", 401);
 
   //tokens
   const accessToken = await generateAccessToken(user);
