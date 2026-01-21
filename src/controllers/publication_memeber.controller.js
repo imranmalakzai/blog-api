@@ -50,12 +50,12 @@ export const changeRole = asyncHandler(async (req, res) => {
   if (!user) throw new ApiError("user not exist", 404);
 
   //is memeber
-  const memeber = await Db.isPublicationMemeber(req.user.id, user.id);
+  const memeber = await Db.isPublicationMemeber(req.publication.id, user.id);
   if (!memeber) throw new ApiError("user is not memeber of publication", 404);
 
   //owner can't change it's role
   if (user.id.toString() === req.user.id.toString()) {
-    throw new ApiError("unble to change your self role", 403);
+    throw new ApiError("You can't change your role", 403);
   }
 
   // change role
