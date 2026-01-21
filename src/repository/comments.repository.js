@@ -21,7 +21,7 @@ export const updateComment = async (content, commentId) => {
 //** soft delete comment */
 export const deleteComment = async (commentId) => {
   const result = await pool.query(
-    "UPDATE comments SET is_deleted = '0' WHERE is_deleted = '1' AND id = ? ",
+    "UPDATE comments SET is_deleted = '1' WHERE is_deleted = '0' AND id = ? ",
     [commentId],
   );
   return result.affectedRows;
