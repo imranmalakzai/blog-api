@@ -28,7 +28,7 @@ app.use("/api/", userRouter);
 app.use("/api/publications/", publicationRouter);
 app.use("/api/", tagsRouter);
 app.use("/api/", reactionRouter);
-app.use("/api/", articleRouter);
+app.use("/api/articles/", articleRouter);
 // swagger docs
 app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 //  Swagger JSON
