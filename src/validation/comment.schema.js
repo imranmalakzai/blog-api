@@ -2,9 +2,7 @@ import { z } from "zod";
 
 //create comment
 export const create = z.object({
-  article_id: z.number().int().positive(),
-  user_id: z.number().int().positive(),
-  parent_id: z.number().int().positive().optional,
+  parent_id: z.number().optional(),
   content: z
     .string()
     .min(1)
