@@ -7,7 +7,7 @@ import { validate } from "../config/zod.config.js";
 const commentRouter = express.Router({ mergeParams: true });
 
 //create a comment
-commentRouter.route("/").post(auth, validate(schema.create), comment.create);
+commentRouter.route("/").post(validate(schema.create), comment.create);
 
 // Get all comments
 commentRouter.route("/").get(comment.comments);
@@ -16,7 +16,7 @@ commentRouter.route("/").get(comment.comments);
 commentRouter.route("/:commentId").get(comment.comment);
 
 //delete a comment
-commentRouter.route("/:commentId").delete(auth, comment.remove);
+commentRouter.route("/:commentId").delete(comment.remove);
 
 //update a comment
 commentRouter
