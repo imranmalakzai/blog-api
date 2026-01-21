@@ -1,6 +1,6 @@
 import * as Db from "../repository/comments.repository.js";
 import ApiError from "../utils/apiError.js";
-import { asyncHandler } from "../utils/asyncHandler";
+import { asyncHandler } from "../utils/asyncHandler.js";
 import * as commentDb from "../repository/comments.repository.js";
 import * as articleDb from "../repository/articals.repsitory.js";
 import * as Notification from "../repository/notification.repository.js";
@@ -87,13 +87,8 @@ export const remove = asyncHandler(async (req, res) => {
 
 //**Get all comment of on article */
 export const comments = asyncHandler(async (req, res) => {
-  const { articleSlug } = req.params;
-
-  const article = await articleDb.getArticleBySlug(articleSlug);
-  if (!article) throw new ApiError("article not exist", 404);
-
-  const comments = await Db.articleComments(article.id);
-
+  console.log(req.article.id);
+  const comments = await Db.articleComments(req.article.id);
   res.status(200).json({ comments });
 });
 
