@@ -26,12 +26,12 @@ publicationMembersRouter
 
 //memebers
 publicationMembersRouter
-  .route("/memebers")
+  .route("/members")
   .get(auth, loadPublication, publication.memebers);
 
 //remove a memeber from publication
 publicationMembersRouter
-  .route("/memebers/:userId")
+  .route("/members/:userId")
   .delete(
     auth,
     loadPublication,
@@ -42,7 +42,7 @@ publicationMembersRouter
 
 //change memebership
 publicationMembersRouter
-  .route("/memebers/:userId")
+  .route("/members/:userId")
   .patch(
     auth,
     loadPublication,
