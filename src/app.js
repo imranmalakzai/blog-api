@@ -25,7 +25,7 @@ app.use(cookieParser());
 
 //app route endpoints
 app.use("/api/", userRouter);
-app.use("/api/", publicationRouter);
+app.use("/api/publications/", publicationRouter);
 app.use("/api/", tagsRouter);
 app.use("/api/", reactionRouter);
 app.use("/api/", articleRouter);
@@ -43,6 +43,6 @@ app.get("/", (req, res) => {
 });
 
 //custom middlewares
-// app.use(globleErrorHandlerMiddleWare);
+app.use(globleErrorHandlerMiddleWare);
 
 export default app;
