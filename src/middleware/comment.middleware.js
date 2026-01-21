@@ -15,7 +15,7 @@ export const commentMiddleware = async (req, res, next) => {
     const comment = await Comment.getCommentById(commentId);
     if (
       !comment ||
-      !comment.articleId.toString() !== req.article.id.toString()
+      !comment.article_id.toString() === req.article.id.toString()
     ) {
       throw new ApiError("comment or article not exist", 404);
     }
