@@ -1,5 +1,5 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
-import * as publicationDb from "../repository/publication.repository.js";
+import * as Users from "../repository/users.repository.js";
 import * as Db from "../repository/publication_members.repository.js";
 import ApiError from "../utils/apiError.js";
 
@@ -71,14 +71,18 @@ export const followers = asyncHandler(async (req, res) => {
 
 //**remove from publications */
 export const removeUser = asyncHandler(async (req, res) => {
-  const { userId } = req.params;
+  const { username } = req.params;
+
+  //user exist
+  const user = await Users.getUserByUsername(username);
+  if (!user) throw new ApiError("user not exist", 404);
 
   //is publication memeber
-  const memeber = await Db.isPublicationMemeber(req.publication.id, userId);
+  const memeber = await Db.isPublicationMemeber(req.publication.id, user.id);
   if (!memeber) throw new ApiError("Not publication memeber", 403);
 
   //result
-  const result = await Db.deletePublicationMember(userId);
+  const result = await Db.deletePublicationMember(user.id);
   if (result === 0) throw new ApiError("Internal server error", 500);
 
   res.status(200).json({ message: "user removed successfully" });
