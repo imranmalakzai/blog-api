@@ -63,7 +63,7 @@ export const remove = asyncHandler(async (req, res) => {
 
   if (!owner && !admin) throw new ApiError("Access denied", 403);
 
-  const result = await Db.deleteArticle(article.id, req.user.id);
+  const result = await Db.deleteArticle(req.article.id, req.user.id);
   if (result === 0) throw new ApiError("Internal server error", 500);
 
   res.status(200).json({ message: "Article deleted successfully" });
