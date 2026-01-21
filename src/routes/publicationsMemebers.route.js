@@ -30,7 +30,7 @@ publicationMembersRouter
   .get(auth, loadPublication, publication.memebers);
 
 //remove a memeber from publication
-publicationMember
+publicationMembersRouter
   .route("/memebers/:userId")
   .delete(
     auth,
