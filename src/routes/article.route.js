@@ -4,6 +4,7 @@ import { auth } from "../middleware/auth.middleware.js";
 import * as schema from "../validation/articles.schema.js";
 import { validate } from "../config/zod.config.js";
 import { articleMiddleware } from "../middleware/article.middleware.js";
+import commentRouter from "./comments.route.js";
 
 //**Router endpoints */
 const articleRouter = express.Router();
@@ -26,5 +27,8 @@ articleRouter
 articleRouter
   .route("/:articleSlug")
   .delete(auth, articleMiddleware, article.remove);
+
+//nested endpoints
+articleRouter.use("/:articleSlug/comments", articleMiddleware, commentRouter);
 
 export default articleRouter;
