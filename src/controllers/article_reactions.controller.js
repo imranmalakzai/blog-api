@@ -28,16 +28,16 @@ export const react = asyncHandler(async (req, res) => {
   }
 
   // NO reaction yet → create
-  await db.create({
+  await db.createLikeArticle({
     user_id: req.user.id,
-    article_id: req.article.id,
+    articleId: req.article.id,
     reaction_id: reaction.id,
   });
 
   await Notification.create({
     user_id: req.article.author_id,
     actor_id: req.user.id,
-    type: NOTIFICATION_TYPES.ARTICLE_REACTION,
+    type: NOTIFICATION_TYPES.ARTICLE_LIKE,
     entity_id: req.article.id,
   });
 
