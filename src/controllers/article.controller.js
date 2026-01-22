@@ -204,6 +204,9 @@ export const paCreate = asyncHandler(async (req, res) => {
 
 //**publicationa article delete */
 export const paRemove = asyncHandler(async (req, res) => {
+  if (req.article.publication_id.toString() !== req.publication.id.toString()) {
+    throw new ApiError("Article not belongs to publication", 403);
+  }
   const result = await Db.deleteArticle(req.article.id, req.user.id);
   if (result === 0) throw new ApiError("internal server error", 500);
 
@@ -220,12 +223,9 @@ export const paArticles = asyncHandler(async (req, res) => {
 
 //** publication article by Id */
 export const paArticle = asyncHandler(async (req, res) => {
-  const { articleSlug } = req.params;
-
-  //const article exist
-  const article = await Db.getArticleBySlug(articleSlug);
-  if (!article.lenght) throw new ApiError("Internal server error", 500);
-
+  if (req.article.publication_id.toString() !== req.publication.id.toString()) {
+    throw new ApiError("Article not belongs to publication", 403);
+  }
   const result = await view.viewedArticle(article.id, req.user.id);
   if (!result)
     await view.create({
@@ -239,13 +239,10 @@ export const paArticle = asyncHandler(async (req, res) => {
 
 //** publication article update */
 export const paUpdate = asyncHandler(async (req, res) => {
+  if (req.article.publication_id.toString() !== req.publication.id.toString()) {
+    throw new ApiError("Article not belongs to publication", 403);
+  }
   const { title, excerpt, content } = req.body;
-  const { articleSlug } = req.params;
-
-  //article exist
-  const article = await Db.getArticleBySlug(articleSlug);
-  if (!article) throw new ApiError("Article not exist", 404);
-
   const slug =
     slugify(title, { lower: true, trim: true, strict: true }) + "-" + nanoid(5);
   const result = await Db.update({
@@ -254,7 +251,7 @@ export const paUpdate = asyncHandler(async (req, res) => {
     title,
     excerpt,
     slug,
-    articleId: article.id,
+    articleId: req.article.id,
   });
   if (result === 0) throw new ApiError("Internal server error", 500);
   res.status(200).json({ message: "Article updated successfully" });
