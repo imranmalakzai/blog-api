@@ -9,6 +9,7 @@ import { articleMiddleware } from "../middleware/article.middleware.js";
 import { requireArticleOwnerIfWriter } from "../middleware/articleOwner.middleware.js";
 //child route
 import commentRouter from "./comments.route.js";
+import articleReaction from "./articleReaction.route.js";
 
 //publication Article Router
 const publicationArticleRouter = express.Router({ mergeParams: true });
@@ -82,6 +83,12 @@ publicationArticleRouter.use(
   "/:articleSlug/comments",
   articleMiddleware,
   commentRouter,
+);
+
+publicationArticleRouter.use(
+  "/:articleSlug/reactions",
+  articleMiddleware,
+  articleReaction,
 );
 
 export default publicationArticleRouter;
