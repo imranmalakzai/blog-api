@@ -3,7 +3,7 @@ import { pool } from "../config/db.config.js";
 //** Like an article */
 export const createLikeArticle = async (data) => {
   const [result] = await pool.query(
-    "INSERT INTO article_reactions (articleId,user_id,reaction_id) VALUES (?,?,?)",
+    "INSERT INTO article_reactions (article_id,user_id,reaction_id) VALUES (?,?,?)",
     [data.articleId, data.user_id, data.reaction_id],
   );
   return result.insertId;
@@ -31,7 +31,7 @@ export const usersLikedArticle = async (articleId) => {
 //**user reaction */
 export const userReaction = async (userId, articleId) => {
   const [rows] = await pool.query(
-    "SELECT id from article_reactions where article_id ? and user_id ?",
+    "SELECT * from article_reactions where article_id = ? and user_id = ?",
     [articleId, userId],
   );
   return rows[0];
