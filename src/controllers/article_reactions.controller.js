@@ -46,13 +46,7 @@ export const react = asyncHandler(async (req, res) => {
 
 //** get all likes on an article */
 export const likes = asyncHandler(async (req, res) => {
-  const { articleId } = req.params;
-
-  //article exist
-  const article = await articleDb.getArticleById(articleId);
-  if (!article) throw new ApiError("article not exist", 404);
-
   //result
-  const likes = await db.usersLikedArticle(articleId);
+  const likes = await db.usersLikedArticle(req.articleId);
   res.status(200).json({ likes: likes || [] });
 });
