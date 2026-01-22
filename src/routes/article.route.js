@@ -4,7 +4,10 @@ import { auth } from "../middleware/auth.middleware.js";
 import * as schema from "../validation/articles.schema.js";
 import { validate } from "../config/zod.config.js";
 import { articleMiddleware } from "../middleware/article.middleware.js";
+
+//import child routes
 import commentRouter from "./comments.route.js";
+import articleReactionRouter from "./articleReaction.route.js";
 
 //**Router endpoints */
 const articleRouter = express.Router();
@@ -30,5 +33,10 @@ articleRouter
 
 //nested endpoints
 articleRouter.use("/:articleSlug/comments", articleMiddleware, commentRouter);
+articleRouter.use(
+  "/:articleSlug/reactions",
+  articleMiddleware,
+  articleReactionRouter,
+);
 
 export default articleRouter;
