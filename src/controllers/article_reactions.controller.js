@@ -7,51 +7,41 @@ import * as Notification from "../repository/notification.repository.js";
 import { NOTIFICATION_TYPES } from "../constant/notification.js";
 
 //** like an article */
-export const create = asyncHandler(async (req, res) => {
-  const { articleSlug } = req.params;
+export const react = asyncHandler(async (req, res) => {
   const { reactionId } = req.body;
 
-  //article exist
-  const article = await articleDb.getArticleBySlug(articleSlug);
-  if (!article) throw new ApiError("article not exist", 404);
-
-  // reaction exist
   const reaction = await reactionDb.reaction(reactionId);
   if (!reaction) throw new ApiError("Invalid reaction", 404);
 
-  //check reaction exist
-  const isExist = await db.userReacion(req.user.id, article.id);
+  const existing = await db.userReaction(req.user.id, req.article.id);
 
-  //check user reacted again ? the same then remove the reaction
-  if (isExist && isExist.reaction_id.toString() === reaction.id.toString()) {
-    const remove = await db.remove(req.user.id, reaction.id);
-    if (remove === 0) throw new ApiError("Internal server error", 500);
-    await res.status(200).json({ message: "Reaction removed successfully" });
+  // SAME reaction → remove
+  if (existing && existing.reaction_id === reaction.id) {
+    await db.remove(req.user.id, req.article.id);
+    return res.status(200).json({ message: "Reaction removed" });
   }
 
-  //check if the reaction is defferent
-  if (isExist && isExist.reaction_id.toString() !== reaction.id.toString()) {
-    const update = await db.update(req.user.id, articleId, reactionId);
-    if (update === 0) throw new ApiError("Internal server error");
-    res.status(200).json({ message: "recation updated" });
+  // DIFFERENT reaction → update
+  if (existing && existing.reaction_id !== reaction.id) {
+    await db.update(req.user.id, req.article.id, reaction.id);
+    return res.status(200).json({ message: "Reaction updated" });
   }
 
-  //no react yest ?
-  const result = await db.createLikeArticle({
+  // NO reaction yet → create
+  await db.create({
     user_id: req.user.id,
     article_id: article.id,
-    reaction_id: reactionId,
+    reaction_id: reaction.id,
   });
 
-  if (!result) throw new ApiError("Internal server error", 500);
   await Notification.create({
-    user_id: article.author_id,
+    user_id: req.article.author_id,
     actor_id: req.user.id,
-    type: NOTIFICATION_TYPES.ARTICLE_LIKE,
-    entiry_id: article.id,
+    type: NOTIFICATION_TYPES.ARTICLE_REACTION,
+    entity_id: req.article.id,
   });
 
-  res.status(200).json({ message: "Reaction added" });
+  res.status(201).json({ message: "Reaction added" });
 });
 
 //** get all likes on an article */
