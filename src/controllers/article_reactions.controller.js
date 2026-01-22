@@ -30,7 +30,7 @@ export const react = asyncHandler(async (req, res) => {
   // NO reaction yet → create
   await db.create({
     user_id: req.user.id,
-    article_id: article.id,
+    article_id: req.article.id,
     reaction_id: reaction.id,
   });
 
