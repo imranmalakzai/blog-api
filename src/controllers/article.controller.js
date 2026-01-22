@@ -82,7 +82,7 @@ export const article = asyncHandler(async (req, res) => {
     await view.create({
       ip_address: req.ip,
       user_id: req.user.id,
-      article_id: article.id,
+      article_id: req.article.id,
     });
 
   res.status(200).json({ article: req.article });
