@@ -17,8 +17,10 @@ const publicationArticleRouter = express.Router({ mergeParams: true });
 //Get all articles
 publicationArticleRouter.route("/").get(publicationArticles.paArticles);
 
-//Get article by Id
-publicationArticleRouter.route("/:slug").get(publicationArticles.paArticles);
+//Get article with slug
+publicationArticleRouter
+  .route("/:articleSlug")
+  .get(articleMiddleware, publicationArticles.paArticles);
 
 // Post an article this will be in review for writers state
 publicationArticleRouter
