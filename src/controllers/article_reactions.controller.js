@@ -1,7 +1,6 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
 import ApiError from "../utils/apiError.js";
 import * as reactionDb from "../repository/reactions.repository.js";
-import * as articleDb from "../repository/articals.repsitory.js";
 import * as db from "../repository/article_rection.repository.js";
 import * as Notification from "../repository/notification.repository.js";
 import { NOTIFICATION_TYPES } from "../constant/notification.js";
@@ -47,6 +46,6 @@ export const react = asyncHandler(async (req, res) => {
 //** get all likes on an article */
 export const likes = asyncHandler(async (req, res) => {
   //result
-  const likes = await db.usersLikedArticle(req.articleId);
+  const likes = await db.usersLikedArticle(req.article.id);
   res.status(200).json({ likes: likes || [] });
 });
