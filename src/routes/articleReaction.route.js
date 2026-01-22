@@ -4,7 +4,7 @@ import * as articleReaction from "../controllers/article_reactions.controller.js
 
 const articleReactionRouter = express.Router({ mergeParams: true });
 
-articleReactionRouter.route("/reactions").post(auth, articleReaction.create);
-articleReaction.route("/reactions").get(auth, articleReaction.likes);
+articleReactionRouter.route("/").post(auth, articleReaction.create);
+articleReaction.route("/").get(auth, articleReaction.likes);
 
 export default articleReactionRouter;
