@@ -72,11 +72,10 @@ publicationArticleRouter
 
 // Reject an article
 publicationArticleRouter
-  .route("/articles/:articleSlug/reject")
+  .route("/review-articles/:articleSlug/reject")
   .patch(
     publicationMember,
     validMemeber("editor", "owner", "writer"),
-    requireArticleOwnerIfWriter,
     publicationArticles.PaReject,
   );
 
