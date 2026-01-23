@@ -133,6 +133,21 @@ export const getArticleBySlug = async (slug) => {
   return rows[0];
 };
 
+//** Get a publication under review an article */
+export const getUnderReviewArticleBySlug = async (data) => {
+  const [rows] = await pool.query(
+    `SELECT id
+     FROM articles
+     WHERE slug = ?
+       AND status = 'review'
+       AND deleted_at IS NULL
+       AND publication_id = ?
+     LIMIT 1`,
+    [data.articleSlug, data.publicationId],
+  );
+  return rows[0];
+};
+
 //** GET Draft Articles */
 export const getDraftArticles = async (authorId) => {
   const [rows] = await pool.query(
@@ -215,8 +230,9 @@ export const articleUnderReivew = async (publicatinId) => {
 
 //** publication publish article under Reviewed */
 export const publishReviewdArticle = async (publicationId, articleId) => {
+  console.log(publicationId, articleId);
   const result = await pool.query(
-    "UPDATE articles SET status = 'published' WHERE publication_id = ? and id = ? ",
+    "UPDATE articles SET status = 'published', published_at = Now()  WHERE publication_id = ? AND id = ?",
     [publicationId, articleId],
   );
   result.affectedRows;
