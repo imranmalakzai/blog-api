@@ -15,16 +15,16 @@ import articleReaction from "./articleReaction.route.js";
 const publicationArticleRouter = express.Router({ mergeParams: true });
 
 //Get all articles
-publicationArticleRouter.route("/").get(publicationArticles.paArticles);
+publicationArticleRouter.route("/articles").get(publicationArticles.paArticles);
 
 //Get article with slug
 publicationArticleRouter
-  .route("/:articleSlug")
+  .route("/articles/:articleSlug")
   .get(articleMiddleware, publicationArticles.paArticles);
 
 // Post an article this will be in review for writers state
 publicationArticleRouter
-  .route("/")
+  .route("/articles/")
   .post(
     publicationMember,
     validMemeber("owner", "editor", "writer"),
@@ -34,7 +34,7 @@ publicationArticleRouter
 
 // delete a publiction article
 publicationArticleRouter
-  .route("/:articleSlug")
+  .route("/articles/:articleSlug")
   .delete(
     publicationMember,
     validMemeber("owner", "writer"),
@@ -44,7 +44,7 @@ publicationArticleRouter
 
 // update publication article content only
 publicationArticleRouter
-  .route("/:articleSlug")
+  .route("/articles/:articleSlug")
   .patch(
     publicationMember,
     validMemeber("owner", "editor", "writer"),
@@ -54,7 +54,7 @@ publicationArticleRouter
 
 // under review articles
 publicationArticleRouter
-  .route("/review")
+  .route("/review-articles")
   .get(
     publicationMember,
     validMemeber("owner", "editor"),
@@ -63,7 +63,7 @@ publicationArticleRouter
 
 // Publish article or approve article
 publicationArticleRouter
-  .route("/:articleSlug/aprove")
+  .route("/review-articles/:articleSlug/approve")
   .patch(
     publicationMember,
     validMemeber("owner", "editor"),
@@ -72,7 +72,7 @@ publicationArticleRouter
 
 // Reject an article
 publicationArticleRouter
-  .route("/:articleSlug/reject")
+  .route("/articles/:articleSlug/reject")
   .patch(
     publicationMember,
     validMemeber("editor", "owner", "writer"),
@@ -82,13 +82,13 @@ publicationArticleRouter
 
 //nested route
 publicationArticleRouter.use(
-  "/:articleSlug/comments",
+  "/articles/:articleSlug/comments",
   articleMiddleware,
   commentRouter,
 );
 
 publicationArticleRouter.use(
-  "/:articleSlug/reactions",
+  "/articles/:articleSlug/reactions",
   articleMiddleware,
   articleReaction,
 );
