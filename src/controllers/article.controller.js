@@ -291,7 +291,11 @@ export const paPublish = asyncHandler(async (req, res) => {
 //** Reject under review article */
 export const PaReject = asyncHandler(async (req, res) => {
   const { articleSlug } = req.params;
-  const article = await Db.getArticleBySlug(articleSlug);
+  const article = await Db.getUnderReviewArticleBySlug({
+    articleSlug,
+    publicationId: req.publication.id,
+  });
+
   if (!article || !article.status === "review") {
     throw new ApiError("article not exist or not under reivew", 403);
   }
