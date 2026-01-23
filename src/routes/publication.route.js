@@ -34,7 +34,7 @@ publicationRouter
 
 //nested route endpoints
 publicationRouter.use(
-  "/:publicationSlug/articles",
+  "/:publicationSlug",
   auth,
   loadPublication,
   publicationArticleRouter,
