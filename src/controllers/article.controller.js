@@ -271,12 +271,18 @@ export const paReview = asyncHandler(async (req, res) => {
 
 //** publicdation publish under reviewd article */
 export const paPublish = asyncHandler(async (req, res) => {
-  if (req.article.status !== "review") {
-    throw new ApiError("only under review article can be published", 403);
-  }
+  const { articleSlug } = req.params;
+
+  //articl exist
+  const article = await Db.getUnderReviewArticleBySlug({
+    articleSlug,
+    publicationId: req.publication.id,
+  });
+  if (!article) throw new ApiError("Article not exist in review", 404);
 
   //result
-  const result = await Db.publishReviewdArticle(req.publication.id);
+  const result = await Db.publishReviewdArticle(req.publication.id, article.id);
+
   if (result === 0) throw new ApiError("Internal server error", 500);
 
   res.status(200).json({ message: "published article successfully" });
