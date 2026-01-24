@@ -22,10 +22,10 @@ export const remove = asyncHandler(async (req, res) => {
   if (!bookmark) throw new ApiError("article is not bookmarked", 400);
 
   //result
-  const result = await Db.remove(req.article.id);
+  const result = await Db.remove(req.article.id, req.user.id);
   if (result === 0) throw new ApiError("Internal server error", 500);
 
-  res.status(200).json({ message: "article unbookmarked" });
+  res.status(200).json({ message: "remove bookmarked" });
 });
 
 //**Get all bookmarked articles */
