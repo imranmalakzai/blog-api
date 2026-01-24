@@ -21,7 +21,7 @@ publicationArticleRouter.route("/articles").get(publicationArticles.paArticles);
 //Get article with slug
 publicationArticleRouter
   .route("/articles/:articleSlug")
-  .get(articleMiddleware, publicationArticles.paArticles);
+  .get(articleMiddleware, publicationArticles.paArticle);
 
 // Post an article this will be in review for writers state
 publicationArticleRouter
