@@ -8,24 +8,24 @@ import { validate } from "../config/zod.config.js";
 const reactionRouter = express.Router();
 
 //Get all reactions
-reactionRouter.route("/reactions").get(reactions.reactions);
+reactionRouter.route("/").get(reactions.reactions);
 
 //Get a reaction by Id
-reactionRouter.route("/reactions/:reactionId").get(reactions.reaction);
+reactionRouter.route("/:reactionId").get(reactions.reaction);
 
 //create a new reaction
 reactionRouter
-  .route("/reactions")
+  .route("/")
   .post(auth, authoriz("admin"), validate(schema.create), reactions.create);
 
 //update a reactions
 reactionRouter
-  .route("/reactions/:reactionId")
+  .route("/:reactionId")
   .post(auth, authoriz("admin"), validate(schema.update), reactions.update);
 
 //delete a reaction
 reactionRouter
-  .route("/reactions/:reactionId")
+  .route("/:reactionId")
   .delete(auth, authoriz("admin"), reactions.remove);
 
 export default reactionRouter;
