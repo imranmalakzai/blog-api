@@ -27,10 +27,11 @@ app.use(cookieParser());
 //app route endpoints
 app.use("/api/", userRouter);
 app.use("/api/publications/", publicationRouter);
-app.use("/api/", tagsRouter);
-app.use("/api/", reactionRouter);
+app.use("/api/tags/", tagsRouter);
+app.use("/api/reactions/", reactionRouter);
 app.use("/api/articles/", articleRouter);
-app.use("/api/", bookmarksRouter);
+app.use("/api/bookmarks/", bookmarksRouter);
+
 // swagger docs
 app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 //  Swagger JSON
