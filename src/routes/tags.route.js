@@ -9,19 +9,19 @@ const tagsRouter = express.Router();
 
 //create tag
 tagsRouter
-  .route("/tags")
+  .route("/")
   .post(auth, authoriz("admin"), validate(schema.create), tags.create);
 
 //delete tag slug
-tagsRouter.route("/tags/:slug").delete(auth, authoriz("admin"), tags.remove);
+tagsRouter.route("/:slug").delete(auth, authoriz("admin"), tags.remove);
 
 //get all tags
-tagsRouter.route("/tags").get(tags.tags);
+tagsRouter.route("/").get(tags.tags);
 
 //get a tag by slug
-tagsRouter.route("/tags/:slug").get(tags.tag);
+tagsRouter.route("/:slug").get(tags.tag);
 
 //update a tag
-tagsRouter.route("/tags/:slug").patch(validate(schema.update), tags.update);
+tagsRouter.route("/:slug").patch(validate(schema.update), tags.update);
 
 export default tagsRouter;
