@@ -30,7 +30,7 @@ export const bookmarks = async (userId) => {
 /**Get a bookmarked article */
 export const bookmark = async (articleId, userId) => {
   const [rows] = await pool.query(
-    "SELECT * FROM bookmarks WHERE article_id = ? AND user_id = ?",
+    "SELECT a.*,b.*,u.id as user_id,u.username as author,u.avatar_url FROM bookmarks b JOIN articles a ON a.id = b.article_id JOIN users u ON u.id = a.author_id WHERE b.article_id = ? AND b.user_id = ?",
     [articleId, userId],
   );
   return rows[0];
