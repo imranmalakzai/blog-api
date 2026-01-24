@@ -10,6 +10,7 @@ import { requireArticleOwnerIfWriter } from "../middleware/articleOwner.middlewa
 //child route
 import commentRouter from "./comments.route.js";
 import articleReaction from "./articleReaction.route.js";
+import articleViewRouter from "./articleViews.route.js";
 
 //publication Article Router
 const publicationArticleRouter = express.Router({ mergeParams: true });
@@ -96,5 +97,10 @@ publicationArticleRouter.use(
 );
 
 //publication article views
-puli;
+publicationArticleRouter.use(
+  "/articles/:articleSlug/views",
+  articleMiddleware,
+  articleViewRouter,
+);
+
 export default publicationArticleRouter;
