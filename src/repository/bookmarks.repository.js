@@ -4,7 +4,7 @@ import { pool } from "../config/db.config.js";
 export const create = async (articleId, userId) => {
   const [result] = await pool.query(
     "INSERT INTO bookmarks (article_id,user_id) VALUES  (?,?)",
-    [articleId, userId]
+    [articleId, userId],
   );
   return result.insertId;
 };
@@ -13,7 +13,7 @@ export const create = async (articleId, userId) => {
 export const remove = async (articleId, userId) => {
   const result = await pool.query(
     "DELETE FROM booksmarks WHERE article_id = ? AND user_id = ?",
-    [articleId, userId]
+    [articleId, userId],
   );
   return result.affectedRows;
 };
@@ -22,7 +22,7 @@ export const remove = async (articleId, userId) => {
 export const bookmarks = async (userId) => {
   const [rows] = await pool.query(
     "SELECT * FROM bookmarks WHERE user_id = ?",
-    userId
+    userId,
   );
   return rows;
 };
@@ -30,8 +30,8 @@ export const bookmarks = async (userId) => {
 /**Get a bookmarked article */
 export const bookmark = async (articleId, userId) => {
   const [rows] = await pool.query(
-    "SELECT * FROM bookmarks WHERE article_id = ? AND userId = ?",
-    [articleId, userId]
+    "SELECT * FROM bookmarks WHERE article_id = ? AND user_id = ?",
+    [articleId, userId],
   );
   return rows[0];
 };
