@@ -8,7 +8,7 @@ import { articleMiddleware } from "../middleware/article.middleware.js";
 //import child routes
 import commentRouter from "./comments.route.js";
 import articleReactionRouter from "./articleReaction.route.js";
-
+import articleViewRouter from "./articleViews.route.js";
 //**Router endpoints */
 const articleRouter = express.Router();
 
@@ -31,12 +31,19 @@ articleRouter
   .route("/:articleSlug")
   .delete(auth, articleMiddleware, article.remove);
 
-//nested endpoints
+//** Nested endpoints */
+
+// article comments
 articleRouter.use("/:articleSlug/comments", articleMiddleware, commentRouter);
+
+// article Reactions
 articleRouter.use(
   "/:articleSlug/reactions",
   articleMiddleware,
   articleReactionRouter,
 );
+
+// article Views
+articleRouter.use("/:articleSlug/views", articleMiddleware, articleViewRouter);
 
 export default articleRouter;
