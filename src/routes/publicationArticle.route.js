@@ -79,17 +79,22 @@ publicationArticleRouter
     publicationArticles.PaReject,
   );
 
-//nested route
+//** nesting routes */
+
+//publication article comment
 publicationArticleRouter.use(
   "/articles/:articleSlug/comments",
   articleMiddleware,
   commentRouter,
 );
 
+//publication article reaction
 publicationArticleRouter.use(
   "/articles/:articleSlug/reactions",
   articleMiddleware,
   articleReaction,
 );
 
+//publication article views
+puli;
 export default publicationArticleRouter;
