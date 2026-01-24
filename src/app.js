@@ -13,6 +13,7 @@ import tagsRouter from "./routes/tags.route.js";
 import articleRouter from "./routes/article.route.js";
 import reactionRouter from "./routes/reactions.route.js";
 import publicationRouter from "./routes/publication.route.js";
+import bookmarksRouter from "./routes/bookmarks.route.js";
 
 const app = express();
 
@@ -29,6 +30,7 @@ app.use("/api/publications/", publicationRouter);
 app.use("/api/", tagsRouter);
 app.use("/api/", reactionRouter);
 app.use("/api/articles/", articleRouter);
+app.use("/api/", bookmarksRouter);
 // swagger docs
 app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 //  Swagger JSON
