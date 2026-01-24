@@ -7,15 +7,22 @@ const bookmarksRouter = express.Router();
 
 bookmarksRouter.use(auth);
 
+// bookmark article
 bookmarksRouter
   .route("/bookmarks/articles/:articleSlug")
   .post(articleMiddleware, bookmarks.create);
+
+// fetch a bookmark article
 bookmarksRouter
   .route("/bookmarks/articles/:articleSlug")
   .get(articleMiddleware, bookmarks.bookmark);
+
+// remove bookmarked article
 bookmarksRouter
   .route("/bookmarks/articles/:articleSlug")
   .delete(articleMiddleware, bookmarks.remove);
+
+// user bookmark
 bookmarksRouter.route("/bookmarks").get(bookmarks.bookmarks);
 
 export default bookmarksRouter;
