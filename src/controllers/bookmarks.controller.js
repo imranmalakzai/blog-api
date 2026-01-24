@@ -10,7 +10,7 @@ export const create = asyncHandler(async (req, res) => {
 
   //const bookmarked
   const result = await Db.create(req.article.id, req.user.id);
-  if (!result) throw new ApiError("Internal server error", 500);
+  if (result === 0) throw new ApiError("Internal server error", 500);
 
   res.status(200).json({ message: "Article bookmarked successfully" });
 });
