@@ -221,20 +221,20 @@ export const paArticles = asyncHandler(async (req, res) => {
   res.status(200).json({ article: articles || [] });
 });
 
-//** publication article by Id */
+//** publication article by slug */
 export const paArticle = asyncHandler(async (req, res) => {
   if (req.article.publication_id.toString() !== req.publication.id.toString()) {
     throw new ApiError("Article not belongs to publication", 403);
   }
-  const result = await view.viewedArticle(article.id, req.user.id);
+  const result = await view.viewedArticle(req.article.id, req.user.id);
   if (!result)
     await view.create({
       ip_address: req.ip,
       user_id: req.user.id,
-      article_id: article.id,
+      article_id: req.article.id,
     });
 
-  res.status(200).json({ article });
+  res.status(200).json({ article: req.article });
 });
 
 //** publication article update */
