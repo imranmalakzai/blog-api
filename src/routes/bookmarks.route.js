@@ -9,20 +9,20 @@ bookmarksRouter.use(auth);
 
 // bookmark article
 bookmarksRouter
-  .route("/bookmarks/articles/:articleSlug")
+  .route("/articles/:articleSlug")
   .post(articleMiddleware, bookmarks.create);
 
 // fetch a bookmark article
 bookmarksRouter
-  .route("/bookmarks/articles/:articleSlug")
+  .route("/articles/:articleSlug")
   .get(articleMiddleware, bookmarks.bookmark);
 
 // remove bookmarked article
 bookmarksRouter
-  .route("/bookmarks/articles/:articleSlug")
+  .route("/articles/:articleSlug")
   .delete(articleMiddleware, bookmarks.remove);
 
 // user bookmark
-bookmarksRouter.route("/bookmarks").get(bookmarks.bookmarks);
+bookmarksRouter.route("/").get(bookmarks.bookmarks);
 
 export default bookmarksRouter;
