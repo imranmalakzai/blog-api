@@ -6,13 +6,13 @@ export const create = async (articleId, userId) => {
     "INSERT INTO bookmarks (article_id,user_id) VALUES  (?,?)",
     [articleId, userId],
   );
-  return result.insertId;
+  return result.affectedRows;
 };
 
 //** Remove from bookmarks on article */
 export const remove = async (articleId, userId) => {
   const result = await pool.query(
-    "DELETE FROM booksmarks WHERE article_id = ? AND user_id = ?",
+    "DELETE FROM bookmarks WHERE article_id = ? AND user_id = ?",
     [articleId, userId],
   );
   return result.affectedRows;
