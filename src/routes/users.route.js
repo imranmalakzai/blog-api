@@ -4,6 +4,7 @@ import * as fl from "../controllers/user_follower.controller.js";
 import * as cr from "../controllers/users.controller.js";
 import { allowed } from "../helper/allowedRoles.js";
 import * as Notifications from "../controllers/notification.controller.js";
+import * as Articles from "../controllers/article.controller.js";
 
 //**validation schema files */
 import { validate } from "../config/zod.config.js";
@@ -63,6 +64,7 @@ userRouter.route("/users/@:username/follow").post(fl.followUser);
 userRouter.route("/users/@:username/follow").delete(fl.unfollow);
 userRouter.route("/users/@:username/followers").get(fl.userFollowers);
 userRouter.route("/users/@:username/following").get(fl.userFollowing);
+userRouter.route("/users/@:username/articles").get(Articles.userArticles);
 
 //admin only
 userRouter
