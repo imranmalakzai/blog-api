@@ -1,14 +1,16 @@
 import express from "express";
-import { auth } from "../middleware/auth.middleware.js";
 import * as fl from "../controllers/user_follower.controller.js";
 import * as cr from "../controllers/users.controller.js";
-import { allowed } from "../helper/allowedRoles.js";
 import * as Notifications from "../controllers/notification.controller.js";
 import * as Articles from "../controllers/article.controller.js";
 
+import { articleMiddleware as AEM } from "../middleware/article.middleware.js"; // article exist middleware
+import { allowed } from "../helper/allowedRoles.js";
+import { auth } from "../middleware/auth.middleware.js";
+
 //**validation schema files */
-import { validate } from "../config/zod.config.js";
 import * as schema from "../validation/user.schema.js";
+import { validate } from "../config/zod.config.js";
 import { upload } from "../config/multer.config.js";
 
 //**define routed */
@@ -65,6 +67,10 @@ userRouter.route("/users/@:username/follow").delete(fl.unfollow);
 userRouter.route("/users/@:username/followers").get(fl.userFollowers);
 userRouter.route("/users/@:username/following").get(fl.userFollowing);
 userRouter.route("/users/@:username/articles").get(Articles.userArticles);
+
+userRouter
+  .route("/users/@:username/articles/:articleSlug")
+  .get(AEM, Articles.article);
 
 //admin only
 userRouter
