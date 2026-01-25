@@ -13,11 +13,10 @@ export const notification = asyncHandler(async (req, res) => {
   const { notificationId } = req.params;
 
   //notification exist
-  const notification = await Notifications.readNotification(
+  const notification = await Notifications.getNotificationById(
     notificationId,
     req.user.id,
   );
-  if (!notification) throw new ApiError("notification not exist", 404);
-
+  if (!notification) throw new ApiError("Notification not exist", 404);
   res.status(200).json({ notification });
 });
