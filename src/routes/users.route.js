@@ -3,6 +3,7 @@ import { auth } from "../middleware/auth.middleware.js";
 import * as fl from "../controllers/user_follower.controller.js";
 import * as cr from "../controllers/users.controller.js";
 import { allowed } from "../helper/allowedRoles.js";
+import * as Notifications from "../controllers/notification.controller.js";
 
 //**validation schema files */
 import { validate } from "../config/zod.config.js";
@@ -24,6 +25,23 @@ userRouter.use(auth);
 userRouter.route("/users/me").get(cr.me);
 userRouter.route("/users/me").delete(cr.deleteAccount);
 userRouter.route("/users/me").patch(validate(schema.profile), cr.updateProfile);
+
+userRouter.route("/users/me/notifications").get(Notifications.notifications);
+
+//read && get notifcation
+userRouter
+  .route("/users/me/notifications/notificationId/read")
+  .get(Notifications.notification);
+
+//read all notifications
+userRouter
+  .route("/users/me/notifications/:notificationId/read-all")
+  .post(Notifications.readAll);
+
+// delete a notification
+userRouter
+  .route("/users/me/notifications/:notificationId")
+  .delete(Notifications.remove);
 
 //change avatar
 userRouter
