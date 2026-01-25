@@ -47,7 +47,7 @@ export const readAll = asyncHandler(async (req, res) => {
 });
 
 //** delete a notification */
-export const remove = async(async (req, res) => {
+export const remove = asyncHandler(async (req, res) => {
   const { notificationId } = req.params;
 
   //notification exist
