@@ -36,3 +36,10 @@ export const read = asyncHandler(async (req, res) => {
   if (result === 0) throw new ApiError("Internal server error", 500);
   res.status(200).json({ notification });
 });
+
+//** Read all notifications */
+export const readAll = asyncHandler(async (req, res) => {
+  const notifications = await Notifications.readNotifications(req.user.id);
+  if (notifications === 0) throw new ApiError("Internal server error", 500);
+  res.status(200).json({ message: "successed" });
+});
