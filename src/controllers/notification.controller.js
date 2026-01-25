@@ -43,3 +43,21 @@ export const readAll = asyncHandler(async (req, res) => {
   if (notifications === 0) throw new ApiError("Internal server error", 500);
   res.status(200).json({ message: "successed" });
 });
+
+//** delete a notification */
+export const remove = async(async (req, res) => {
+  const { notificationId } = req.params;
+
+  //notification exist
+  const notification = await Notifications.getNotificationById(
+    notificationId,
+    req.user.id,
+  );
+  if (!notification) throw new ApiError("Notification not exist", 404);
+
+  //result
+  const result = await Notifications.remove(notificationId, req.user.id);
+  if (result === 0) throw new ApiError("Internal server error", 500);
+
+  res.status(200).json({ message: "Notification delete successfully" });
+});
