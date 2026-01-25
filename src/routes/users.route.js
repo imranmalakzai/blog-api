@@ -33,12 +33,12 @@ userRouter.route("/users/me/notifications").get(Notifications.notifications);
 
 //read && get notifcation
 userRouter
-  .route("/users/me/notifications/notificationId/read")
+  .route("/users/me/notifications/:notificationId/read")
   .get(Notifications.notification);
 
 //read all notifications
 userRouter
-  .route("/users/me/notifications/:notificationId/read-all")
+  .route("/users/me/notifications/read-all")
   .post(Notifications.readAll);
 
 // delete a notification
