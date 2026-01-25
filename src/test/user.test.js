@@ -30,7 +30,7 @@ describe("Users API", () => {
 
   //test get user without admin token
   test("Get users without admin token retun statusCode 401", async () => {
-    const res = await request(app).get("/api/admin/users");
+    const res = await request(app).get("/api/users");
     expect(res.statusCode).toBe(401);
     expect(res.body.success).toBe(false);
   });
@@ -38,7 +38,7 @@ describe("Users API", () => {
   //get user with admin token
   test("Get users with admin token retun status code 200", async () => {
     const res = await request(app)
-      .get("/api/admin/users")
+      .get("/api/users")
       .set(`Authorization`, ` Bearer ${token}`);
     expect(res.statusCode).toBe(200);
   });
