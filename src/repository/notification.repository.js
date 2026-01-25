@@ -53,3 +53,12 @@ export const removeAll = async (userId) => {
   );
   return result.affectedRows;
 };
+
+//** Get notification by id */
+export const getNotificationById = async (notificationId, userId) => {
+  const [rows] = await pool.query(
+    "SELECT * FROM notifications WHERE id = ? and user_id = ?",
+    [notificationId, userId],
+  );
+  return rows[0];
+};
