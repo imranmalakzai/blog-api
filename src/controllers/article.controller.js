@@ -30,13 +30,13 @@ export const create = asyncHandler(async (req, res) => {
       published_at: new Date(),
     });
     if (article === 0) throw new ApiError("Internal server error", 500);
-    res.status(200).json({ message: "Article published successfully" });
     await Notification({
       user_id: req.user.id,
       actor_id: null,
       type: NOTIFICATION_TYPES.ARTICLE_PUBLISH,
       entity_id: article,
     });
+    return res.status(200).json({ message: "Article published successfully" });
   }
 
   //create article in drift
