@@ -20,3 +20,19 @@ export const notification = asyncHandler(async (req, res) => {
   if (!notification) throw new ApiError("Notification not exist", 404);
   res.status(200).json({ notification });
 });
+
+//** read a notification */
+export const read = asyncHandler(async (req, res) => {
+  const { notificationId } = req.params;
+
+  const notification = await Notifications.getNotificationById(notificationId);
+  if (!notification) throw new ApiError("Notification not exist", 404);
+
+  //read notification
+  const result = await Notifications.readNotification(
+    notification.id,
+    req.user.id,
+  );
+  if (result === 0) throw new ApiError("Internal server error", 500);
+  res.status(200).json({ notification });
+});
