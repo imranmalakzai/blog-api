@@ -271,7 +271,7 @@ npm run test
 - `POST /api/reactions/:reactionId` — Update a reaction
 - `DELETE /api/reactions/:reactionId` — Delete a reaction
 
-## API Documentation Preview
+## Database schema Preview
 
 ![Database Schema Preview](public/schema.png)
 
