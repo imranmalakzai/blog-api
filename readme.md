@@ -6,12 +6,22 @@ A production-ready RESTful API built with **Node.js**, **Express**, and **MySQL*
 
 The API follows a **modular, scalable architecture** with robust **authentication**, **authorization**, **validation**, **testing**, and **documentation**, making it ideal for building high-performance, content-rich blogging platforms.
 
-[![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
-[![Express](https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express&logoColor=white)](https://expressjs.com/)
-[![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)](https://www.mysql.com/)
-[![JWT](https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=JSON%20web%20tokens&logoColor=white)](https://jwt.io/)
-[![Zod](https://img.shields.io/badge/Zod-000000?style=for-the-badge&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABMklEQVQ4jY3TsUpCURAG4G93QIFiER1KpqYSCbEXgkJRO2lJSOlvYPyAD+F3ERvfoBDxCBzSWTY3cG5h4R0ibEidkMgQ3r5a1B6h0pjvljJNPF1a14d/bxHZthX02IZH5xF8P8woxnRci8f2kz0Oa1aOHUEO8jCIM3bENd8xwPbxz2RxozN5gwK+1LE+85I2dAf1Gz7NnGkhR1b6hXZz8vHaSD4oR1d9uGJq+TvZ/wwz0A9wzdkz2X8wz6UMNe0n8vTRsn0xjnQ0n6Yx1LqS6iZy6p8Oqnn7EJ3ZgqvCD8c5qceA3LqFsXoaBQ8T2mXMn4GFwAAAABJRU5ErkJggg==)](https://github.com/colinhacks/zod)
-[![Supertest](https://img.shields.io/badge/Supertest-000000?style=for-the-badge&logo=supertest&logoColor=white)](https://github.com/visionmedia/supertest)
+# Blog Platform API
+
+[![bcrypt](https://img.shields.io/badge/bcrypt-6.0.0-blue?style=for-the-badge&logo=node.js&logoColor=white)](https://www.npmjs.com/package/bcrypt)
+[![cookie-parser](https://img.shields.io/badge/cookie--parser-1.4.7-orange?style=for-the-badge&logo=node.js&logoColor=white)](https://www.npmjs.com/package/cookie-parser)
+[![cors](https://img.shields.io/badge/cors-2.8.5-yellow?style=for-the-badge&logo=node.js&logoColor=white)](https://www.npmjs.com/package/cors)
+[![dotenv](https://img.shields.io/badge/dotenv-17.0.1-lightgrey?style=for-the-badge&logo=node.js&logoColor=white)](https://www.npmjs.com/package/dotenv)
+[![express](https://img.shields.io/badge/express-5.1.0-black?style=for-the-badge&logo=express&logoColor=white)](https://www.npmjs.com/package/express)
+[![jsonwebtoken](https://img.shields.io/badge/jsonwebtoken-9.0.3-blue?style=for-the-badge&logo=jwt&logoColor=white)](https://www.npmjs.com/package/jsonwebtoken)
+[![multer](https://img.shields.io/badge/multer-2.0.2-green?style=for-the-badge&logo=node.js&logoColor=white)](https://www.npmjs.com/package/multer)
+[![mysql2](https://img.shields.io/badge/mysql2-3.15.3-blue?style=for-the-badge&logo=mysql&logoColor=white)](https://www.npmjs.com/package/mysql2)
+[![nanoid](https://img.shields.io/badge/nanoid-5.1.6-purple?style=for-the-badge&logo=node.js&logoColor=white)](https://www.npmjs.com/package/nanoid)
+[![nodemon](https://img.shields.io/badge/nodemon-3.1.11-green?style=for-the-badge&logo=node.js&logoColor=white)](https://www.npmjs.com/package/nodemon)
+[![slugify](https://img.shields.io/badge/slugify-1.6.6-orange?style=for-the-badge&logo=node.js&logoColor=white)](https://www.npmjs.com/package/slugify)
+[![swagger-jsdoc](https://img.shields.io/badge/swagger--jsdoc-6.2.8-blue?style=for-the-badge&logo=swagger&logoColor=white)](https://www.npmjs.com/package/swagger-jsdoc)
+[![swagger-ui-express](https://img.shields.io/badge/swagger--ui--express-5.0.1-black?style=for-the-badge&logo=swagger&logoColor=white)](https://www.npmjs.com/package/swagger-ui-express)
+[![zod](https://img.shields.io/badge/zod-4.2.1-purple?style=for-the-badge&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABMklEQVQ4jY3TsUpCURAG4G93QIFiER1KpqYSCbEXgkJRO2lJSOlvYPyAD+F3ERvfoBDxCBzSWTY3cG5h4R0ibEidkMgQ3r5a1B6h0pjvljJNPF1a14d/bxHZthX02IZH5xF8P8woxnRci8f2kz0Oa1aOHUEO8jCIM3bENd8xwPbxz2RxozN5gwK+1LE+85I2dAf1Gz7NnGkhR1b6hXZz8vHaSD4oR1d9uGJq+TvZ/wwz0A9wzdkz2X8wz6UMNe0n8vTRsn0xjnQ0n6Yx1LqS6iZy6p8Oqnn7EJ3ZgqvCD8c5qceA3LqFsXoaBQ8T2mXMn4GFwAAAABJRU5ErkJggg==)](https://github.com/colinhacks/zod)
 
 
 
