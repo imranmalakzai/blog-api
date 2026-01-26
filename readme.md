@@ -6,8 +6,6 @@ A production-ready RESTful API built with **Node.js**, **Express**, and **MySQL*
 
 The API follows a **modular, scalable architecture** with robust **authentication**, **authorization**, **validation**, **testing**, and **documentation**, making it ideal for building high-performance, content-rich blogging platforms.
 
-# Blog Platform API
-
 [![bcrypt](https://img.shields.io/badge/bcrypt-6.0.0-blue?style=for-the-badge&logo=node.js&logoColor=white)](https://www.npmjs.com/package/bcrypt)
 [![cookie-parser](https://img.shields.io/badge/cookie--parser-1.4.7-orange?style=for-the-badge&logo=node.js&logoColor=white)](https://www.npmjs.com/package/cookie-parser)
 [![cors](https://img.shields.io/badge/cors-2.8.5-yellow?style=for-the-badge&logo=node.js&logoColor=white)](https://www.npmjs.com/package/cors)
