@@ -6,11 +6,6 @@ A production-ready RESTful API built with **Node.js**, **Express**, and **MySQL*
 
 The API follows a **modular, scalable architecture** with robust **authentication**, **authorization**, **validation**, **testing**, and **documentation**, making it ideal for building high-performance, content-rich blogging platforms.
 
-A production-ready RESTful API built with **Node.js**, **Express**, and **MySQL** for managing a full-featured **blogging platform**, designed to be SEO-friendly and similar to **Dev.to** and **Medium.com**. The system enables users to **register, create posts, comment, react, bookmark, and follow other users or publications**. Admins and publication owners can efficiently manage **roles, tags, and content approval workflows**.
-
-The API follows a **modular, scalable architecture** with robust **authentication**, **authorization**, **validation**, **testing**, and **documentation**, making it ideal for building high-performance, content-rich blogging platforms.
-
-
 [![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
 [![Express](https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express&logoColor=white)](https://expressjs.com/)
 [![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)](https://www.mysql.com/)
