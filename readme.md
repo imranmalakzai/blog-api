@@ -1,6 +1,15 @@
 
 
-# Blog Platform API
+## Blog Platform API
+
+A production-ready RESTful API built with **Node.js**, **Express**, and **MySQL** for managing a full-featured **blogging platform**, designed to be SEO-friendly and similar to **Dev.to** and **Medium.com**. The system enables users to **register, create posts, comment, react, bookmark, and follow other users or publications**. Admins and publication owners can efficiently manage **roles, tags, and content approval workflows**.
+
+The API follows a **modular, scalable architecture** with robust **authentication**, **authorization**, **validation**, **testing**, and **documentation**, making it ideal for building high-performance, content-rich blogging platforms.
+
+A production-ready RESTful API built with **Node.js**, **Express**, and **MySQL** for managing a full-featured **blogging platform**, designed to be SEO-friendly and similar to **Dev.to** and **Medium.com**. The system enables users to **register, create posts, comment, react, bookmark, and follow other users or publications**. Admins and publication owners can efficiently manage **roles, tags, and content approval workflows**.
+
+The API follows a **modular, scalable architecture** with robust **authentication**, **authorization**, **validation**, **testing**, and **documentation**, making it ideal for building high-performance, content-rich blogging platforms.
+
 
 [![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
 [![Express](https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express&logoColor=white)](https://expressjs.com/)
@@ -9,13 +18,7 @@
 [![Zod](https://img.shields.io/badge/Zod-000000?style=for-the-badge&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABMklEQVQ4jY3TsUpCURAG4G93QIFiER1KpqYSCbEXgkJRO2lJSOlvYPyAD+F3ERvfoBDxCBzSWTY3cG5h4R0ibEidkMgQ3r5a1B6h0pjvljJNPF1a14d/bxHZthX02IZH5xF8P8woxnRci8f2kz0Oa1aOHUEO8jCIM3bENd8xwPbxz2RxozN5gwK+1LE+85I2dAf1Gz7NnGkhR1b6hXZz8vHaSD4oR1d9uGJq+TvZ/wwz0A9wzdkz2X8wz6UMNe0n8vTRsn0xjnQ0n6Yx1LqS6iZy6p8Oqnn7EJ3ZgqvCD8c5qceA3LqFsXoaBQ8T2mXMn4GFwAAAABJRU5ErkJggg==)](https://github.com/colinhacks/zod)
 [![Supertest](https://img.shields.io/badge/Supertest-000000?style=for-the-badge&logo=supertest&logoColor=white)](https://github.com/visionmedia/supertest)
 
-A production-ready RESTful API built with **Node.js**, **Express**, and **MySQL** for managing a full-featured **blogging platform**, designed to be SEO-friendly and similar to **Dev.to** and **Medium.com**. The system enables users to **register, create posts, comment, react, bookmark, and follow other users or publications**. Admins and publication owners can efficiently manage **roles, tags, and content approval workflows**.
 
-The API follows a **modular, scalable architecture** with robust **authentication**, **authorization**, **validation**, **testing**, and **documentation**, making it ideal for building high-performance, content-rich blogging platforms.
-
-A production-ready RESTful API built with **Node.js**, **Express**, and **MySQL** for managing a full-featured **blogging platform**, designed to be SEO-friendly and similar to **Dev.to** and **Medium.com**. The system enables users to **register, create posts, comment, react, bookmark, and follow other users or publications**. Admins and publication owners can efficiently manage **roles, tags, and content approval workflows**.
-
-The API follows a **modular, scalable architecture** with robust **authentication**, **authorization**, **validation**, **testing**, and **documentation**, making it ideal for building high-performance, content-rich blogging platforms.
 
 ---
 
